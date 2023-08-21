@@ -1,17 +1,17 @@
 # cocopass
 Projet de PDG 
 
-## Description du projet
+### Description du projet
+Application de gestion de mots de passe
+
+### Requirements fonctionnels
 
 
-## Requirements fonctionnels
+### Requirements non-fonctionnels
 
 
-## Requirements non-fonctionnels
+### Description de la méthodologie de développement
 
+### Mockups
 
-## Description de la méthodologie de développement
-
-## Mockups
-
-## Landing page
+### Landing page
