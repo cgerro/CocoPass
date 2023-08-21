@@ -1,4 +1,4 @@
-# cocopass
+# CocoPass
 Projet de PDG 
 
 ### Description du projet
