@@ -2,7 +2,7 @@
 Projet de PDG 
 
 ### Description du projet
-Application de gestion de mots de passe
+A l'ère numérique moderne, où la sécurité en ligne est primordiale, l'application CocoPass propose une solution intuitive, fiable et élégante pour stocker et gérer ses mots de passes.
 
 ### Requirements fonctionnels
 
