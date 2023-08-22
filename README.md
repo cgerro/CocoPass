@@ -97,6 +97,7 @@ En raison de la contrainte de temps de 3 semaines, nous allons adopter des itér
 **Rôles Scrum** :
 
 Product Owner : **A DEFINIR** sera le Product Owner. Il sera responsable de définir les exigences et les priorités du produit.
+
 Scrum Master : **A DEFINIR** sera le Scrum Master. Il veillera à ce que l'équipe respecte les principes de Scrum et supprime les obstacles.
 
 **Backlog du Produit Initial** :
