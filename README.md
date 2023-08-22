@@ -2,14 +2,23 @@
 Projet réalisé dans le cadre du module PDG 
 
 **"CocoPass : Garde tes secrets bien cachés dans la noix de coco de sécurité !"**
+
 "CocoPass : Protégeant tes données comme un perroquet protège sa noix de coco."
+
 "CocoPass : Le perroquet de la sécurité qui protège ta noix de coco de données."
+
 "CocoPass : Briser la noix de coco est impossible, accéder à tes données aussi."
+
 "CocoPass : Comme un perroquet vigilant, tes données restent à l'abri."
+
 "CocoPass : Sécurité renforcée comme le perroquet qui protège sa noix."
+
 "CocoPass : Notre perroquet garde ta noix de coco de données bien scellée."
+
 "CocoPass : Le perroquet gardien de ta noix numérique, inviolable."
+
 "CocoPass : Ta noix de données, aussi dure à briser qu'une noix de coco."
+
 "CocoPass : Tes données, aussi bien protégées qu'une noix de coco verrouillée."
 
 ## Description du projet
