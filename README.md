@@ -13,7 +13,7 @@ Projet réalisé dans le cadre du module PDG
 
 "CocoPass : Sécurité renforcée comme le perroquet qui protège sa noix."
 
-"CocoPass : Notre perroquet garde ta noix de coco de données bien scellée."
+"CocoPass : Notre perroquet garde ta noix de coco de données bien scellée"
 
 "CocoPass : Le perroquet gardien de ta noix numérique, inviolable."
 
@@ -28,6 +28,7 @@ fiable et élégante pour stocker et gérer ses mots de passes.
 CocoPass permet de centraliser ses mots de passes en générant des mots de passes sécurisés pour chacun de ses comptes.
 
 Fonctionnalités clefs :
+
 *Stockage sécurisé* : Stocker des noms d'utilisateurs, mots de passe et 
 autres informations de manière sécurisées.
 
@@ -49,13 +50,6 @@ préalable en informatique.
 ### Problèmes à résoudre
 Vous avez une enième fois oubliez votre mot de passe ou pour vous faciliter la tâche, vous utilisez toujours le même mot de passe pour tous vos comptes sur la toile ?
 N'attendez plus et optez pour CocoPass ! Grâce à lui, vous pourrez disposer de mots de passe forts et sécurisés pour tous vos comptes
-
-- OLALALALA j'ai oublié mon mot de passe, comment que je fais pour me connecter ?
-
-- Utilise CocoPass tu auras besoin de te souvenir que de un mot de passe et ce sera plus facile.
-
-- Wouah trop une bonne idée, CocoPass j'achète !
-
 
 Le problème consiste à concevoir et développer un gestionnaire de mots de passe pour plateforme mobile, dans le cadre d'un projet de formation de bachelor. Les utilisateurs sont confrontés au défi de gérer en toute sécurité un grand nombre de mots de passe pour différentes applications et services en ligne, tout en évitant la mémorisation de mots de passe complexes et en minimisant les risques de compromission de données sensibles.
 Un point clef de ce projet et de rendre l'application intuitive et simple à utiliser sans compromettre la sécurité.
