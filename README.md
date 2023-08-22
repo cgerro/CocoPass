@@ -83,20 +83,24 @@ Intégration du navigateur : Intégrer un gestionnaire de mots de passe au sein 
 ## Description de la méthodologie de développement
 Description de la Méthodologie de Développement : Scrum Adapté
 
-Introduction :
+**Introduction** :
+
 Pour assurer une planification, un développement et une livraison efficaces de notre projet de gestionnaire de mot de passe en seulement 3 semaines, nous avons choisi d'adopter une approche Scrum adaptée. Scrum est une méthodologie agile bien connue qui nous permettra de rester flexibles tout en atteignant nos objectifs.
 
-Cadence Sprint :
+**Cadence Sprint** :
+
 En raison de la contrainte de temps de 3 semaines, nous allons adopter des itérations de Sprint de 1 semaine chacune. Chaque Sprint débutera le lundi et se terminera le vendredi, ce qui nous donnera un rythme soutenu et concentré.
 
-Rôles Scrum :
+**Rôles Scrum** :
 
-Product Owner :**A DEFINIR** sera le Product Owner. Il sera responsable de définir les exigences et les priorités du produit.
+Product Owner : **A DEFINIR** sera le Product Owner. Il sera responsable de définir les exigences et les priorités du produit.
 Scrum Master : **A DEFINIR** sera le Scrum Master. Il veillera à ce que l'équipe respecte les principes de Scrum et supprime les obstacles.
-Backlog du Produit Initial :
+
+**Backlog du Produit Initial** :
+
 Avant le début du Sprint 1, nous allons rassembler les exigences clés et les fonctionnalités prioritaires pour le projet. Cela constituera notre Backlog du Produit initial.
 
-Sprint 1 (3 jours) :
+**Sprint 1 (3 jours)** :
 
 Le Sprint 1 débutera le mardi 22.08 avec une réunion de planification du Sprint, où l'équipe choisira les éléments du Backlog du Produit à inclure dans le Sprint.
 Chaque jour, une réunion de mêlée de 15 minutes sera tenue pour mettre à jour l'équipe sur les progrès et les obstacles.
@@ -116,20 +120,28 @@ Mise en place des outils de développement (VCM, Issue tracker)​
 Mise en place d’un environnement de déploiement​
 Mise en place d’un pipeline de livraison et de déploiement (CI/CD)​
 
-Conventions mises en place :
-Commits : Messages clairs et informatifs structurés ainsi : "type(scope):message". type indique le type de changement (fix, feat, docs, style, refactor, test...) et scope précise la portée du changement et message décrit les modifications de manière brève.
+### Conventions mises en place :
 
-Branchs : Utilisation de Gitflow, la branche master sera la branche de production, la branche develop celle de développement. Il y aura des branches de fonctionnalités ou correctifs à ajouter au fur et à mesure. Le nommage des branches sera de la forme suivante : type/nom. Exemple : bugfix/email-validation ou feature/generate-password.
+**Commits** : 
 
-Style de code : **A DEFINIR**
+Messages clairs et informatifs structurés ainsi : "type(scope):message". type indique le type de changement (fix, feat, docs, style, refactor, test...) et scope précise la portée du changement et message décrit les modifications de manière brève.
 
-Revues de code :
+**Branchs** :
+
+Utilisation de Gitflow, la branche master sera la branche de production, la branche develop celle de développement. Il y aura des branches de fonctionnalités ou correctifs à ajouter au fur et à mesure. Le nommage des branches sera de la forme suivante : type/nom. Exemple : bugfix/email-validation ou feature/generate-password.
+
+**Style de code** : **A DEFINIR**
+
+**Revues de code** :
+
 Revue obligatoire pour chaque pull-request par l'un des membres de l'équipe avant la fusion.
 
-Gestion des problèmes et fonctionnalités :
+**Gestion des problèmes et fonctionnalités** :
+
 Utilisation de JIRA pour l'organisation des tâches, des bugs et fonctionnalités. Ils seront associés aux banches correspondantes.
 
-Intégration Continue et Déploiement Continu : 
+**Intégration Continue et Déploiement Continu** : 
+
 **A DEFINIR** Scripts de build et tests automatiques à chaque pull request/commit. Configuration du pipeline CI/CD pour automatiser les tests et le déploiement.
 ## Mockups
 à faire sur figma
