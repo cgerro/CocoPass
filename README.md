@@ -115,6 +115,22 @@ Description du processus de travail
 Mise en place des outils de développement (VCM, Issue tracker)​
 Mise en place d’un environnement de déploiement​
 Mise en place d’un pipeline de livraison et de déploiement (CI/CD)​
+
+Conventions mises en place :
+Commits : Messages clairs et informatifs structurés ainsi : "type(scope):message". type indique le type de changement (fix, feat, docs, style, refactor, test...) et scope précise la portée du changement et message décrit les modifications de manière brève.
+
+Branchs : Utilisation de Gitflow, la branche master sera la branche de production, la branche develop celle de développement. Il y aura des branches de fonctionnalités ou correctifs à ajouter au fur et à mesure. Le nommage des branches sera de la forme suivante : type/nom. Exemple : bugfix/email-validation ou feature/generate-password.
+
+Style de code : **A DEFINIR**
+
+Revues de code :
+Revue obligatoire pour chaque pull-request par l'un des membres de l'équipe avant la fusion.
+
+Gestion des problèmes et fonctionnalités :
+Utilisation de JIRA pour l'organisation des tâches, des bugs et fonctionnalités. Ils seront associés aux banches correspondantes.
+
+Intégration Continue et Déploiement Continu : 
+**A DEFINIR** Scripts de build et tests automatiques à chaque pull request/commit. Configuration du pipeline CI/CD pour automatiser les tests et le déploiement.
 ## Mockups
 à faire sur figma
 
