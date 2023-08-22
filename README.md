@@ -72,14 +72,14 @@ Intégration du navigateur : Intégrer un gestionnaire de mots de passe au sein 
 - Sécurité renforcée : Intégrer l'authentification à deux facteurs pour une sécurité accrue.
 
 ## Requirements non-fonctionnels
-- Sécurité : Les données doivent être stockées et transmises de manière sécurisée, en utilisant des protocoles de chiffrement forts.
+- Sécurité : Les données doivent être stockées et transmises de manière sécurisée, en utilisant des protocoles de chiffrement forts. L'application doit garantir le chiffrement de bout en bout des données utilisateur.
 - Convivialité : L'interface utilisateur doit être intuitive et conviviale pour permettre une expérience utilisateur fluide.
 - Performances : L'application doit répondre rapidement aux demandes des utilisateurs, même en cas de grande quantité de données.
 - Compatibilité : L'application doit être compatible avec les principales plateformes mobiles (iOS, Android).
 - Disponibilité : L'application doit être disponible et fonctionnelle en ligne et hors ligne.
 - Sauvegarde et récupération : Offrir des mécanismes de sauvegarde et de récupération des données en cas de perte ou de changement de périphérique.
 - Évolutivité : La solution doit pouvoir gérer une augmentation du nombre d'utilisateurs et de données au fil du temps.
-
+  
 ## Description de la méthodologie de développement
 SCRUM
 ALARACH'
