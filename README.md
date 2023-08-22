@@ -1,11 +1,6 @@
 # cocopass
 Projet réalisé dans le cadre du module PDG 
 
-**Entrez dans la CocoPassphère**
-
-**Tous accros à CocoPass**
-
-
 **"CocoPass : Garde tes secrets bien cachés dans la noix de coco de sécurité !"**
 "CocoPass : Protégeant tes données comme un perroquet protège sa noix de coco."
 "CocoPass : Le perroquet de la sécurité qui protège ta noix de coco de données."
