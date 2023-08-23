@@ -121,3 +121,11 @@ Utilisation de JIRA pour l'organisation des tâches, des bugs et fonctionnalité
 
 ## Landing page
 [https://storage.googleapis.com/cocopass.live/Bootslander/index.html(https://storage.googleapis.com/cocopass.live/Bootslander/index.html)
+
+
+## Description des choix techniques 
+Afin de réaliser notre application mobile, nous allons utiliser flutter qui est un framework google permettant de concevoir des applications multiplateformes pour Android et iOS.
+Pour le stockage des données, nous allons utiliser une base de donnée sur google cloud. Nous avons fait ce choix afin de pouvoir accéder aux données voulues depuis plusieurs appareils.
+Pour ce qui est de la sécurité, nous allons chiffrer les données avec l'algorithme **A DEFINIR** avant de les envoyés et les stockés sur le cloud. Comme ça le serveur n'aura pas accès au donnée en claire et la confidentialité lors des échanges d'information sera garantie.
+
+## Description préliminaire de l'architecture
