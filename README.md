@@ -96,9 +96,9 @@ En raison de la contrainte de temps de 3 semaines, nous allons adopter des itér
 
 **Rôles Scrum** :
 
-Product Owner : **A DEFINIR** sera le Product Owner. Il sera responsable de définir les exigences et les priorités du produit.
+Product Owner : Céine Roger sera le Product Owner. Il sera responsable de définir les exigences et les priorités du produit.
 
-Scrum Master : **A DEFINIR** sera le Scrum Master. Il veillera à ce que l'équipe respecte les principes de Scrum et supprime les obstacles.
+Scrum Master : Florian Conti sera le Scrum Master. Il veillera à ce que l'équipe respecte les principes de Scrum et supprime les obstacles.
 
 **Backlog du Produit Initial** :
 
@@ -134,7 +134,7 @@ Messages clairs et informatifs structurés ainsi : "type(scope):message". type i
 
 Utilisation de Gitflow, la branche master sera la branche de production, la branche develop celle de développement. Il y aura des branches de fonctionnalités ou correctifs à ajouter au fur et à mesure. Le nommage des branches sera de la forme suivante : type/nom. Exemple : bugfix/email-validation ou feature/generate-password.
 
-**Style de code** : **A DEFINIR**
+**Style de code** : Langage Dart, camelCase, commentaires et noms de fonction/variables etc... en français.
 
 **Revues de code** :
 
