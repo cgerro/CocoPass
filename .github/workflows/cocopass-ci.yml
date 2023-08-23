@@ -18,10 +18,9 @@ jobs:
       - run: flutter pub get
         working-directory: ./cocopassflutter
 
-      - name: List contents of cocopassflutter directory
-        run: ls ./cocopassflutter
-
       - run: flutter analyze
+        working-directory: ./cocopassflutter
+
       - run: flutter test
-        working-directory: ./cocopassflutter/test
+        working-directory: ${{ github.workspace }}/cocopassflutter/test
  
