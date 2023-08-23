@@ -1,16 +1,15 @@
 name: Flutter CI
 
 on:
-  push:
+  pull-request:
     branches:
       - dev
 jobs:
-  build:
+  flutter_test:
+    name: Run flutter test and analyze
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
+      - uses: actions/checkout@v3
       - name: Install Flutter
         uses: subosito/flutter-action@v2
         with:
@@ -18,5 +17,9 @@ jobs:
           channel: 'stable'
 
       - name: Install dependencies
-        run: flutter pub get
+      - run: flutter pub get
         working-directory: ./cocopassflutter
+      - run: flutter analyze
+      - run: flutter test
+        
+ 
