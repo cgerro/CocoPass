@@ -10,13 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
+      - uses: subosito/flutter-action@v2
         with:
           flutter-version: '3.13.0'
           channel: 'stable'
 
-      - name: Install dependencies
       - run: flutter pub get
         working-directory: ./cocopassflutter
       - run: flutter analyze
