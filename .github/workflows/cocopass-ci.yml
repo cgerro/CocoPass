@@ -19,4 +19,4 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
-        working-directory: ../cocopassflutter
+        working-directory: ./cocopassflutter
