@@ -120,3 +120,4 @@ Utilisation de JIRA pour l'organisation des tâches, des bugs et fonctionnalité
 à faire sur figma
 
 ## Landing page
+[https://storage.googleapis.com/cocopass.live/Bootslander/index.html(https://storage.googleapis.com/cocopass.live/Bootslander/index.html)
