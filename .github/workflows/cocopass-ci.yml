@@ -22,5 +22,5 @@ jobs:
         working-directory: ./cocopassflutter
 
       - run: flutter test
-        working-directory: /cocopassflutter
+        working-directory: ./cocopassflutter
  
