@@ -38,6 +38,11 @@ jobs:
         working-directory: ./cocopassflutter
       - run: flutter build ios --no-codesign
         working-directory: ./cocopassflutter
+      - name: Archive iOS build
+        uses: actions/upload-artifact@v2
+        with:
+          name: ios-build
+          path: ./cocopassflutter/build/ios/
 
   build_apk:
     name: Build Flutter (Android)
@@ -55,3 +60,8 @@ jobs:
         working-directory: ./cocopassflutter
       - run: flutter build apk
         working-directory: ./cocopassflutter
+      - name: Archive APK build
+        uses: actions/upload-artifact@v2
+        with:
+          name: apk-build
+          path: ./cocopassflutter/build/app/outputs/flutter-apk/
