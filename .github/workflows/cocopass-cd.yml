@@ -65,3 +65,33 @@ jobs:
         with:
           name: apk-build
           path: ./cocopassflutter/build/app/outputs/flutter-apk/
+
+  build_windows:
+    name: Build Flutter (Windows)
+    needs: [install_dependencies]
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.0'
+          channel: 'stable'
+
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: ./cocopassflutter
+    
+      - run: flutter clean
+        working-directory: ./cocopassflutter
+
+      - run: flutter build windows
+        working-directory: ./cocopassflutter
+        
+      - name: Archive Win build
+        uses: actions/upload-artifact@v2
+        with:
+          name: win-build
+          path: ./cocopassflutter/build/app/outputs/windows/
