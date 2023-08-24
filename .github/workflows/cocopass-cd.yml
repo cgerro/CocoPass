@@ -4,9 +4,12 @@ on:
   push:
     branches:
       - main
+
 jobs:
   build:
+
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -21,31 +24,36 @@ jobs:
         run: flutter pub get
         working-directory: ./cocopassflutter
     
-    build_ios:
-        name: Build Flutter (iOS)
-        needs: [Install Flutter, Install dependencies]
-        runs-on: macos-latest
-        steps:
-          - uses: actions/checkout@v3
-          - uses: subosito/flutter-action@v2
-          with:
-            flutter-version: '3.13.0'
-            channel: 'stable'
-          - run: flutter pub get
-          - run: flutter clean
-          - run: flutter build ios --no-codesign
-          
-    build_apk:
-        name: Build Flutter (Android)
-        needs: [Install Flutter, Install dependencies]
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v3
-          - uses: subosito/flutter-action@v2
-          with:
-            flutter-version: '3.13.0'
-            channel: 'stable'
-          - run: flutter pub get
-          - run: flutter clean
-          - run: flutter build apk
-            
+  build_ios:
+    name: Build Flutter (iOS)
+    needs: [Install Flutter, Install dependencies]
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.0'
+          channel: 'stable'
+      - run: flutter pub get
+        working-directory: ./cocopassflutter
+      - run: flutter clean
+        working-directory: ./cocopassflutter
+      - run: flutter build ios --no-codesign
+        working-directory: ./cocopassflutter
+
+  build_apk:
+    name: Build Flutter (Android)
+    needs: [Install Flutter, Install dependencies]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.13.0'
+          channel: 'stable'
+      - run: flutter pub get
+        working-directory: ./cocopassflutter
+      - run: flutter clean
+        working-directory: ./cocopassflutter
+      - run: flutter build apk
+        working-directory: ./cocopassflutter
