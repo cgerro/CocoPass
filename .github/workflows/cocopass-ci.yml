@@ -7,19 +7,19 @@ on:
             
 jobs:
     flutter_test:
-    name: Test et analyse flutter
-    runs-on: ubuntu-latest
-    steps:
-        -uses: actions/checkout@v3
-        -uses: subosito/flutter-action@v2
-        with:
-            flutter-version: '3.13.0'
-            channel: 'stable'
-        - run: flutter pub get
-        working-directory: ./cocopassflutter
+        name: Test et analyse flutter
+        runs-on: ubuntu-latest
+        steps:
+            -uses: actions/checkout@v3
+            -uses: subosito/flutter-action@v2
+            with:
+                flutter-version: '3.13.0'
+                channel: 'stable'
+            - run: flutter pub get
+            working-directory: ./cocopassflutter
         
-        -run: flutter analyze
-        working-directory: ./cocopassflutter
+            -run: flutter analyze
+            working-directory: ./cocopassflutter
         
-        -run: flutter test
-        working-directory: ./cocopassflutter
+            -run: flutter test
+            working-directory: ./cocopassflutter
