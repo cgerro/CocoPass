@@ -6,10 +6,8 @@ on:
       - main
 
 jobs:
-  build:
-
+  install_dependencies:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -23,10 +21,10 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
         working-directory: ./cocopassflutter
-    
+
   build_ios:
     name: Build Flutter (iOS)
-    needs: [Install Flutter, Install dependencies]
+    needs: [install_dependencies]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v3
@@ -43,7 +41,7 @@ jobs:
 
   build_apk:
     name: Build Flutter (Android)
-    needs: [Install Flutter, Install dependencies]
+    needs: [install_dependencies]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
