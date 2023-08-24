@@ -1,4 +1,4 @@
-# cocopass
+# CocoPass
 Ce projet est réalisé dans le cadre du module PDG de la HEIG-VD.
 
 ## Description du projet
