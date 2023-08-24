@@ -9,9 +9,9 @@ CocoPass permettra de stocker et générer des mots de passes forts et uniques p
 
 ### Problèmes à résoudre
 
-Avec l'avénement du monde numérique moderne, la sécurité en ligne est primordiale. Celle-ci s'effectue souvent grâce à l'utilisation de mots de passes.
+Avec l'avènement du monde numérique moderne, la sécurité en ligne est primordiale. Celle-ci s'effectue souvent grâce à l'utilisation de mots de passes.
 
-Ces mots de passes sont donc devenus un rempart nécessaire à la protection de nos données personnelles. Pour résister à la menace croissante des hackeurs tentant sans cesses de dérober nos informations, il est impératif d'utiliser des mots de passe long, complexe et différents.
+Ces mots de passes sont donc devenus un rempart nécessaire à la protection de nos données personnelles. Pour résister à la menace croissante des hackeurs tentant sans cesses de dérober nos informations, il est impératif d'utiliser des mots de passe longs, complexes et différents.
 
 Cependant, cette tâche peut vite s'avérer plus compliquée qu'elle n'y parait. Il est en effet difficile de se souvenir de dizaines voir centaines de mots de passes composées de combinaisons alphanumériques complexes, parfois assorties de caractères spéciaux. 
 
