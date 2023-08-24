@@ -16,10 +16,10 @@ jobs:
             flutter-version: '3.13.0'
             channel: 'stable'
         - run: flutter pub get
-        working-direction: ./cocopassflutter
+        working-directory: ./cocopassflutter
         
         -run: flutter analyze
-        working-direction: ./cocopassflutter
+        working-directory: ./cocopassflutter
         
         -run: flutter test
-        working-direction: ./cocopassflutter
+        working-directory: ./cocopassflutter
