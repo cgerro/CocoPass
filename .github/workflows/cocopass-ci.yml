@@ -10,16 +10,23 @@ jobs:
         name: Test et analyse flutter
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v3
-            - uses: subosito/flutter-action@v2
+            - name: Checkout code
+              uses: actions/checkout@v3
+            
+            - name: Set up Flutter
+              uses: subosito/flutter-action@v2
               with:
                 flutter-version: '3.13.0'
                 channel: 'stable'
-            - run: flutter pub get
-            working-directory: ./cocopassflutter
+            
+            - name: Get dependencies
+              run: flutter pub get
+              working-directory: ./cocopassflutter
         
-            - run: flutter analyze
-            working-directory: ./cocopassflutter
+            - name: Flutter analyze
+              run: flutter analyze
+              working-directory: ./cocopassflutter
         
-            - run: flutter test
-            working-directory: ./cocopassflutter
+            - name: Run Flutter tests
+              run: flutter test
+              working-directory: ./cocopassflutter
