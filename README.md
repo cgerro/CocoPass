@@ -117,7 +117,7 @@ Utilisation de JIRA pour l'organisation des tâches, des bugs et fonctionnalité
 
 **A DEFINIR** Scripts de build et tests automatiques à chaque pull request/commit. Configuration du pipeline CI/CD pour automatiser les tests et le déploiement.
 ## Mockups
-à faire sur figma
+[Mockup](mockup/CocoPass.pdf)
 
 ## Landing page
 [https://cocopass.live](https://cocopass.live)
