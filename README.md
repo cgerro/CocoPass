@@ -120,7 +120,7 @@ Utilisation de JIRA pour l'organisation des tâches, des bugs et fonctionnalité
 à faire sur figma
 
 ## Landing page
-[https://cocopass.live(https://cocopass.live)]
+[https://cocopass.live](https://cocopass.live)
 
 
 ## Description des choix techniques 
