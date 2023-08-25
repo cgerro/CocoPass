@@ -97,7 +97,7 @@ Mise en place d’un pipeline de livraison et de déploiement (CI/CD)​
 
 **Pull-request** : 
 
-Lors du développement, d'une feature ou d'un fix, une nouvelle branche sera créer. Une pull-request vers la branche dev sera ensuite effectuée. Cette dernière va déclencher la CI qui va effectuer les tests automatiques et les valider ou non (c.f revue code). lorsque la branche dev est fonctionnelle et qu'une nouvelle de l'application doit être déployée, une pull-request est effectuée sur la branche main ce qui déclenchera la CD qui va build l'apk pour android, le build ios et l'executable windows.
+Lors du développement, d'une feature ou d'un fix, une nouvelle branche sera créée. Une pull-request vers la branche dev sera ensuite effectuée. Cette dernière va déclencher la CI qui va effectuer les tests automatiques et les valider ou non (c.f revue code). lorsque la branche dev est fonctionnelle et qu'une nouvelle version de l'application doit être déployée, une pull-request est effectuée sur la branche main ce qui déclenchera la CD qui va build l'apk pour android, le build ios et l'executable windows.
 
 **Commits** : 
 
