@@ -95,6 +95,10 @@ Mise en place d’un pipeline de livraison et de déploiement (CI/CD)​
 
 ### Conventions mises en place :
 
+**Pull-request** : 
+
+Lors du développement, d'une feature ou d'un fix, une nouvelle branche sera créer. Une pull-request vers la branche dev sera ensuite effectuée. Cette dernière va déclencher la CI qui va effectuer les tests automatiques et les valider ou non (c.f revue code). lorsque la branche dev est fonctionnelle et qu'une nouvelle de l'application doit être déployée, une pull-request est effectuée sur la branche main ce qui déclenchera la CD qui va build l'apk pour android, le build ios et l'executable windows.
+
 **Commits** : 
 
 Messages clairs et informatifs structurés ainsi : "type(scope):message". type indique le type de changement (fix, feat, docs, style, refactor, test...) et scope précise la portée du changement et message décrit les modifications de manière brève.
@@ -125,7 +129,7 @@ Utilisation de JIRA pour l'organisation des tâches, des bugs et fonctionnalité
 
 ## Description des choix techniques 
 
-Afin de réaliser notre application mobile, nous allons utiliser flutter qui est un framework google permettant de concevoir des applications multiplateformes pour Android et iOS.
+Afin de réaliser notre application mobile, nous allons utiliser flutter qui est un framework google permettant de concevoir des applications multiplateformes pour Android, iOS et Windows pour l'instant.
 
 Pour le stockage des données, nous allons utiliser une base de donnée noSQL sur Firebase. Nous avons fait ce choix afin de pouvoir accéder aux données voulues depuis plusieurs appareils en simultané et rapidement.
 
