@@ -9,9 +9,9 @@ CocoPass permettra de stocker et générer des mots de passes forts et uniques p
 
 ### Problèmes à résoudre
 
-Avec l'avénement du monde numérique moderne, la sécurité en ligne est primordiale. Celle-ci s'effectue souvent grâce à l'utilisation de mots de passes.
+Avec l'avènement du monde numérique moderne, la sécurité en ligne est primordiale. Celle-ci s'effectue souvent grâce à l'utilisation de mots de passes.
 
-Ces mots de passes sont donc devenus un rempart nécessaire à la protection de nos données personnelles. Pour résister à la menace croissante des hackeurs tentant sans cesses de dérober nos informations, il est impératif d'utiliser des mots de passe long, complexe et différents.
+Ces mots de passes sont donc devenus un rempart nécessaire à la protection de nos données personnelles. Pour résister à la menace croissante des hackeurs tentant sans cesses de dérober nos informations, il est impératif d'utiliser des mots de passe longs, complexes et différents.
 
 Cependant, cette tâche peut vite s'avérer plus compliquée qu'elle n'y parait. Il est en effet difficile de se souvenir de dizaines voir centaines de mots de passes composées de combinaisons alphanumériques complexes, parfois assorties de caractères spéciaux. 
 
@@ -53,7 +53,7 @@ Notre solution mobile est un gestionnaire de mots de passe. Celle-ci aura les fo
 - Évolutivité : La solution doit pouvoir gérer une augmentation du nombre d'utilisateurs et de données au fil du temps.
   
 ## Description de la méthodologie de développement
-Description de la Méthodologie de Développement : Scrum Adapté
+Description de la Méthodologie de Développement : Scrum
 
 **Introduction** :
 
@@ -95,6 +95,10 @@ Mise en place d’un pipeline de livraison et de déploiement (CI/CD)​
 
 ### Conventions mises en place :
 
+**Pull-request** : 
+
+Lors du développement, d'une feature ou d'un fix, une nouvelle branche sera créée. Une pull-request vers la branche dev sera ensuite effectuée. Cette dernière va déclencher la CI qui va effectuer les tests automatiques et les valider ou non (c.f revue code). lorsque la branche dev est fonctionnelle et qu'une nouvelle version de l'application doit être déployée, une pull-request est effectuée sur la branche main ce qui déclenchera la CD qui va build l'apk pour android, le build ios et l'executable windows.
+
 **Commits** : 
 
 Messages clairs et informatifs structurés ainsi : "type(scope):message". type indique le type de changement (fix, feat, docs, style, refactor, test...) et scope précise la portée du changement et message décrit les modifications de manière brève.
@@ -117,7 +121,7 @@ Utilisation de JIRA pour l'organisation des tâches, des bugs et fonctionnalité
 
 **A DEFINIR** Scripts de build et tests automatiques à chaque pull request/commit. Configuration du pipeline CI/CD pour automatiser les tests et le déploiement.
 ## Mockups
-à faire sur figma
+[Mockup](mockup/CocoPass.pdf)
 
 ## Landing page
 [https://cocopass.live](https://cocopass.live)
@@ -125,7 +129,7 @@ Utilisation de JIRA pour l'organisation des tâches, des bugs et fonctionnalité
 
 ## Description des choix techniques 
 
-Afin de réaliser notre application mobile, nous allons utiliser flutter qui est un framework google permettant de concevoir des applications multiplateformes pour Android et iOS.
+Afin de réaliser notre application mobile, nous allons utiliser flutter qui est un framework google permettant de concevoir des applications multiplateformes pour Android, iOS et Windows pour l'instant.
 
 Pour le stockage des données, nous allons utiliser une base de donnée noSQL sur Firebase. Nous avons fait ce choix afin de pouvoir accéder aux données voulues depuis plusieurs appareils en simultané et rapidement.
 
