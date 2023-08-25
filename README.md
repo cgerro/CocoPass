@@ -53,7 +53,7 @@ Notre solution mobile est un gestionnaire de mots de passe. Celle-ci aura les fo
 - Évolutivité : La solution doit pouvoir gérer une augmentation du nombre d'utilisateurs et de données au fil du temps.
   
 ## Description de la méthodologie de développement
-Description de la Méthodologie de Développement : Scrum Adapté
+Description de la Méthodologie de Développement : Scrum
 
 **Introduction** :
 
