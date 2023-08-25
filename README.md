@@ -129,12 +129,20 @@ Utilisation de JIRA pour l'organisation des tâches, des bugs et fonctionnalité
 
 ## Description des choix techniques 
 
-Afin de réaliser notre application mobile, nous allons utiliser flutter qui est un framework google permettant de concevoir des applications multiplateformes pour Android, iOS et Windows pour l'instant.
+Afin de réaliser notre application mobile, nous allons utiliser flutter qui est un framework google permettant de concevoir des applications multiplateformes.
 
-Pour le stockage des données, nous allons utiliser une base de donnée noSQL sur Firebase. Nous avons fait ce choix afin de pouvoir accéder aux données voulues depuis plusieurs appareils en simultané et rapidement.
+Pour le stockage des données, nous allons utiliser une base de donnée noSQL sur Firebase (Firestore). Nous avons fait ce choix afin de pouvoir accéder aux données voulues depuis plusieurs appareils en simultané et rapidement. 
+
+Sur Firebase nous allons également utilisé le service d'authentification afin de gérer les comptes utilisateurs plus facilement et de manière sécurisée. 
 
 Pour ce qui est de la sécurité, nous allons chiffrer les données à l'aide du package Flutter Secure Storage directement sur l'application mobile avant de les envoyés et les stockés sur le cloud. Comme ça le serveur n'aura pas accès au donnée en claire et la confidentialité lors des échanges d'information sera garantie.
 
 ## Description préliminaire de l'architecture
 
 ![Alt text](images/Architecture.png)
+
+Dans la partie application, nous allons également nous occuper du chiffrement des données avant de les envoyer sur notre database. Ceci sera réaliser grâce au packages Flutter Secure Storage. 
+
+Dans la partie database, on stockera toutes les données après chiffrement que l'utilisateur souhaite garder (mot de passe, nom utilisateur, site internet, ...). Ceci permettra que seul l'utilisateur ait accés à ses données.
+
+
