@@ -94,4 +94,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: win-build
-          path: ./cocopassflutter/build/app/outputs/windows/
+          path: ./cocopassflutter/build/windows/
