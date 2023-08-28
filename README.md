@@ -120,12 +120,6 @@ Utilisation de JIRA pour l'organisation des tâches, des bugs et fonctionnalité
 **Intégration Continue et Déploiement Continu** : 
 
 **A DEFINIR** Scripts de build et tests automatiques à chaque pull request/commit. Configuration du pipeline CI/CD pour automatiser les tests et le déploiement.
-## Mockups
-[Mockup](mockup/CocoPass.pdf)
-
-## Landing page
-[https://cocopass.live](https://cocopass.live)
-
 
 ## Description des choix techniques 
 
