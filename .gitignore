@@ -4,3 +4,6 @@
 .README.md
 .github/*
 .docs/*
+cocopassflutter/windows/flutter/*
+cocopassflutter/linux/flutter/*
+cocopassflutter/macos/Flutter/*
