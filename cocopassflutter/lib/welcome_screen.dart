@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'login_screen.dart';
-import 'signup_screen.dart';
+// import 'login_screen.dart';
+// import 'signup_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
   @override
@@ -24,10 +24,11 @@ class WelcomeScreen extends StatelessWidget {
             // height: 100,
             child: ElevatedButton(
               onPressed: () {
-                Navigator.push(
+                /* Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                  MaterialPageRoute(builder: (context) =>  LoginScreen()),
                 );
+                */
               },
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -41,10 +42,12 @@ class WelcomeScreen extends StatelessWidget {
             width: 300,
             child: ElevatedButton(
               onPressed: () {
+                /*
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => SignupScreen()),
                 );
+                */
               },
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
