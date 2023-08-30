@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:cocopass/clipboarddelete.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);
@@ -28,6 +29,20 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
       result += chars[rnd.nextInt(chars.length)];
     }
     return result;
+  }
+
+  void _addAccountToFirestore() async {
+    String userID = "gens1";  // Remplacez ceci par l'ID d'utilisateur obtenu via Firebase Authentication
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    await firestore.collection('Users').doc(userID).collection('info').add({
+      'login': _loginController.text,
+      'password': _passwordController.text,
+      'website': _websiteController.text,
+      'websiteName': _websiteNameController.text,
+      'note': _noteController.text,
+    });
   }
 
   @override
@@ -116,6 +131,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () {
+                        _addAccountToFirestore();
                         // Logique pour ajouter le compte
                         // Vous pouvez insérer la logique de validation et d'ajout de compte ici
                       },
