@@ -13,6 +13,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
   final TextEditingController _loginController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _websiteController = TextEditingController();
+  final TextEditingController _websiteNameController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
   bool _obscureText = true;  // État pour le texte masqué ou visible
@@ -83,6 +84,12 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                   controller: _websiteController,
                   decoration: InputDecoration(
                     labelText: 'Site Internet',
+                  ),
+                ),
+                TextField(
+                  controller: _websiteNameController,
+                  decoration: InputDecoration(
+                    labelText: 'Nom du service',
                   ),
                 ),
                 TextField(
