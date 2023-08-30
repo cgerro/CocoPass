@@ -9,12 +9,14 @@ class Account {
   Account(this.serviceName, this.email, this.password);
 }
 
+
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
 
   @override
-  _PasswordListScreenState createState() => _PasswordListScreenState();
+  State<PasswordListScreen> createState() => _PasswordListScreenState();
 }
+
 
 class _PasswordListScreenState extends State<PasswordListScreen> {
   static const String utilisateur = "gens1";
