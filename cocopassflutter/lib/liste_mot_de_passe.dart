@@ -1,26 +1,23 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:random_name_generator/random_name_generator.dart';
 
 class Database extends StatefulWidget {
-  final utilisateur;
+  final String utilisateur;
 
   const Database({super.key, required this.utilisateur});
 
   String getUtilisateur() => utilisateur;
 
   @override
-  State<Database> createState() => _DatabaseState(utilisateur);
+  State<Database> createState() => _DatabaseState();
 }
 
 class _DatabaseState extends State<Database> {
-  late final utilisateur;
+  final String utilisateur = "test";
   final db = FirebaseFirestore.instance;
-
-
-  _DatabaseState(String utilisateur) {
-    this.utilisateur = utilisateur;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,27 +32,26 @@ class _DatabaseState extends State<Database> {
                 builder: (context) => Database(utilisateur: utilisateur), // Creation mdp
               ));
         },
-        tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
     );
   }
 
   // à ajouter dans la page création de compte
-// add(user) {
-//     var randomNames = RandomNames(Zone.switzerland);
-//     var i = randomNames.name();
-//     final userToAdd = <String, dynamic>{
-//       "username": "username " + i,
-//       "password": "password " + i
-//     };
-//     db.collection("Users/" + user + "/info").doc("site " + i).set(userToAdd);
-//   }
+add(user) {
+    var randomNames = RandomNames(Zone.switzerland);
+    var i = randomNames.name();
+    final userToAdd = <String, dynamic>{
+      "username": "username $i",
+      "password": "password $i"
+    };
+    db.collection("Users/$user/info").doc("site $i").set(userToAdd);
+  }
 
 
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('Users/' + utilisateur + '/info').snapshots(),
+      stream: FirebaseFirestore.instance.collection('Users/$utilisateur/info').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data!.docs);
@@ -84,7 +80,7 @@ class _DatabaseState extends State<Database> {
         child: ListTile(
           title: Text(record.username),
           trailing: Text(record.password),
-          onTap: () => print(record),
+          onTap: () => log("log: $record"),
         ),
       ),
     );
