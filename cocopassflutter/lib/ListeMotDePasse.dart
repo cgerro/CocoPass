@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:random_name_generator/random_name_generator.dart';
@@ -38,25 +36,22 @@ class _DatabaseState extends State<Database> {
               ));
         },
         tooltip: 'Increment',
-        hoverColor: Colors.green,
         child: const Icon(Icons.add),
       ),
     );
   }
 
   // à ajouter dans la page création de compte
-/**
-  add(user) {
-    var randomNames = RandomNames(Zone.switzerland);
-    var i = randomNames.name();
-    final userToAdd = <String, dynamic>{
-      "username": "username " + i,
-      "password": "password " + i
-    };
-    db.collection("Users/" + user + "/info").doc("site " + i).set(userToAdd);
-    _buildBody(context);
-  }
-**/
+// add(user) {
+//     var randomNames = RandomNames(Zone.switzerland);
+//     var i = randomNames.name();
+//     final userToAdd = <String, dynamic>{
+//       "username": "username " + i,
+//       "password": "password " + i
+//     };
+//     db.collection("Users/" + user + "/info").doc("site " + i).set(userToAdd);
+//   }
+
 
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
