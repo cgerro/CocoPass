@@ -21,13 +21,16 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
 
   // Génère un mot de passe aléatoire de 16 caractères
   String generatePassword() {
+    final length = 16;
     const chars =
         "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#\$%^&*()[]{}:;<>,.?~";
-    Random rnd = Random();
-    String result = "";
-    for (var i = 0; i < 16; i++) {
-      result += chars[rnd.nextInt(chars.length)];
+    final random = Random.secure();
+
+    String result = '';
+    for (var i = 0; i < length; i++) {
+      result += chars[random.nextInt(chars.length)];
     }
+
     return result;
   }
 
