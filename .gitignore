@@ -5,3 +5,7 @@ cocopassflutter/pubspec.lock
 .README.md
 .docs/*
 .github/*
+cocopassflutter/windows/flutter/*
+cocopassflutter/linux/flutter/*
+cocopassflutter/macos/Flutter/*
+
