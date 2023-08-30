@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -36,9 +38,23 @@ class _LoginScreenState extends State<LoginScreen> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                String email = _emailController.text;
-                String password = _passwordController.text;
+                // String email = _emailController.text;
+                // String password = _passwordController.text;
                 // Vous pouvez appeler une fonction de validation/auth
+
+                /*
+                if (ValidationUtils.isValidEmail(email)) {
+                  // Logique de validation ici
+                } else {
+                  // Gérer le cas où l'email n'est pas valide
+                }
+
+                if (ValidationUtils.isValidPassword(password)) {
+                  // Logique de validation ici
+                } else {
+                  // Gérer le cas où le mot de passe n'est pas valide
+                }
+                */
               },
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
