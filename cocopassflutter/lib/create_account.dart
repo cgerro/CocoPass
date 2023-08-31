@@ -1,9 +1,9 @@
 import 'passwordConfig.dart';
 
 import 'dart:math';
-import 'package:cocopass/clipboarddelete.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);
@@ -62,7 +62,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
   }
 
   void _addAccountToFirestore() async {
-    String userID = "gens1";  // Remplacez ceci par l'ID d'utilisateur obtenu via Firebase Authentication
+    /*String userID = "gens1";
 
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -72,6 +72,28 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
       'serviceName': _serviceNameController.text,
       'note': _noteController.text,
     });
+    */
+
+    User? currentUser = FirebaseAuth.instance.currentUser;
+
+    // Vérifiez si un utilisateur est connecté
+    if (currentUser != null) {
+      // Utilisez l'ID de cet utilisateur
+      String userID = currentUser.uid;
+
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+      await firestore.collection('users').doc(userID).collection('comptes').add({
+        'login': _loginController.text,
+        'password': _passwordController.text,
+        'serviceName': _serviceNameController.text,
+        'note': _noteController.text,
+      });
+    } else {
+      // Gérez l'erreur - aucun utilisateur connecté
+      print("Aucun utilisateur connecté");
+    }
+
   }
 
   @override
