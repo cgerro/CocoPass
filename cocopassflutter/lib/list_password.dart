@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cocopass/password_detail.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
@@ -28,7 +30,7 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
     for (var e in snapshots) {
       var data = e.data() as Map<String, dynamic>;
       if (data["serviceName"] != null &&
-          data["email"] != null &&
+          data["login"] != null &&
           data["password"] != null) accounts.add(data);
     }
 
@@ -56,21 +58,20 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
               itemBuilder: (context, index) {
                 return ListTile(
                   leading: CircleAvatar(
-                    // Ici, vous pouvez ajouter l'image du service
                     child: Text(accounts[index]["serviceName"].substring(0, 1)),
                   ),
                   title: Text(accounts[index]["serviceName"]),
-                  subtitle: Text(accounts[index]["email"]),
+                  subtitle: Text(accounts[index]["login"]),
                   trailing: IconButton(
                     icon: Icon(Icons.copy),
                     onPressed: () {
-                      // Logique pour copier le mot de passe
+                      _copyToClipboard(accounts[index]["password"]);
                     },
                   ),
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => PasswordListScreen()),
+                      MaterialPageRoute(builder: (context) => AccountDetailPage(account: accounts[index])),
                     );
                   }
                 );
@@ -81,9 +82,9 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Naviguer vers l'Ã©cran CreateAccountScreen
           Navigator.push(
             context,
+            // TODO mettre écran création de mot de passe
             MaterialPageRoute(builder: (context) => PasswordListScreen()),
           );
         },
@@ -91,4 +92,13 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
       ),
     );
   }
+}
+
+void _copyToClipboard(password) {
+  Clipboard.setData(ClipboardData(text: password));
+
+  // TODO fichier de paramètre
+  Future.delayed(Duration(seconds: 10), () {
+    Clipboard.setData(ClipboardData(text: ""));
+  });
 }
