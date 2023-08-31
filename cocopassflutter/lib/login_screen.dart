@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'auth.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,6 +12,7 @@ class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool _loading = false;
   String _message = '';
+  Color _messageColor = Colors.red;
 
   void _showMessage(String message, bool isSuccess) {
     setState(() {
@@ -26,8 +26,6 @@ class LoginScreenState extends State<LoginScreen> {
       _message = '';
     });
   }
-
-  Color _messageColor = Colors.red;
 
   handleSubmit() async {
     if (!_loading) {
@@ -61,20 +59,32 @@ class LoginScreenState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             TextFormField(
               controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Adresse e-mail',
               ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Veuillez entrer votre adresse e-mail';
+                }
+                return null;
+              },
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             TextFormField(
               controller: _passwordController,
               obscureText: true,
               decoration: InputDecoration(labelText: 'Mot de passe'),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Veuillez entrer votre mot de passe';
+                }
+                return null;
+              },
             ),
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             ElevatedButton(
               onPressed: handleSubmit,
               style: ElevatedButton.styleFrom(
@@ -90,7 +100,7 @@ class LoginScreenState extends State<LoginScreen> {
                     )
                   : Text('SE CONNECTER', style: TextStyle(color: Colors.white)),
             ),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
             Text(
               _message,
               style: TextStyle(color: _messageColor),
