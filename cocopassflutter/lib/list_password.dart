@@ -1,15 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-class Account {
-  final String serviceName;
-  final String email;
-  final String password;
-
-  Account(this.serviceName, this.email, this.password);
-}
-
-
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
 
@@ -17,14 +8,13 @@ class PasswordListScreen extends StatefulWidget {
   State<PasswordListScreen> createState() => _PasswordListScreenState();
 }
 
-
 class _PasswordListScreenState extends State<PasswordListScreen> {
-  static const String utilisateur = "gens1";
+  static const String utilisateur = "gens1"; // TODO récupérer id de la personne connectée
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('Users/$utilisateur/info').snapshots(),
+      stream: FirebaseFirestore.instance.collection('users/$utilisateur/comptes').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data!.docs);
@@ -36,7 +26,10 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
 
     var accounts = [];
     for (var e in snapshots) {
-      accounts.add(e.data() as Map<String, dynamic>);
+      var data = e.data() as Map<String, dynamic>;
+      if (data["serviceName"] != null &&
+          data["email"] != null &&
+          data["password"] != null) accounts.add(data);
     }
 
     return Scaffold(
@@ -59,7 +52,7 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
           // Liste des comptes
           Expanded(
             child: ListView.builder(
-              itemCount: snapshots.length,
+              itemCount: accounts.length,
               itemBuilder: (context, index) {
                 return ListTile(
                   leading: CircleAvatar(
@@ -74,6 +67,12 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
                       // Logique pour copier le mot de passe
                     },
                   ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => PasswordListScreen()),
+                    );
+                  }
                 );
               },
             ),
