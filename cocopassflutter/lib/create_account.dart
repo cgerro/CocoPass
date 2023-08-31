@@ -100,7 +100,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Créer un compte'),
+        title: Text('Ajouter un mot de passe'),
         titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
       ),
       body: Stack(
