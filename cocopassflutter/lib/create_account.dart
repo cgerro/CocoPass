@@ -22,7 +22,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
   String generatePassword() {
     final length = 16;
     const chars =
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#\$%^&*()[]{}:;<>,.?~";
+        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^&*()[]{}:;<>,.?~";
     final random = Random.secure();
 
     String result = '';
