@@ -13,8 +13,7 @@ class CreateAccountScreen extends StatefulWidget {
 class CreateAccountScreenState extends State<CreateAccountScreen> {
   final TextEditingController _loginController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _websiteController = TextEditingController();
-  final TextEditingController _websiteNameController = TextEditingController();
+  final TextEditingController _serviceNameController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
   bool _obscureText = true;  // État pour le texte masqué ou visible
@@ -39,11 +38,10 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
 
     FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    await firestore.collection('Users').doc(userID).collection('info').add({
+    await firestore.collection('users').doc(userID).collection('comptes').add({
       'login': _loginController.text,
       'password': _passwordController.text,
-      'website': _websiteController.text,
-      'websiteName': _websiteNameController.text,
+      'serviceName': _serviceNameController.text,
       'note': _noteController.text,
     });
   }
@@ -99,13 +97,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                   ],
                 ),
                 TextField(
-                  controller: _websiteController,
-                  decoration: InputDecoration(
-                    labelText: 'Site Internet',
-                  ),
-                ),
-                TextField(
-                  controller: _websiteNameController,
+                  controller: _serviceNameController,
                   decoration: InputDecoration(
                     labelText: 'Nom du service',
                   ),
