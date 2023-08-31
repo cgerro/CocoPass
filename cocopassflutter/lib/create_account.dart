@@ -1,3 +1,5 @@
+import 'passwordConfig.dart';
+
 import 'dart:math';
 import 'package:cocopass/clipboarddelete.dart';
 import 'package:flutter/material.dart';
@@ -18,15 +20,41 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
 
   bool _obscureText = true;  // État pour le texte masqué ou visible
 
-  // Génère un mot de passe aléatoire de 16 caractères
-  String generatePassword() {
-    final length = 16;
-    const chars =
-        "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%^&*()[]{}:;<>,.?~";
-    final random = Random.secure();
+  int _passwordLength = 16;
+  bool _useLowercase = true;
+  bool _useUppercase = true;
+  bool _useSpecialChars = true;
+  bool _useNumber = true;
 
+  void updatePasswordConfig(int length, bool useLowercase, bool useUppercase, bool useNumber, bool useSpecialChars) {
+    setState(() {
+      _passwordLength = length;
+      _useLowercase = useLowercase;
+      _useUppercase = useUppercase;
+      _useNumber = useNumber;
+      _useSpecialChars = useSpecialChars;
+    });
+  }
+
+  String generatePassword() {
+    String chars = "";
+
+    if (_useLowercase) {
+      chars += "abcdefghijklmnopqrstuvwxyz";
+    }
+    if (_useUppercase) {
+      chars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    }
+    if (_useSpecialChars) {
+      chars += "!@#\$%^&*()[]{}:;<>,.?~";
+    }
+    if (_useNumber) {
+      chars += "0123456789";
+    }
+
+    final random = Random.secure();
     String result = '';
-    for (var i = 0; i < length; i++) {
+    for (var i = 0; i < _passwordLength; i++) {
       result += chars[random.nextInt(chars.length)];
     }
 
@@ -152,7 +180,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => MyApp(),
+                    builder: (context) => PasswordConfigScreen(updatePasswordConfig: updatePasswordConfig),
                   ),
                 );
               },
