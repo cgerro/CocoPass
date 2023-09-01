@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'auth.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -38,13 +39,27 @@ class LoginScreenState extends State<LoginScreen> {
       try {
         await Auth().signInWithEmailAndPassword(email, password);
         _showMessage('Connexion réussie', true);
+
+        // Vérifiez si le contexte est toujours valide (c'est-à-dire que le widget est toujours dans l'arbre)
+        if (mounted) {
+          // Redirigez vers la page CreateAccountScreen après une connexion réussie
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        }
+
       } catch (e) {
         _showMessage('Erreur lors de la connexion : $e', false);
       } finally {
-        setState(() => _loading = false);
+        if (mounted) {
+          setState(() => _loading = false);
+        }
       }
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
