@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'auth.dart';
+import 'home_screen.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -24,6 +25,7 @@ class SignupScreenState extends State<SignupScreen> {
   // Fonction de validation du formulaire
   handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
+
     final email = _emailController.text;
     final password = _masterPasswordController.text;
     final firstName = _firstNameController.text;
@@ -32,7 +34,6 @@ class SignupScreenState extends State<SignupScreen> {
 
     // Vérification que les mots de passe correspondent
     if (password != verifyPassword) {
-      // Afficher un message d'erreur
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Les mots de passe ne correspondent pas"),
@@ -44,15 +45,30 @@ class SignupScreenState extends State<SignupScreen> {
 
     setState(() => _loading = true);
 
-    if (_isLogin) {
-      await Auth().signInWithEmailAndPassword(email, password);
-    } else {
-      await Auth()
-          .registerWithEmailAndPassword(email, password, firstName, lastName);
-    }
+    try {
+      if (_isLogin) {
+        await Auth().signInWithEmailAndPassword(email, password);
+        // Rediriger vers un écran spécifique après la connexion réussie
+      } else {
+        await Auth().registerWithEmailAndPassword(email, password, firstName, lastName);
 
-    setState(() => _loading = false);
+        // Vérifier que le widget est toujours dans l'arbre des widgets
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        }
+      }
+    } catch (e) {
+      // TODO
+    } finally {
+      if (mounted) {
+        setState(() => _loading = false);
+      }
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,7 +81,7 @@ class SignupScreenState extends State<SignupScreen> {
           color: Colors.white,
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
