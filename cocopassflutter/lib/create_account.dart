@@ -1,9 +1,10 @@
 import 'passwordConfig.dart';
+import 'list_password.dart';
 
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);
@@ -62,23 +63,11 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
   }
 
   void _addAccountToFirestore() async {
-    /*String userID = "gens1";
-
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-    await firestore.collection('users').doc(userID).collection('comptes').add({
-      'login': _loginController.text,
-      'password': _passwordController.text,
-      'serviceName': _serviceNameController.text,
-      'note': _noteController.text,
-    });
-    */
-
     User? currentUser = FirebaseAuth.instance.currentUser;
 
-    // Vérifiez si un utilisateur est connecté
+    // Check if a user is logged in
     if (currentUser != null) {
-      // Utilisez l'ID de cet utilisateur
+      // Use this user's ID
       String userID = currentUser.uid;
 
       FirebaseFirestore firestore = FirebaseFirestore.instance;
@@ -89,12 +78,21 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
         'serviceName': _serviceNameController.text,
         'note': _noteController.text,
       });
-    } else {
-      // Gérez l'erreur - aucun utilisateur connecté
-      print("Aucun utilisateur connecté");
-    }
 
+      // Check if the context is still valid (i.e., the widget is still in the tree)
+      if (mounted) {
+        // Redirect to the PasswordListScreen after successful addition
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => PasswordListScreen()),
+        );
+      }
+    } else {
+      // Handle the error - no user logged in
+      print("No user logged in");
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {
