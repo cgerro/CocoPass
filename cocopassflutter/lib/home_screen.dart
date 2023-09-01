@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'bottom_navigation_bar.dart';
+import 'create_account.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -49,6 +50,12 @@ class HomeScreen extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       // Logique pour créer un nouveau mot de passe
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CreateAccountScreen(),
+                        ),
+                      );
                     },
                     child: const Text('Ajouter'),
                   ),
