@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'bottom_navigation_bar.dart';
+import 'create_account.dart';
 
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
@@ -51,6 +52,7 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Mots de passe'),
       ),
       body: Column(
@@ -99,8 +101,7 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            // TODO mettre écran création de mot de passe
-            MaterialPageRoute(builder: (context) => PasswordListScreen()),
+            MaterialPageRoute(builder: (context) => CreateAccountScreen()),
           );
         },
         child: Icon(Icons.add),

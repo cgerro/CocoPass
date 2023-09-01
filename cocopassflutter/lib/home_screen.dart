@@ -11,6 +11,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text('Hello, $username'),
           titleTextStyle:
               const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),

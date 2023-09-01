@@ -158,20 +158,8 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                 ),
                 SizedBox(height: 20),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        // Logique pour annuler et revenir à la page principale
-                        Navigator.pop(context);  // Retour à la page précédente
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0)),
-                        backgroundColor: Colors.red,
-                      ),
-                      child: Text('ANNULER', style: TextStyle(color: Colors.white)),
-                    ),
                     ElevatedButton(
                       onPressed: () {
                         _addAccountToFirestore();
