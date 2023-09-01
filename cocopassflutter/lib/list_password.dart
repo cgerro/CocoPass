@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cocopass/password_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'bottom_navigation_bar.dart';
 
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
@@ -11,12 +14,24 @@ class PasswordListScreen extends StatefulWidget {
 }
 
 class _PasswordListScreenState extends State<PasswordListScreen> {
-  static const String utilisateur = "gens1"; // TODO récupérer id de la personne connectée
+
+  User? currentUser;
+  String? userID;  // initialisez userID comme une chaîne nullable
+
+  @override
+  void initState() {
+    super.initState();
+    currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null) {
+      userID = currentUser!.uid;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('users/$utilisateur/comptes').snapshots(),
+    return StreamBuilder<QuerySnapshot> (
+      stream: FirebaseFirestore.instance.collection('users').doc(userID).collection('comptes').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data!.docs);
@@ -25,10 +40,10 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
   }
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshots) {
-
     var accounts = [];
     for (var e in snapshots) {
       var data = e.data() as Map<String, dynamic>;
+      data["accountID"] = e.id;
       if (data["serviceName"] != null &&
           data["login"] != null &&
           data["password"] != null) accounts.add(data);
@@ -90,6 +105,26 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
         },
         child: Icon(Icons.add),
       ),
+      bottomNavigationBar: MyBottomNavigationBar(
+        // showSelectedLabels: false,
+        // showUnselectedLabels: false,
+
+          currentIndex: 1,
+          onTap: (index) {
+            if (index == 1) {
+              // Naviguer vers l'écran 'Liste des mots de passe'
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PasswordListScreen()));
+            // } else if (index == 2) {
+            //   // Naviguer vers l'écran 'Paramètres'
+            //   Navigator.push(
+            //       context,
+            //       MaterialPageRoute(
+            //           builder: (context) => ParametreScreen()));
+            }
+          }),
     );
   }
 }
