@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'auth.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -16,99 +17,131 @@ class SignupScreenState extends State<SignupScreen> {
   final TextEditingController _verifyPasswordController =
       TextEditingController();
 
+  final bool _isLogin = false;
+  bool _loading = false;
+  final _formKey = GlobalKey<FormState>();
+
+  // Fonction de validation du formulaire
+  handleSubmit() async {
+    if (!_formKey.currentState!.validate()) return;
+    final email = _emailController.text;
+    final password = _masterPasswordController.text;
+    final firstName = _firstNameController.text;
+    final lastName = _lastNameController.text;
+    final verifyPassword = _verifyPasswordController.text;
+
+    // Vérification que les mots de passe correspondent
+    if (password != verifyPassword) {
+      // Afficher un message d'erreur
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("Les mots de passe ne correspondent pas"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    setState(() => _loading = true);
+
+    if (_isLogin) {
+      await Auth().signInWithEmailAndPassword(email, password);
+    } else {
+      await Auth()
+          .registerWithEmailAndPassword(email, password, firstName, lastName);
+    }
+
+    setState(() => _loading = false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Créer un compte'),
-          titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        title: Text('Créer un compte'),
+        titleTextStyle: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Colors.white,
+        ),
+      ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            TextField(
-              controller: _firstNameController,
-              decoration: InputDecoration(
-                labelText: 'Prénom',
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              TextField(
+                controller: _firstNameController,
+                decoration: InputDecoration(
+                  labelText: 'Prénom',
+                ),
               ),
-            ),
-            TextField(
-              controller: _lastNameController,
-              decoration: InputDecoration(
-                labelText: 'Nom',
+              TextField(
+                controller: _lastNameController,
+                decoration: InputDecoration(
+                  labelText: 'Nom',
+                ),
               ),
-            ),
-            TextField(
-              controller: _emailController,
-              keyboardType: TextInputType.emailAddress,
-              decoration: InputDecoration(
-                labelText: 'Adresse e-mail',
+              TextFormField(
+                controller: _emailController,
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Veuillez entrer votre adresse e-mail';
+                  }
+                  return null;
+                },
+                decoration: InputDecoration(
+                  labelText: 'Adresse e-mail',
+                ),
               ),
-            ),
-            TextField(
-              controller: _masterPasswordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Mot de passe master',
+              const SizedBox(
+                height: 20,
               ),
-            ),
-            TextField(
-              controller: _verifyPasswordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                labelText: 'Vérification de mot de passe',
+              TextFormField(
+                controller: _masterPasswordController,
+                obscureText: true,
+                validator: (value) {
+                  if (value!.isEmpty) {
+                    return 'Veuillez entrer votre mot de passe maître';
+                  }
+                  return null; // You can return your custom error message here
+                },
+                decoration: InputDecoration(
+                  labelText: 'Mot de passe master',
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Logique pour le bouton de création de compte
-                /*
-                String firstName = _firstNameController.text;
-                String lastName = _lastNameController.text;
-                String email = _emailController.text;
-                String masterPassword = _masterPasswordController.text;
-                String verifyPassword = _verifyPasswordController.text;
-                // Ajoutez ici la logique de validation et de création de compte
-
-                if (ValidationUtils.isValidFirstName(firstName)) {
-                  // Logique de validation ici
-                } else {
-                  // Gérer le cas où le firstName n'est pas valide
-                }
-
-                if (ValidationUtils.isValidLastName(lastName)) {
-                  // Logique de validation ici
-                } else {
-                  // Gérer le cas où le lastName n'est pas valide
-                }
-
-                if (ValidationUtils.isValidEmail(email)) {
-                  // Logique de validation ici
-                } else {
-                  // Gérer le cas où l'email n'est pas valide
-                }
-
-                if (ValidationUtils.isValidPassword(masterPassword)) {
-                  // Logique de validation ici
-                } else {
-                  // Gérer le cas où l'email n'est pas valide
-                }
-
-                if (masterPassword != verifyPassword) {
-                  // Gérer le cas où les mots de passe master ne sont pas pareil
-                }
-                */
-              },
-              style: ElevatedButton.styleFrom(
+              TextField(
+                controller: _verifyPasswordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  labelText: 'Vérification de mot de passe',
+                ),
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () => handleSubmit(),
+                style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0)),
-                  backgroundColor: Colors.deepPurple),
-              child: Text('CRÉER UN COMPTE',
-                  style: TextStyle(color: Colors.white)),
-            ),
-          ],
+                    borderRadius: BorderRadius.circular(0),
+                  ),
+                  backgroundColor: Colors.deepPurple,
+                ),
+                child: _loading
+                    ? const SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
+                    : Text(_isLogin ? 'Se connecter' : 'Créer un compte'),
+              ),
+            ],
+          ),
         ),
       ),
     );
