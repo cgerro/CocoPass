@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'bottom_navigation_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -57,29 +58,13 @@ class HomeScreen extends StatelessWidget {
           ],
         ),
       ),
-      bottomNavigationBar:
-          // color: Colors.grey[850],
-          BottomNavigationBar(
-        // showSelectedLabels: false,
-        // showUnselectedLabels: false,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Accueil',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Mots de passe',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Paramètres',
-          )
-        ],
-        // currentIndex: _selectedIndex,
-        selectedItemColor: Colors.deepPurple[200],
-        /*
-              onTap: (index) {
+      bottomNavigationBar: MyBottomNavigationBar(
+          // showSelectedLabels: false,
+          // showUnselectedLabels: false,
+
+          currentIndex: 0,
+          onTap: (index) {
+            /*
                 if (index == 1) {
                   // Naviguer vers l'écran 'Liste des mots de passe'
                   Navigator.push(
@@ -93,9 +78,8 @@ class HomeScreen extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => ParametreScreen()));
                 }
-                
-              } */
-      ),
+                */
+          }),
     );
   }
 }
