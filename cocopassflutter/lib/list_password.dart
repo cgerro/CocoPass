@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'bottom_navigation_bar.dart';
 import 'create_account.dart';
+import 'home_screen.dart';
 
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
@@ -107,25 +108,23 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
         child: Icon(Icons.add),
       ),
       bottomNavigationBar: MyBottomNavigationBar(
-        // showSelectedLabels: false,
-        // showUnselectedLabels: false,
-
-          currentIndex: 1,
-          onTap: (index) {
-            if (index == 1) {
-              // Naviguer vers l'écran 'Liste des mots de passe'
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PasswordListScreen()));
-            // } else if (index == 2) {
-            //   // Naviguer vers l'écran 'Paramètres'
-            //   Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //           builder: (context) => ParametreScreen()));
-            }
-          }),
+        currentIndex: 1,
+        onTap: (index) {
+          if (index == 0) {
+            // Navigate to the HomeScreen
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          }/* else if (index == 2) {
+            // Navigate to the 'SettingsScreen'
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => ParametreScreen()),
+            );
+          }*/
+        },
+      ),
     );
   }
 }

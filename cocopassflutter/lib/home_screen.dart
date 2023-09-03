@@ -68,26 +68,24 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: MyBottomNavigationBar(
-          // showSelectedLabels: false,
-          // showUnselectedLabels: false,
+        currentIndex: 0,
+        onTap: (index) {
 
-          currentIndex: 0,
-          onTap: (index) {
-            if (index == 1) {
-              // Naviguer vers l'écran 'Liste des mots de passe'
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => PasswordListScreen()));
-            // } else if (index == 2) {
-            //   // Naviguer vers l'écran 'Paramètres'
-            //   Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //           builder: (context) => ParametreScreen()));
-            }
-
-          }),
+          if (index == 1) {
+            // Navigate to the 'PasswordListScreen'
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => PasswordListScreen()),
+            );
+          }/* else if (index == 2) {
+            // Navigate to the 'SettingsScreen'
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => ParametreScreen()),
+            );
+          }*/
+        },
+      ),
     );
   }
 }
