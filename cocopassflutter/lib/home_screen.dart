@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'bottom_navigation_bar.dart';
-import 'create_account.dart';
 import 'list_password.dart';
+import 'settings_screen.dart';
+import 'create_account.dart';
+
+
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -68,24 +71,20 @@ class HomeScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: MyBottomNavigationBar(
-        currentIndex: 0,
-        onTap: (index) {
-
-          if (index == 1) {
-            // Navigate to the 'PasswordListScreen'
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => PasswordListScreen()),
-            );
-          }/* else if (index == 2) {
-            // Navigate to the 'SettingsScreen'
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => ParametreScreen()),
-            );
-          }*/
-        },
-      ),
+          currentIndex: 0,
+          onTap: (index) {
+            if (index == 1) {
+              // Naviguer vers l'écran 'Liste des mots de passe'
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PasswordListScreen()));
+            } else if (index == 2) {
+              // Naviguer vers l'écran 'Paramètres'
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SettingScreen()));
+            }
+          }),
     );
   }
 }

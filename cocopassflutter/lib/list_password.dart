@@ -3,7 +3,6 @@ import 'package:cocopass/password_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'bottom_navigation_bar.dart';
 import 'create_account.dart';
 import 'home_screen.dart';
@@ -16,7 +15,6 @@ class PasswordListScreen extends StatefulWidget {
 }
 
 class _PasswordListScreenState extends State<PasswordListScreen> {
-
   User? currentUser;
   String? userID;  // initialisez userID comme une chaîne nullable
 
@@ -75,24 +73,26 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
               itemCount: accounts.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  leading: CircleAvatar(
-                    child: Text(accounts[index]["serviceName"].substring(0, 1)),
-                  ),
-                  title: Text(accounts[index]["serviceName"]),
-                  subtitle: Text(accounts[index]["login"]),
-                  trailing: IconButton(
-                    icon: Icon(Icons.copy),
-                    onPressed: () {
-                      _copyToClipboard(accounts[index]["password"]);
-                    },
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AccountDetailPage(account: accounts[index])),
-                    );
-                  }
-                );
+                    leading: CircleAvatar(
+                      child:
+                          Text(accounts[index]["serviceName"].substring(0, 1)),
+                    ),
+                    title: Text(accounts[index]["serviceName"]),
+                    subtitle: Text(accounts[index]["login"]),
+                    trailing: IconButton(
+                      icon: Icon(Icons.copy),
+                      onPressed: () {
+                        _copyToClipboard(accounts[index]["password"]);
+                      },
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                AccountDetailPage(account: accounts[index])),
+                      );
+                    });
               },
             ),
           ),
