@@ -1,4 +1,4 @@
-import 'passwordConfig.dart';
+import 'password_config.dart';
 import 'list_password.dart';
 
 import 'dart:math';
@@ -19,7 +19,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
   final TextEditingController _serviceNameController = TextEditingController();
   final TextEditingController _noteController = TextEditingController();
 
-  bool _obscureText = true;  // État pour le texte masqué ou visible
+  bool _obscureText = true; // État pour le texte masqué ou visible
 
   int _passwordLength = 16;
   bool _useLowercase = true;
@@ -27,7 +27,8 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
   bool _useSpecialChars = true;
   bool _useNumber = true;
 
-  void updatePasswordConfig(int length, bool useLowercase, bool useUppercase, bool useNumber, bool useSpecialChars) {
+  void updatePasswordConfig(int length, bool useLowercase, bool useUppercase,
+      bool useNumber, bool useSpecialChars) {
     setState(() {
       _passwordLength = length;
       _useLowercase = useLowercase;
@@ -72,7 +73,11 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
 
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-      await firestore.collection('users').doc(userID).collection('comptes').add({
+      await firestore
+          .collection('users')
+          .doc(userID)
+          .collection('comptes')
+          .add({
         'login': _loginController.text,
         'password': _passwordController.text,
         'serviceName': _serviceNameController.text,
@@ -92,7 +97,6 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
       print("No user logged in");
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +130,9 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                       ),
                     ),
                     IconButton(
-                      icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                      icon: Icon(_obscureText
+                          ? Icons.visibility
+                          : Icons.visibility_off),
                       onPressed: () {
                         setState(() {
                           _obscureText = !_obscureText;
@@ -171,7 +177,8 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                             borderRadius: BorderRadius.circular(0)),
                         backgroundColor: Colors.deepPurple,
                       ),
-                      child: Text('AJOUTER', style: TextStyle(color: Colors.white)),
+                      child: Text('AJOUTER',
+                          style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -188,7 +195,8 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => PasswordConfigScreen(updatePasswordConfig: updatePasswordConfig),
+                    builder: (context) => PasswordConfigScreen(
+                        updatePasswordConfig: updatePasswordConfig),
                   ),
                 );
               },

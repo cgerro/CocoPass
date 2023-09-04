@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'bottom_navigation_bar.dart';
 import 'create_account.dart';
 import 'home_screen.dart';
+import 'settings_screen.dart';
 
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class PasswordListScreen extends StatefulWidget {
 
 class _PasswordListScreenState extends State<PasswordListScreen> {
   User? currentUser;
-  String? userID;  // initialisez userID comme une chaîne nullable
+  String? userID; // initialisez userID comme une chaîne nullable
 
   @override
   void initState() {
@@ -30,8 +31,12 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot> (
-      stream: FirebaseFirestore.instance.collection('users').doc(userID).collection('comptes').snapshots(),
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .doc(userID)
+          .collection('comptes')
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data!.docs);
@@ -51,9 +56,10 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Mots de passe'),
-      ),
+          automaticallyImplyLeading: false,
+          title: Text('Mots de passe'),
+          titleTextStyle:
+              const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       body: Column(
         children: [
           // Barre de recherche
@@ -116,13 +122,13 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
               context,
               MaterialPageRoute(builder: (context) => HomeScreen()),
             );
-          }/* else if (index == 2) {
+          } else if (index == 2) {
             // Navigate to the 'SettingsScreen'
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => ParametreScreen()),
+              MaterialPageRoute(builder: (context) => SettingScreen()),
             );
-          }*/
+          }
         },
       ),
     );

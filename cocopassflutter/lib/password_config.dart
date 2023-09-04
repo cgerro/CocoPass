@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 class PasswordConfigScreen extends StatefulWidget {
   final Function updatePasswordConfig;
 
-  PasswordConfigScreen({required this.updatePasswordConfig});
+  const PasswordConfigScreen({required this.updatePasswordConfig, Key? key})
+      : super(key: key);
 
   @override
   _PasswordConfigScreenState createState() => _PasswordConfigScreenState();
@@ -85,7 +86,8 @@ class _PasswordConfigScreenState extends State<PasswordConfigScreen> {
             Row(
               children: [
                 Expanded(
-                  child: SizedBox(),  // Cette partie pousse le bouton vers la droite
+                  child:
+                      SizedBox(), // Cette partie pousse le bouton vers la droite
                 ),
                 ElevatedButton(
                   onPressed: () {

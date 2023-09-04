@@ -7,6 +7,8 @@ import 'home_screen.dart';
 import 'list_password.dart';
 
 class SettingScreen extends StatelessWidget {
+  const SettingScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +29,7 @@ class SettingScreen extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.only(left: 8.0),
                     child: Text('Effacer presse-papier',
-                        style: TextStyle(fontSize: 18)),
+                        style: TextStyle(fontSize: 16)),
                   ),
                   IconButton(
                     icon: const Icon(Icons.arrow_forward),
@@ -51,7 +53,7 @@ class SettingScreen extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.only(left: 8.0),
                     child:
-                        Text('Modifier profil', style: TextStyle(fontSize: 18)),
+                        Text('Modifier profil', style: TextStyle(fontSize: 16)),
                   ),
                   IconButton(
                     icon: const Icon(Icons.arrow_forward),
@@ -75,7 +77,7 @@ class SettingScreen extends StatelessWidget {
                   const Padding(
                     padding: EdgeInsets.only(left: 8.0),
                     child: Text('Modifier mot de passe master',
-                        style: TextStyle(fontSize: 18)),
+                        style: TextStyle(fontSize: 16)),
                   ),
                   IconButton(
                     icon: const Icon(Icons.arrow_forward),

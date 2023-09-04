@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'list_password.dart';
 
 class EditAccountPage extends StatefulWidget {
@@ -23,7 +21,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
   var _obscureText = true;
 
   User? currentUser;
-  String? userID;  // initialisez userID comme une chaîne nullable
+  String? userID; // initialisez userID comme une chaîne nullable
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -31,8 +29,10 @@ class _EditAccountPageState extends State<EditAccountPage> {
   void initState() {
     super.initState();
     _loginController = TextEditingController(text: widget.account['login']);
-    _passwordController = TextEditingController(text: widget.account['password']);
-    _serviceNameController = TextEditingController(text: widget.account['serviceName']);
+    _passwordController =
+        TextEditingController(text: widget.account['password']);
+    _serviceNameController =
+        TextEditingController(text: widget.account['serviceName']);
     _noteController = TextEditingController(text: widget.account['note']);
 
     currentUser = FirebaseAuth.instance.currentUser;
@@ -48,98 +48,100 @@ class _EditAccountPageState extends State<EditAccountPage> {
       appBar: AppBar(
         title: Text('Modifier le compte'),
       ),
-        body: Stack(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  TextField(
-                    controller: _loginController,
-                    decoration: InputDecoration(
-                      labelText: "Login",
-                    ),
+      body: Stack(
+        children: [
+          Padding(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                TextField(
+                  controller: _loginController,
+                  decoration: InputDecoration(
+                    labelText: "Login",
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _passwordController,
-                          obscureText: _obscureText,
-                          decoration: InputDecoration(
-                            labelText: "Mot de passe",
-                          ),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _passwordController,
+                        obscureText: _obscureText,
+                        decoration: InputDecoration(
+                          labelText: "Mot de passe",
                         ),
                       ),
-                      IconButton(
-                        icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
-                        onPressed: () {
-                          setState(() {
-                            _obscureText = !_obscureText;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  TextField(
-                    controller: _serviceNameController,
-                    decoration: InputDecoration(
-                      labelText: 'Nom du service',
                     ),
-                  ),
-                  TextField(
-                    controller: _noteController,
-                    decoration: InputDecoration(
-                      labelText: 'Note',
+                    IconButton(
+                      icon: Icon(_obscureText
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                      onPressed: () {
+                        setState(() {
+                          _obscureText = !_obscureText;
+                        });
+                      },
                     ),
+                  ],
+                ),
+                TextField(
+                  controller: _serviceNameController,
+                  decoration: InputDecoration(
+                    labelText: 'Nom du service',
                   ),
-                  SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {
-                          // delete database
-                          deleteFirestoreAccount();
-                          Navigator.push(
+                ),
+                TextField(
+                  controller: _noteController,
+                  decoration: InputDecoration(
+                    labelText: 'Note',
+                  ),
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        // delete database
+                        deleteFirestoreAccount();
+                        Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PasswordListScreen()
-                            )
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
+                                builder: (context) => PasswordListScreen()));
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(0)),
-                          backgroundColor: Colors.red,
-                        ),
-                        child: Text('SUPPRIMER', style: TextStyle(color: Colors.white)),
+                        backgroundColor: Colors.red,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          // Assuming you have a function to update Firestore
-                          updateFirestoreAccount(
-                            _loginController.text,
-                            _passwordController.text,
-                            _serviceNameController.text,
-                            _noteController.text,
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
+                      child: Text('SUPPRIMER',
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Assuming you have a function to update Firestore
+                        updateFirestoreAccount(
+                          _loginController.text,
+                          _passwordController.text,
+                          _serviceNameController.text,
+                          _noteController.text,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(0)),
-                          backgroundColor: Colors.blue,
-                        ),
-                        child: Text('EDITER', style: TextStyle(color: Colors.white)),
+                        backgroundColor: Colors.blue,
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                      child:
+                          Text('EDITER', style: TextStyle(color: Colors.white)),
+                    ),
+                  ],
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -169,7 +171,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
     });
   }
 
-  void deleteFirestoreAccount(){
+  void deleteFirestoreAccount() {
     DocumentReference accountRef = FirebaseFirestore.instance
         .collection('users')
         .doc(userID)

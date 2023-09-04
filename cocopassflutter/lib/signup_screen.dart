@@ -21,6 +21,21 @@ class SignupScreenState extends State<SignupScreen> {
   final bool _isLogin = false;
   bool _loading = false;
   final _formKey = GlobalKey<FormState>();
+  String _message = '';
+  Color _messageColor = Colors.red;
+
+  void _showMessage(String message, bool isSuccess) {
+    setState(() {
+      _message = message;
+      _messageColor = isSuccess ? Colors.green : Colors.red;
+    });
+  }
+
+  void _clearMessage() {
+    setState(() {
+      _message = '';
+    });
+  }
 
   // Fonction de validation du formulaire
   handleSubmit() async {
@@ -40,7 +55,26 @@ class SignupScreenState extends State<SignupScreen> {
           backgroundColor: Colors.red,
         ),
       );
-      return;
+
+      try {
+        await Auth().signInWithEmailAndPassword(email, password);
+        _showMessage('Connexion réussie', true);
+
+        // Vérifiez si le contexte est toujours valide (c'est-à-dire que le widget est toujours dans l'arbre)
+        if (mounted) {
+          // Redirigez vers la page CreateAccountScreen après une connexion réussie
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        }
+      } catch (e) {
+        _showMessage('Erreur lors de la connexion : $e', false);
+      } finally {
+        if (mounted) {
+          setState(() => _loading = false);
+        }
+      }
     }
 
     setState(() => _loading = true);
@@ -50,7 +84,8 @@ class SignupScreenState extends State<SignupScreen> {
         await Auth().signInWithEmailAndPassword(email, password);
         // Rediriger vers un écran spécifique après la connexion réussie
       } else {
-        await Auth().registerWithEmailAndPassword(email, password, firstName, lastName);
+        await Auth()
+            .registerWithEmailAndPassword(email, password, firstName, lastName);
 
         // Vérifier que le widget est toujours dans l'arbre des widgets
         if (mounted) {
@@ -68,7 +103,6 @@ class SignupScreenState extends State<SignupScreen> {
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {

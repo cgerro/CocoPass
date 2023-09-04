@@ -32,16 +32,16 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Détails du compte'),
-      ),
+          title: Text('Détails du compte'),
+          titleTextStyle:
+              const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => EditAccountPage(account: widget.account)
-              )
-          );
+                  builder: (context) =>
+                      EditAccountPage(account: widget.account)));
         },
         child: Icon(Icons.edit),
       ),
@@ -55,12 +55,14 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                 children: [
                   CircleAvatar(
                     radius: 42,
-                    child: Text(widget.account["serviceName"][0],
+                    child: Text(
+                      widget.account["serviceName"][0],
                       style: TextStyle(fontSize: 30),
                     ), // First letter of the service name
                   ),
                   SizedBox(width: 16),
-                  Text(widget.account["serviceName"],
+                  Text(
+                    widget.account["serviceName"],
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                   ),
                 ],
@@ -76,7 +78,8 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Nom d\'utilisateur',
+                      Text(
+                        'Nom d\'utilisateur',
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 16),
                       ),
@@ -87,35 +90,32 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
               ),
             ),
             _detailBox(
-              Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                Icon(Icons.lock),
+                SizedBox(width: 16),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(Icons.lock),
-                    SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Mot de passe',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 16),
-                        ),
-                        Text(obscureText ? '•' *
-                            widget.account["password"].length : widget
-                            .account["password"]),
-                      ],
+                    Text(
+                      'Mot de passe',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                     ),
-                    Spacer(),
-                    IconButton(
-                        icon: Icon(obscureText ? Icons.visibility : Icons
-                            .visibility_off),
-                        onPressed: () {
-                          setState(() {
-                            obscureText = !obscureText;
-                          });
-                        }
-                    ),
-                  ]
-              ),
+                    Text(obscureText
+                        ? '•' * widget.account["password"].length
+                        : widget.account["password"]),
+                  ],
+                ),
+                Spacer(),
+                IconButton(
+                    icon: Icon(
+                        obscureText ? Icons.visibility : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        obscureText = !obscureText;
+                      });
+                    }),
+              ]),
             ),
             if (widget.account["note"] !=
                 null) // Show this only if the note field is specified
@@ -130,8 +130,7 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                       children: [
                         Text('Note',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16)
-                        ),
+                                fontWeight: FontWeight.bold, fontSize: 16)),
                         Text(widget.account["note"]),
                       ],
                     ),
