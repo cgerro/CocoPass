@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'bottom_navigation_bar.dart';
+import 'list_password.dart';
+import 'settings_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -64,21 +66,17 @@ class HomeScreen extends StatelessWidget {
 
           currentIndex: 0,
           onTap: (index) {
-            /*
-                if (index == 1) {
-                  // Naviguer vers l'écran 'Liste des mots de passe'
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => MotsDePasseScreen()));
-                } else if (index == 2) {
-                  // Naviguer vers l'écran 'Paramètres'
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ParametreScreen()));
-                }
-                */
+            if (index == 1) {
+              // Naviguer vers l'écran 'Liste des mots de passe'
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => PasswordListScreen()));
+            } else if (index == 2) {
+              // Naviguer vers l'écran 'Paramètres'
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => SettingScreen()));
+            }
           }),
     );
   }

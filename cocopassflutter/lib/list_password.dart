@@ -11,12 +11,15 @@ class PasswordListScreen extends StatefulWidget {
 }
 
 class _PasswordListScreenState extends State<PasswordListScreen> {
-  static const String utilisateur = "gens1"; // TODO récupérer id de la personne connectée
+  static const String utilisateur =
+      "gens1"; // TODO récupérer id de la personne connectée
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance.collection('users/$utilisateur/comptes').snapshots(),
+      stream: FirebaseFirestore.instance
+          .collection('users/$utilisateur/comptes')
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data!.docs);
@@ -25,7 +28,6 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
   }
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshots) {
-
     var accounts = [];
     for (var e in snapshots) {
       var data = e.data() as Map<String, dynamic>;
@@ -57,24 +59,26 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
               itemCount: accounts.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  leading: CircleAvatar(
-                    child: Text(accounts[index]["serviceName"].substring(0, 1)),
-                  ),
-                  title: Text(accounts[index]["serviceName"]),
-                  subtitle: Text(accounts[index]["login"]),
-                  trailing: IconButton(
-                    icon: Icon(Icons.copy),
-                    onPressed: () {
-                      _copyToClipboard(accounts[index]["password"]);
-                    },
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AccountDetailPage(account: accounts[index])),
-                    );
-                  }
-                );
+                    leading: CircleAvatar(
+                      child:
+                          Text(accounts[index]["serviceName"].substring(0, 1)),
+                    ),
+                    title: Text(accounts[index]["serviceName"]),
+                    subtitle: Text(accounts[index]["login"]),
+                    trailing: IconButton(
+                      icon: Icon(Icons.copy),
+                      onPressed: () {
+                        _copyToClipboard(accounts[index]["password"]);
+                      },
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                AccountDetailPage(account: accounts[index])),
+                      );
+                    });
               },
             ),
           ),
