@@ -1,3 +1,4 @@
+import 'package:cocopass/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'master_password_edit_screen.dart';
 import 'profil_edit_screen.dart';
@@ -5,6 +6,7 @@ import 'bottom_navigation_bar.dart';
 import 'clipboard_clear_screen.dart';
 import 'home_screen.dart';
 import 'list_password.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SettingScreen extends StatelessWidget {
   const SettingScreen({Key? key}) : super(key: key);
@@ -93,8 +95,12 @@ class SettingScreen extends StatelessWidget {
             ),
             const SizedBox(height: 100.0),
             ElevatedButton(
-              onPressed: () {
-                // Logique pour se déconnecter
+              onPressed: () async {
+                final currentContext = context;
+                await FirebaseAuth.instance.signOut();
+                Navigator.of(currentContext).pushReplacement(
+                  MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                );
               },
               style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
