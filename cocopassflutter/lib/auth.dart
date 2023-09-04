@@ -10,6 +10,9 @@ class Auth {
       email: email,
       password: password,
     );
+
+    //TODO dérivation de clé
+
     final user = userCredential.user;
     if (user != null) {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({

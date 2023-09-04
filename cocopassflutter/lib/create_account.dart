@@ -1,4 +1,4 @@
-import 'passwordConfig.dart';
+import 'password_config.dart';
 import 'list_password.dart';
 
 import 'dart:math';

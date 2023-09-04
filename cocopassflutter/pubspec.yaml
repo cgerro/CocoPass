@@ -28,6 +28,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  cryptography: ^2.6.0
+  cryptography_flutter: ^2.3.1
   flutter:
     sdk: flutter
   firebase_core: ^2.15.1  # add dependency for Firebase Core
@@ -39,6 +41,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   random_name_generator: ^1.2.0
   firebase_auth: ^4.8.0
+  zxcvbn: ^1.0.0
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
   flutter_test:
