@@ -119,21 +119,29 @@ class _EditAccountPageState extends State<EditAccountPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        // Assuming you have a function to update Firestore
+                        // Mettre à jour le compte dans Firestore
                         updateFirestoreAccount(
                           _loginController.text,
                           _passwordController.text,
                           _serviceNameController.text,
                           _noteController.text,
-                        );
+                        ).then((_) {
+                          // Si la mise à jour est réussie, revenir à PasswordListScreen
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PasswordListScreen()));
+                        }).catchError((error) {
+                          print("Failed to update account: $error");
+                          // Optionnel : Afficher un message d'erreur à l'utilisateur
+                        });
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(0)),
                         backgroundColor: Colors.blue,
                       ),
-                      child:
-                          Text('EDITER', style: TextStyle(color: Colors.white)),
+                      child: Text('EDITER', style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -145,10 +153,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
     );
   }
 
-  void updateFirestoreAccount(login, password, serviceName, note) {
-    // Ici, je suppose que vous avez une manière d'identifier de manière unique chaque compte dans Firestore.
-    // Cela pourrait être un ID généré par Firestore, ou quelque chose que vous définissez.
-    // Remplacez 'accountID' par la manière dont vous identifiez le compte à mettre à jour.
+  Future<void> updateFirestoreAccount(login, password, serviceName, note) async {
 
     // Obtenez la référence au document que vous souhaitez mettre à jour
     DocumentReference accountRef = FirebaseFirestore.instance
@@ -157,17 +162,11 @@ class _EditAccountPageState extends State<EditAccountPage> {
         .collection('comptes')
         .doc(widget.account["accountID"]);
 
-    // Mettez à jour le document avec les nouvelles valeurs
-    accountRef.update({
+    return await accountRef.update({
       'login': login,
       'password': password,
       'serviceName': serviceName,
       'note': note,
-    }).then((_) {
-      print("Document successfully updated!");
-      // Vous pouvez également naviguer vers une autre page ici, si vous le souhaitez
-    }).catchError((error) {
-      print("Failed to update document: $error");
     });
   }
 

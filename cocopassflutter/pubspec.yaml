@@ -39,6 +39,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   random_name_generator: ^1.2.0
   firebase_auth: ^4.8.0
+  zxcvbn: ^1.0.0
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
   flutter_test:

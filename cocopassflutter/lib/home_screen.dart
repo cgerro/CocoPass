@@ -48,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 5),
                   const Text(
-                    'Protégez maintenant votre vie privée en ajoutant en ajoutant un nouveau mot de passe',
+                    'Protégez maintenant votre vie privée en ajoutant un nouveau mot de passe',
                     style: TextStyle(fontSize: 15),
                   ),
                   const SizedBox(height: 10),
