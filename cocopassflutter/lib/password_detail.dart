@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'change_password_detail.dart';
+
 class AccountDetailPage extends StatefulWidget {
   final Map<String, dynamic> account;
 
@@ -11,6 +13,7 @@ class AccountDetailPage extends StatefulWidget {
 
 class _AccountDetailPageState extends State<AccountDetailPage> {
   var obscureText = true;
+
   _AccountDetailPageState();
 
   Widget _detailBox(Widget child) {
@@ -31,6 +34,17 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
       appBar: AppBar(
         title: Text('Détails du compte'),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => EditAccountPage(account: widget.account)
+              )
+          );
+        },
+        child: Icon(Icons.edit),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -42,12 +56,12 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                   CircleAvatar(
                     radius: 42,
                     child: Text(widget.account["serviceName"][0],
-                      style: TextStyle(fontSize: 30),  // Rendre le texte en gras et augmenter la taille de la police
-                  ), // First letter of the service name
+                      style: TextStyle(fontSize: 30),
+                    ), // First letter of the service name
                   ),
                   SizedBox(width: 16),
                   Text(widget.account["serviceName"],
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),  // Rendre le texte en gras et augmenter la taille de la police
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
                   ),
                 ],
               ),
@@ -63,7 +77,8 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text('Nom d\'utilisateur',
-                        style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),  // Rendre le texte en gras et augmenter la taille de la police
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 16),
                       ),
                       Text(widget.account["login"]),
                     ],
@@ -81,14 +96,18 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Mot de passe',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),  // Rendre le texte en gras et augmenter la taille de la police
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 16),
                         ),
-                        Text(obscureText ? '•' * widget.account["password"].length : widget.account["password"]),
+                        Text(obscureText ? '•' *
+                            widget.account["password"].length : widget
+                            .account["password"]),
                       ],
                     ),
                     Spacer(),
                     IconButton(
-                        icon: Icon(obscureText ? Icons.visibility : Icons.visibility_off),
+                        icon: Icon(obscureText ? Icons.visibility : Icons
+                            .visibility_off),
                         onPressed: () {
                           setState(() {
                             obscureText = !obscureText;
@@ -98,7 +117,8 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                   ]
               ),
             ),
-            if (widget.account["note"] != null) // Show this only if the note field is specified
+            if (widget.account["note"] !=
+                null) // Show this only if the note field is specified
               _detailBox(
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -109,7 +129,8 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Note',
-                          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 16)
                         ),
                         Text(widget.account["note"]),
                       ],

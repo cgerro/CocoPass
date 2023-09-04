@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'auth.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -9,59 +11,114 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _loading = false;
+  String _message = '';
+  Color _messageColor = Colors.red;
+
+  void _showMessage(String message, bool isSuccess) {
+    setState(() {
+      _message = message;
+      _messageColor = isSuccess ? Colors.green : Colors.red;
+    });
+  }
+
+  void _clearMessage() {
+    setState(() {
+      _message = '';
+    });
+  }
+
+  handleSubmit() async {
+    if (!_loading) {
+      setState(() => _loading = true);
+      _clearMessage();
+
+      final email = _emailController.text;
+      final password = _passwordController.text;
+
+      try {
+        await Auth().signInWithEmailAndPassword(email, password);
+        _showMessage('Connexion réussie', true);
+
+        // Vérifiez si le contexte est toujours valide (c'est-à-dire que le widget est toujours dans l'arbre)
+        if (mounted) {
+          // Redirigez vers la page CreateAccountScreen après une connexion réussie
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        }
+
+      } catch (e) {
+        _showMessage('Erreur lors de la connexion : $e', false);
+      } finally {
+        if (mounted) {
+          setState(() => _loading = false);
+        }
+      }
+    }
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Se connecter à CocoPass'),
-          titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        title: Text('Se connecter à CocoPass'),
+        titleTextStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
       body: Padding(
         padding: EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(height: 20),
-            TextField(
+            const SizedBox(height: 20),
+            TextFormField(
               controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Adresse e-mail',
               ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Veuillez entrer votre adresse e-mail';
+                }
+                return null;
+              },
             ),
-            SizedBox(height: 10),
-            TextField(
+            const SizedBox(height: 10),
+            TextFormField(
               controller: _passwordController,
               obscureText: true,
               decoration: InputDecoration(labelText: 'Mot de passe'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // String email = _emailController.text;
-                // String password = _passwordController.text;
-                // Vous pouvez appeler une fonction de validation/auth
-
-                /*
-                if (ValidationUtils.isValidEmail(email)) {
-                  // Logique de validation ici
-                } else {
-                  // Gérer le cas où l'email n'est pas valide
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Veuillez entrer votre mot de passe';
                 }
-
-                if (ValidationUtils.isValidPassword(password)) {
-                  // Logique de validation ici
-                } else {
-                  // Gérer le cas où le mot de passe n'est pas valide
-                }
-                */
+                return null;
               },
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: handleSubmit,
               style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0)),
-                  backgroundColor: Colors.deepPurple),
-              child:
-                  Text('SE CONNECTER', style: TextStyle(color: Colors.white)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+                backgroundColor: Colors.deepPurple,
+              ),
+              child: _loading
+                  ? CircularProgressIndicator(
+                      color: Colors.white,
+                      strokeWidth: 2,
+                    )
+                  : Text('SE CONNECTER', style: TextStyle(color: Colors.white)),
+            ),
+            const SizedBox(height: 10),
+            Text(
+              _message,
+              style: TextStyle(color: _messageColor),
             ),
           ],
         ),

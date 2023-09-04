@@ -2,6 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cocopass/password_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'bottom_navigation_bar.dart';
+import 'create_account.dart';
+import 'home_screen.dart';
 
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
@@ -11,15 +15,23 @@ class PasswordListScreen extends StatefulWidget {
 }
 
 class _PasswordListScreenState extends State<PasswordListScreen> {
-  static const String utilisateur =
-      "gens1"; // TODO récupérer id de la personne connectée
+  User? currentUser;
+  String? userID;  // initialisez userID comme une chaîne nullable
+
+  @override
+  void initState() {
+    super.initState();
+    currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null) {
+      userID = currentUser!.uid;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('users/$utilisateur/comptes')
-          .snapshots(),
+    return StreamBuilder<QuerySnapshot> (
+      stream: FirebaseFirestore.instance.collection('users').doc(userID).collection('comptes').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data!.docs);
@@ -31,6 +43,7 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
     var accounts = [];
     for (var e in snapshots) {
       var data = e.data() as Map<String, dynamic>;
+      data["accountID"] = e.id;
       if (data["serviceName"] != null &&
           data["login"] != null &&
           data["password"] != null) accounts.add(data);
@@ -38,6 +51,7 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: Text('Mots de passe'),
       ),
       body: Column(
@@ -88,11 +102,28 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            // TODO mettre écran création de mot de passe
-            MaterialPageRoute(builder: (context) => PasswordListScreen()),
+            MaterialPageRoute(builder: (context) => CreateAccountScreen()),
           );
         },
         child: Icon(Icons.add),
+      ),
+      bottomNavigationBar: MyBottomNavigationBar(
+        currentIndex: 1,
+        onTap: (index) {
+          if (index == 0) {
+            // Navigate to the HomeScreen
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          }/* else if (index == 2) {
+            // Navigate to the 'SettingsScreen'
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => ParametreScreen()),
+            );
+          }*/
+        },
       ),
     );
   }
