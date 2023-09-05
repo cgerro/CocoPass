@@ -11,7 +11,7 @@ class EditAccountPage extends StatefulWidget {
   const EditAccountPage({Key? key, required this.account}) : super(key: key);
 
   @override
-  _EditAccountPageState createState() => _EditAccountPageState();
+  State<EditAccountPage> createState() => _EditAccountPageState();
 }
 
 class _EditAccountPageState extends State<EditAccountPage> {
