@@ -28,13 +28,11 @@ class SignupScreenState extends State<SignupScreen> {
   Color _messageColor = Colors.red;
   bool isPasswordStrong = false;
 
-
   // Variable pour vérifier si le compte existe déjà
   bool _accountExists = false;
 
   // Fonction de validation du formulaire
   handleSubmit() async {
-
     if (!_formKey.currentState!.validate() || !isPasswordStrong) {
       // Affichez un message d'erreur si le mot de passe n'est pas assez fort
       if (!isPasswordStrong) {
@@ -42,7 +40,6 @@ class SignupScreenState extends State<SignupScreen> {
       }
       return;
     }
-
 
     final email = _emailController.text;
     final password = _masterPasswordController.text;
@@ -192,22 +189,22 @@ class SignupScreenState extends State<SignupScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: isPasswordStrong &&
-                    _firstNameController.text.isNotEmpty &&
-                    _lastNameController.text.isNotEmpty &&
-                    _emailController.text.isNotEmpty &&
-                    _masterPasswordController.text.isNotEmpty &&
-                    _verifyPasswordController.text.isNotEmpty
+                        _firstNameController.text.isNotEmpty &&
+                        _lastNameController.text.isNotEmpty &&
+                        _emailController.text.isNotEmpty &&
+                        _masterPasswordController.text.isNotEmpty &&
+                        _verifyPasswordController.text.isNotEmpty
                     ? () => handleSubmit()
                     : null, // Griser le bouton si isPasswordStrong est false ou si certains champs sont vides
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0),
                   ),
-                  backgroundColor: isPasswordStrong ? Colors.deepPurple : Colors.grey,
+                  backgroundColor:
+                      isPasswordStrong ? Colors.deepPurple : Colors.grey,
                 ),
                 child: _loading
                     ? const SizedBox(
-
                         width: 20,
                         height: 20,
                         child: CircularProgressIndicator(

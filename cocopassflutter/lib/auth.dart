@@ -13,8 +13,8 @@ class Auth {
       password: password,
     );
 
-    globals.secretKey = pbkdf2(password.codeUnits, email.codeUnits, 100, 16).toString();
-
+    globals.secretKey =
+        pbkdf2(password.codeUnits, email.codeUnits, 100, 16).toString();
     final user = userCredential.user;
     if (user != null) {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
@@ -30,7 +30,5 @@ class Auth {
       email: email,
       password: password,
     );
-
-    globals.secretKey = pbkdf2(password.codeUnits, email.codeUnits, 100, 16).toString();
   }
 }
