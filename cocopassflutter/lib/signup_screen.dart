@@ -83,7 +83,6 @@ class SignupScreenState extends State<SignupScreen> {
           backgroundColor: Colors.red,
         ),
       );
-
       // Définissez _accountExists sur true pour afficher le lien de connexion
       setState(() {
         _accountExists = true;
