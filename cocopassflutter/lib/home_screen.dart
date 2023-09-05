@@ -10,81 +10,148 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
   final String username = "Alex";
 
+
   @override
   Widget build(BuildContext context) {
+    // Supposons que vous ayez ces variables disponibles
+    int weakPasswords = 5;  // Remplacez par le nombre réel de mots de passe faibles
+    int mediumPasswords = 3;  // Remplacez par le nombre réel de mots de passe moyens
+    int strongPasswords = 2;  // Remplacez par le nombre réel de mots de passe forts
+
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text('Hello, $username'),
+          title: Text('Bonjour, $username'),
           titleTextStyle:
-              const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const CircleAvatar(
-              radius: 50,
-              backgroundImage: AssetImage('assets/user_icon.png'),
-            ),
-            const SizedBox(height: 10),
-            Text(
-              username,
-              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 40),
-            // Container avec le texte et le bouton
-            Container(
-              constraints: const BoxConstraints(maxWidth: 350),
-              padding: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.grey[850],
-                borderRadius: BorderRadius.circular(8),
+          const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+      body: SingleChildScrollView( // Ajout de SingleChildScrollView ici
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              const SizedBox(height: 100),
+              const CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage('assets/user_icon.png'),
               ),
-              child: Column(
-                children: [
-                  const Text(
-                    'Nouveau mot de passe', // Titre du container
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              const SizedBox(height: 10),
+              Text(
+                username,
+                style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 40),
+              Container(
+                constraints: const BoxConstraints(maxWidth: 350),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.grey[850],
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  children: [
+                    const Text(
+                      'Nouveau mot de passe',
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 5),
+                    const Text(
+                      'Protégez maintenant votre vie privée en ajoutant un nouveau mot de passe',
+                      style: TextStyle(fontSize: 15),
+                    ),
+                    const SizedBox(height: 7),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CreateAccountScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text('Ajouter'),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: Container(
+                  constraints: const BoxConstraints(maxWidth: 350),
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[850],
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  const SizedBox(height: 5),
-                  const Text(
-                    'Protégez maintenant votre vie privée en ajoutant un nouveau mot de passe',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Logique pour créer un nouveau mot de passe
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => CreateAccountScreen(),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Complexité de vos mots de passe',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
                         ),
-                      );
-                    },
-                    child: const Text('Ajouter'),
+                      ),
+                      const SizedBox(height: 5),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _buildCircle('Faible', Colors.red, weakPasswords),
+                          _buildCircle('Moyen', Colors.orange, mediumPasswords),
+                          _buildCircle('Fort', Colors.green, strongPasswords),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: MyBottomNavigationBar(
           currentIndex: 0,
           onTap: (index) {
             if (index == 1) {
-              // Naviguer vers l'écran 'Liste des mots de passe'
-              Navigator.push(
+              Navigator.pushReplacement(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) => PasswordListScreen()));
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        PasswordListScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ));
             } else if (index == 2) {
-              // Naviguer vers l'écran 'Paramètres'
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SettingScreen()));
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => SettingScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ));
             }
           }),
+    );
+  }
+
+  Widget _buildCircle(String label, Color color, int count) {
+    return Column(
+      children: [
+        Container(
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: color,
+          ),
+          child: Center(
+              child: Text('$count', style: TextStyle(
+                  color: Colors.white,
+                fontWeight: FontWeight.bold,
+              )
+              )
+          ),
+        ),
+        SizedBox(height: 6),
+        Text(label),
+      ],
     );
   }
 }

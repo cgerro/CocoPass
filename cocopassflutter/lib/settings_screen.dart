@@ -105,23 +105,26 @@ class SettingScreen extends StatelessWidget {
                       color: Colors.white, fontWeight: FontWeight.bold)),
             ),
           ]),
-      bottomNavigationBar:
-          // color: Colors.grey[850],
-          MyBottomNavigationBar(
-              currentIndex: 2,
-              onTap: (index) {
-                if (index == 0) {
-                  // Naviguer vers l'écran 'Accueil'
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()));
-                } else if (index == 1) {
-                  // Naviguer vers l'écran 'Liste des mots de passe
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PasswordListScreen()));
-                }
-              }),
+      bottomNavigationBar: MyBottomNavigationBar(
+          currentIndex: 2,
+          onTap: (index) {
+            if (index == 0) {
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                    HomeScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ));
+            } else if (index == 1) {
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => PasswordListScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ));
+            }
+          }),
     );
   }
 }
