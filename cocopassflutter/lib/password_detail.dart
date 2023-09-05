@@ -117,8 +117,7 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                     }),
               ]),
             ),
-            if (widget.account["note"] !=
-                null) // Show this only if the note field is specified
+            if (widget.account["note"] != "") // Show this only if the note field is specified
               _detailBox(
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,

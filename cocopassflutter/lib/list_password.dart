@@ -8,6 +8,10 @@ import 'create_account.dart';
 import 'home_screen.dart';
 import 'settings_screen.dart';
 import 'clipboard.dart';
+import 'package:zxcvbn/zxcvbn.dart';
+import 'package:steel_crypt/steel_crypt.dart';
+import 'globals.dart' as globals;
+
 
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
@@ -18,7 +22,9 @@ class PasswordListScreen extends StatefulWidget {
 
 class _PasswordListScreenState extends State<PasswordListScreen> {
   User? currentUser;
-  String? userID; // initialisez userID comme une chaîne nullable
+  late String userID; // initialisez userID comme une chaîne nullable
+
+  final Zxcvbn zxcvbn = Zxcvbn();
 
   @override
   void initState() {
@@ -27,6 +33,22 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
 
     if (currentUser != null) {
       userID = currentUser!.uid;
+    }
+  }
+
+  Color getPasswordStrengthColor(String password) {
+    final result = zxcvbn.evaluate(password);
+    switch (result.score) {
+      case 0:
+      case 1:
+        return Colors.red;
+      case 2:
+      case 3:
+        return Colors.orange;
+      case 4:
+        return Colors.green;
+      default:
+        return Colors.red;
     }
   }
 
@@ -39,20 +61,52 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
           .collection('comptes')
           .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return LinearProgressIndicator();
-        return _buildList(context, snapshot.data!.docs);
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(
+              color: Colors.transparent,
+            ),
+          );
+        }
+        return FutureBuilder<Widget>(
+        future: _buildList(context, snapshot.data!.docs),
+        builder: (context, AsyncSnapshot<Widget> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
+          return snapshot.data!;
+        },
+        );
       },
     );
   }
 
-  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshots) {
+  Future<Widget> _buildList(BuildContext context, List<DocumentSnapshot> snapshots) async {
+
+    final secretKey = globals.secretKey;
+    var aes = AesCrypt(key: secretKey, padding: PaddingAES.pkcs7);
+
     var accounts = [];
     for (var e in snapshots) {
       var data = e.data() as Map<String, dynamic>;
       data["accountID"] = e.id;
       if (data["serviceName"] != null &&
-          data["login"] != null &&
-          data["password"] != null) accounts.add(data);
+        data["login"] != null &&
+        data["password"] != null) {
+
+        data["login"] = aes.gcm.decrypt(enc: data["login"], iv: userID);
+        data["serviceName"] = aes.gcm.decrypt(enc: data["serviceName"], iv: userID);
+        data["password"] = aes.gcm.decrypt(enc: data["password"], iv: userID);
+
+        if (data["note"] != "") {
+          data["note"] = aes.gcm.decrypt(enc: data["note"], iv: userID);
+        }
+
+        accounts.add(data);
+      }
     }
 
     return Scaffold(
@@ -60,7 +114,7 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
           automaticallyImplyLeading: false,
           title: Text('Mots de passe'),
           titleTextStyle:
-              const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       body: Column(
         children: [
           // Barre de recherche
@@ -81,8 +135,7 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
               itemBuilder: (context, index) {
                 return ListTile(
                     leading: CircleAvatar(
-                      child:
-                          Text(accounts[index]["serviceName"].substring(0, 1)),
+                      child: Text(accounts[index]["serviceName"].substring(0, 1).toUpperCase()),
                     ),
                     title: Text(accounts[index]["serviceName"]),
                     subtitle: Text(accounts[index]["login"]),
@@ -93,6 +146,25 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
                             accounts[index]["password"]);
                         //_copyToClipboard(accounts[index]["password"]);
                       },
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            color: getPasswordStrengthColor(accounts[index]["password"]),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        SizedBox(width: 8), // Espacement entre le cercle et l'icône
+                        IconButton(
+                          icon: Icon(Icons.copy),
+                          onPressed: () {
+                            _copyToClipboard(accounts[index]["password"]);
+                          },
+                        ),
+                      ],
                     ),
                     onTap: () {
                       Navigator.push(
@@ -117,23 +189,25 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
         child: Icon(Icons.add),
       ),
       bottomNavigationBar: MyBottomNavigationBar(
-        currentIndex: 1,
-        onTap: (index) {
-          if (index == 0) {
-            // Navigate to the HomeScreen
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-            );
-          } else if (index == 2) {
-            // Navigate to the 'SettingsScreen'
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => SettingScreen()),
-            );
-          }
-        },
-      ),
+          currentIndex: 1,
+          onTap: (index) {
+            if (index == 0) {
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        HomeScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ));
+            } else if (index == 2) {
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => SettingScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ));
+            }
+          }),
     );
   }
 }

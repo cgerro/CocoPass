@@ -1,5 +1,7 @@
+import 'package:hashlib/hashlib.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'globals.dart' as globals;
 
 class Auth {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -10,6 +12,9 @@ class Auth {
       email: email,
       password: password,
     );
+
+    globals.secretKey = pbkdf2(password.codeUnits, email.codeUnits, 100, 16).toString();
+
     final user = userCredential.user;
     if (user != null) {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
@@ -25,5 +30,7 @@ class Auth {
       email: email,
       password: password,
     );
+
+    globals.secretKey = pbkdf2(password.codeUnits, email.codeUnits, 100, 16).toString();
   }
 }
