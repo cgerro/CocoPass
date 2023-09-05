@@ -20,6 +20,8 @@ class SettingScreen extends StatelessWidget {
               const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+
           // padding: const EdgeInsets.all(16.0),
           children: [
             Container(
@@ -119,14 +121,15 @@ class SettingScreen extends StatelessWidget {
                   context,
                   PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
-                    HomeScreen(),
+                        HomeScreen(),
                     transitionDuration: Duration(seconds: 0),
                   ));
             } else if (index == 1) {
               Navigator.pushReplacement(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) => PasswordListScreen(),
+                    pageBuilder: (context, animation1, animation2) =>
+                        PasswordListScreen(),
                     transitionDuration: Duration(seconds: 0),
                   ));
             }
