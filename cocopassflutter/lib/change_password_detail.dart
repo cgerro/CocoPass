@@ -58,9 +58,16 @@ class _EditAccountPageState extends State<EditAccountPage> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
                 TextField(
+                  controller: _serviceNameController,
+                  decoration: InputDecoration(
+                    labelText: 'Nom du service',
+                  ),
+                  maxLength: 16,
+                ),
+                TextField(
                   controller: _loginController,
                   decoration: InputDecoration(
-                    labelText: "Login",
+                    labelText: "Identifiant",
                   ),
                 ),
                 Row(
@@ -85,12 +92,6 @@ class _EditAccountPageState extends State<EditAccountPage> {
                       },
                     ),
                   ],
-                ),
-                TextField(
-                  controller: _serviceNameController,
-                  decoration: InputDecoration(
-                    labelText: 'Nom du service',
-                  ),
                 ),
                 TextField(
                   controller: _noteController,
@@ -141,7 +142,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(0)),
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.deepPurple,
                       ),
                       child: Text('EDITER', style: TextStyle(color: Colors.white)),
                     ),

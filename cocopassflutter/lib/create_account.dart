@@ -102,9 +102,6 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
           MaterialPageRoute(builder: (context) => PasswordListScreen()),
         );
       }
-    } else {
-      // Handle the error - no user logged in
-      print("No user logged in");
     }
   }
 
@@ -117,83 +114,86 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
       ),
       body: Stack(
         children: [
-          Padding(
+          SingleChildScrollView(
             padding: EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: <Widget>[
-                TextField(
-                  controller: _loginController,
-                  decoration: InputDecoration(
-                    labelText: 'Login',
-                  ),
+            child: Center(
+              child: ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: MediaQuery.of(context).size.height - AppBar().preferredSize.height,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller: _passwordController,
-                        obscureText: _obscureText,
-                        decoration: InputDecoration(
-                          labelText: 'Mot de passe',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    TextField(
+                      controller: _serviceNameController,
+                      decoration: InputDecoration(
+                        labelText: 'Nom du service',
+                      ),
+                      maxLength: 16,
+                    ),
+                    TextField(
+                      controller: _loginController,
+                      decoration: InputDecoration(
+                        labelText: 'Identifiant',
+                      ),
+                    ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _passwordController,
+                            obscureText: _obscureText,
+                            decoration: InputDecoration(
+                              labelText: 'Mot de passe',
+                            ),
+                          ),
                         ),
+                        IconButton(
+                          icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                          onPressed: () {
+                            setState(() {
+                              _obscureText = !_obscureText;
+                            });
+                          },
+                        ),
+                        IconButton(
+                          icon: Icon(Icons.refresh),
+                          onPressed: () {
+                            setState(() {
+                              _passwordController.text = generatePassword();
+                            });
+                          },
+                        )
+                      ],
+                    ),
+                    TextField(
+                      controller: _noteController,
+                      decoration: InputDecoration(
+                        labelText: 'Note',
                       ),
                     ),
-                    IconButton(
-                      icon: Icon(_obscureText
-                          ? Icons.visibility
-                          : Icons.visibility_off),
-                      onPressed: () {
-                        setState(() {
-                          _obscureText = !_obscureText;
-                        });
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.refresh),
-                      onPressed: () {
-                        setState(() {
-                          // Génère un nouveau mot de passe et le met dans le champ de texte
-                          _passwordController.text = generatePassword();
-                        });
-                      },
-                    )
-                  ],
-                ),
-                TextField(
-                  controller: _serviceNameController,
-                  decoration: InputDecoration(
-                    labelText: 'Nom du service',
-                  ),
-                  maxLength: 16,
-                ),
-                TextField(
-                  controller: _noteController,
-                  decoration: InputDecoration(
-                    labelText: 'Note',
-                  ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        _addAccountToFirestore();
-                        // Logique pour ajouter le compte
-                        // Vous pouvez insérer la logique de validation et d'ajout de compte ici
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0)),
-                        backgroundColor: Colors.deepPurple,
-                      ),
-                      child: Text('AJOUTER',
-                          style: TextStyle(color: Colors.white)),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () => _addAccountToFirestore(),
+                          style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(0),
+                            ),
+                            backgroundColor: Colors.deepPurple,
+                          ),
+                          child: Text(
+                            'AJOUTER',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
+              ),
             ),
           ),
           Positioned(
@@ -201,13 +201,12 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
             bottom: 10,
             child: GestureDetector(
               onTap: () {
-                // Naviguer vers l'écran PasswordGenerateScreen
-                // Assurez-vous que cette classe est importée ou définie
                 Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => PasswordConfigScreen(
-                        updatePasswordConfig: updatePasswordConfig),
+                      updatePasswordConfig: updatePasswordConfig,
+                    ),
                   ),
                 );
               },
