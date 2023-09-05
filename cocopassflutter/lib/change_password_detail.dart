@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:steel_crypt/steel_crypt.dart';
 import 'list_password.dart';
+import 'globals.dart' as globals;
 
 class EditAccountPage extends StatefulWidget {
   final Map<String, dynamic> account;
@@ -21,7 +23,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
   var _obscureText = true;
 
   User? currentUser;
-  String? userID; // initialisez userID comme une chaîne nullable
+  late String userID;
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
@@ -162,11 +164,20 @@ class _EditAccountPageState extends State<EditAccountPage> {
         .collection('comptes')
         .doc(widget.account["accountID"]);
 
+    var secretKey = globals.secretKey;
+    var aes = AesCrypt(key: secretKey, padding: PaddingAES.pkcs7);
+
+    var cipherLogin = aes.gcm.encrypt(inp: _loginController.text, iv: userID);
+    var cipherPassword = aes.gcm.encrypt(inp: _passwordController.text, iv: userID);
+    var cipherServiceName = aes.gcm.encrypt(inp: _serviceNameController.text, iv: userID);
+    var cipherNote = _noteController.text.isNotEmpty ? aes.gcm.encrypt(inp: _noteController.text, iv: userID) : "";
+
+
     return await accountRef.update({
-      'login': login,
-      'password': password,
-      'serviceName': serviceName,
-      'note': note,
+      'login': cipherLogin,
+      'password': cipherPassword,
+      'serviceName': cipherServiceName,
+      'note': cipherNote,
     });
   }
 
