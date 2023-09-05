@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cocopass/password_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'bottom_navigation_bar.dart';
 import 'create_account.dart';
@@ -161,7 +160,7 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
                         IconButton(
                           icon: Icon(Icons.copy),
                           onPressed: () {
-                            _copyToClipboard(accounts[index]["password"]);
+                            ClipboardManager.copyToClipboard(accounts[index]["password"]);
                           },
                         ),
                       ],
