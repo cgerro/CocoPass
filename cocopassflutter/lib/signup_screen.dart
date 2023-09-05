@@ -21,11 +21,9 @@ class SignupScreenState extends State<SignupScreen> {
   final TextEditingController _verifyPasswordController =
       TextEditingController();
 
-  final bool _isLogin = false;
   bool _loading = false;
   final _formKey = GlobalKey<FormState>();
-  String _message = '';
-  Color _messageColor = Colors.red;
+
   bool isPasswordStrong = false;
 
   // Variable pour vérifier si le compte existe déjà
@@ -94,6 +92,31 @@ class SignupScreenState extends State<SignupScreen> {
       setState(() => _loading = false);
     }
   }
+
+  @override
+  void initState() {
+    super.initState();
+    _firstNameController.addListener(_updateState);
+    _lastNameController.addListener(_updateState);
+    _emailController.addListener(_updateState);
+    _masterPasswordController.addListener(_updateState);
+    _verifyPasswordController.addListener(_updateState);
+  }
+
+  void _updateState() {
+    setState(() {}); // Force le re-build du widget
+  }
+
+  @override
+  void dispose() {
+    _firstNameController.removeListener(_updateState);
+    _lastNameController.removeListener(_updateState);
+    _emailController.removeListener(_updateState);
+    _masterPasswordController.removeListener(_updateState);
+    _verifyPasswordController.removeListener(_updateState);
+    super.dispose();
+  }
+
 
   @override
   Widget build(BuildContext context) {
