@@ -40,12 +40,12 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
     switch (result.score) {
       case 0:
       case 1:
-        return Colors.red;
+        return Colors.red[400]!;
       case 2:
       case 3:
-        return Colors.orange;
+        return Colors.orange[400]!;
       case 4:
-        return Colors.green;
+        return Colors.green[400]!;
       default:
         return Colors.red;
     }

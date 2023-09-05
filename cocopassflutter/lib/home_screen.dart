@@ -32,7 +32,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: 100),
               const CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('assets/user_icon.png'),
+                backgroundImage: AssetImage('assets/user_icons/user_icon15.png'),
               ),
               const SizedBox(height: 10),
               Text(
@@ -95,9 +95,9 @@ class HomeScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          _buildCircle('Faible', Colors.red, weakPasswords),
-                          _buildCircle('Moyen', Colors.orange, mediumPasswords),
-                          _buildCircle('Fort', Colors.green, strongPasswords),
+                          _buildCircle('Faible', Colors.red[400]!, weakPasswords),
+                          _buildCircle('Moyen', Colors.orange[400]!, mediumPasswords),
+                          _buildCircle('Fort', Colors.green[400]!, strongPasswords),
                         ],
                       ),
                     ],
