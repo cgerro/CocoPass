@@ -1,13 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cocopass/password_detail.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'bottom_navigation_bar.dart';
 import 'create_account.dart';
 import 'home_screen.dart';
 import 'settings_screen.dart';
+import 'clipboard.dart';
 import 'package:zxcvbn/zxcvbn.dart';
+import 'package:steel_crypt/steel_crypt.dart';
+import 'globals.dart' as globals;
 
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
@@ -18,7 +20,8 @@ class PasswordListScreen extends StatefulWidget {
 
 class _PasswordListScreenState extends State<PasswordListScreen> {
   User? currentUser;
-  String? userID; // initialisez userID comme une chaîne nullable
+  String searchString = "";
+  late String userID; // initialisez userID comme une chaîne nullable
 
   final Zxcvbn zxcvbn = Zxcvbn();
 
@@ -59,10 +62,10 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
-          child: CircularProgressIndicator(
-            color: Colors.transparent,
-          ),
-        );
+            child: CircularProgressIndicator(
+              color: Colors.transparent,
+            ),
+          );
         }
         return _buildList(context, snapshot.data!.docs);
       },
@@ -70,13 +73,28 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
   }
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshots) {
+
+    final secretKey = globals.secretKey;
+    var aes = AesCrypt(key: secretKey, padding: PaddingAES.pkcs7);
+
     var accounts = [];
     for (var e in snapshots) {
       var data = e.data() as Map<String, dynamic>;
       data["accountID"] = e.id;
       if (data["serviceName"] != null &&
-          data["login"] != null &&
-          data["password"] != null) accounts.add(data);
+        data["login"] != null &&
+        data["password"] != null) {
+
+        data["login"] = aes.gcm.decrypt(enc: data["login"], iv: userID);
+        data["serviceName"] = aes.gcm.decrypt(enc: data["serviceName"], iv: userID);
+        data["password"] = aes.gcm.decrypt(enc: data["password"], iv: userID);
+
+        if (data["note"] != "") {
+          data["note"] = aes.gcm.decrypt(enc: data["note"], iv: userID);
+        }
+
+        accounts.add(data);
+      }
     }
 
     return Scaffold(
@@ -91,6 +109,11 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  searchString = value.toLowerCase();
+                });
+              },
               decoration: InputDecoration(
                   labelText: 'Recherche',
                   prefixIcon: Icon(Icons.search),
@@ -103,40 +126,44 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
             child: ListView.builder(
               itemCount: accounts.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                    leading: CircleAvatar(
-                      child: Text(accounts[index]["serviceName"].substring(0, 1).toUpperCase()),
-                    ),
-                    title: Text(accounts[index]["serviceName"]),
-                    subtitle: Text(accounts[index]["login"]),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color: getPasswordStrengthColor(accounts[index]["password"]),
-                            shape: BoxShape.circle,
+                if (accounts[index]["serviceName"].toLowerCase().contains(searchString)) {
+                  return ListTile(
+                      leading: CircleAvatar(
+                        child: Text(accounts[index]["serviceName"].substring(0, 1).toUpperCase()),
+                      ),
+                      title: Text(accounts[index]["serviceName"]),
+                      subtitle: Text(accounts[index]["login"]),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: getPasswordStrengthColor(accounts[index]["password"]),
+                              shape: BoxShape.circle,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 8), // Espacement entre le cercle et l'icône
-                        IconButton(
-                          icon: Icon(Icons.copy),
-                          onPressed: () {
-                            _copyToClipboard(accounts[index]["password"]);
-                          },
-                        ),
-                      ],
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                AccountDetailPage(account: accounts[index])),
-                      );
-                    });
+                          SizedBox(width: 8), // Espacement entre le cercle et l'icône
+                          IconButton(
+                            icon: Icon(Icons.copy),
+                            onPressed: () {
+                              ClipboardManager.copyToClipboard(accounts[index]["password"]);
+                            },
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  AccountDetailPage(account: accounts[index])),
+                        );
+                      });
+                } else {
+                  return SizedBox.shrink();
+                }
               },
             ),
           ),
@@ -173,13 +200,4 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
           }),
     );
   }
-}
-
-void _copyToClipboard(password) {
-  Clipboard.setData(ClipboardData(text: password));
-
-  // TODO fichier de paramètre
-  Future.delayed(Duration(seconds: 10), () {
-    Clipboard.setData(ClipboardData(text: ""));
-  });
 }

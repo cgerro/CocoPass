@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
+
 import 'auth.dart';
 import 'home_screen.dart';
 import 'login_screen.dart'; // Importez votre écran de connexion
@@ -22,12 +24,26 @@ class SignupScreenState extends State<SignupScreen> {
   bool _loading = false;
   final _formKey = GlobalKey<FormState>();
 
+  String _message = '';
+  Color _messageColor = Colors.red;
+  bool isPasswordStrong = false;
+
+
   // Variable pour vérifier si le compte existe déjà
   bool _accountExists = false;
 
   // Fonction de validation du formulaire
   handleSubmit() async {
-    if (!_formKey.currentState!.validate()) return;
+
+    if (!_formKey.currentState!.validate() || !isPasswordStrong) {
+      // Affichez un message d'erreur si le mot de passe n'est pas assez fort
+      if (!isPasswordStrong) {
+        _showMessage('Le mot de passe n\'est pas assez fort.', false);
+      }
+      return;
+    }
+
+
     final email = _emailController.text;
     final password = _masterPasswordController.text;
     final firstName = _firstNameController.text;
@@ -145,6 +161,27 @@ class SignupScreenState extends State<SignupScreen> {
                   labelText: 'Mot de passe master',
                 ),
               ),
+              SizedBox(height: 10),
+              FlutterPwValidator(
+                controller: _masterPasswordController,
+                minLength: 12,
+                uppercaseCharCount: 1,
+                lowercaseCharCount: 1,
+                numericCharCount: 1,
+                specialCharCount: 1,
+                width: 400,
+                height: 170,
+                onSuccess: () {
+                  setState(() {
+                    isPasswordStrong = true;
+                  });
+                },
+                onFail: () {
+                  setState(() {
+                    isPasswordStrong = false;
+                  });
+                },
+              ),
               TextField(
                 controller: _verifyPasswordController,
                 obscureText: true,
@@ -154,15 +191,23 @@ class SignupScreenState extends State<SignupScreen> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () => handleSubmit(),
+                onPressed: isPasswordStrong &&
+                    _firstNameController.text.isNotEmpty &&
+                    _lastNameController.text.isNotEmpty &&
+                    _emailController.text.isNotEmpty &&
+                    _masterPasswordController.text.isNotEmpty &&
+                    _verifyPasswordController.text.isNotEmpty
+                    ? () => handleSubmit()
+                    : null, // Griser le bouton si isPasswordStrong est false ou si certains champs sont vides
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0),
                   ),
-                  backgroundColor: Colors.deepPurple,
+                  backgroundColor: isPasswordStrong ? Colors.deepPurple : Colors.grey,
                 ),
                 child: _loading
                     ? const SizedBox(
+
                         width: 20,
                         height: 20,
                         child: CircularProgressIndicator(
