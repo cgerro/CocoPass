@@ -165,6 +165,7 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                   decoration: InputDecoration(
                     labelText: 'Nom du service',
                   ),
+                  maxLength: 16,
                 ),
                 TextField(
                   controller: _noteController,

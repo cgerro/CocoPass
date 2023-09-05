@@ -11,7 +11,6 @@ import 'package:zxcvbn/zxcvbn.dart';
 import 'package:steel_crypt/steel_crypt.dart';
 import 'globals.dart' as globals;
 
-
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
 
@@ -21,6 +20,7 @@ class PasswordListScreen extends StatefulWidget {
 
 class _PasswordListScreenState extends State<PasswordListScreen> {
   User? currentUser;
+  String searchString = "";
   late String userID; // initialisez userID comme une chaîne nullable
 
   final Zxcvbn zxcvbn = Zxcvbn();
@@ -67,23 +67,12 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
             ),
           );
         }
-        return FutureBuilder<Widget>(
-        future: _buildList(context, snapshot.data!.docs),
-        builder: (context, AsyncSnapshot<Widget> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          }
-          if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          }
-          return snapshot.data!;
-        },
-        );
+        return _buildList(context, snapshot.data!.docs);
       },
     );
   }
 
-  Future<Widget> _buildList(BuildContext context, List<DocumentSnapshot> snapshots) async {
+  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshots) {
 
     final secretKey = globals.secretKey;
     var aes = AesCrypt(key: secretKey, padding: PaddingAES.pkcs7);
@@ -120,6 +109,11 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
+              onChanged: (value) {
+                setState(() {
+                  searchString = value.toLowerCase();
+                });
+              },
               decoration: InputDecoration(
                   labelText: 'Recherche',
                   prefixIcon: Icon(Icons.search),
@@ -132,47 +126,44 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
             child: ListView.builder(
               itemCount: accounts.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                    leading: CircleAvatar(
-                      child: Text(accounts[index]["serviceName"].substring(0, 1).toUpperCase()),
-                    ),
-                    title: Text(accounts[index]["serviceName"]),
-                    subtitle: Text(accounts[index]["login"]),
-                    trailing: IconButton(
-                      icon: Icon(Icons.copy),
-                      onPressed: () {
-                        ClipboardManager.copyToClipboard(
-                            accounts[index]["password"]);
-                        //_copyToClipboard(accounts[index]["password"]);
-                      },
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Container(
-                          width: 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color: getPasswordStrengthColor(accounts[index]["password"]),
-                            shape: BoxShape.circle,
+                if (accounts[index]["serviceName"].toLowerCase().contains(searchString)) {
+                  return ListTile(
+                      leading: CircleAvatar(
+                        child: Text(accounts[index]["serviceName"].substring(0, 1).toUpperCase()),
+                      ),
+                      title: Text(accounts[index]["serviceName"]),
+                      subtitle: Text(accounts[index]["login"]),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 8,
+                            height: 8,
+                            decoration: BoxDecoration(
+                              color: getPasswordStrengthColor(accounts[index]["password"]),
+                              shape: BoxShape.circle,
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 8), // Espacement entre le cercle et l'icône
-                        IconButton(
-                          icon: Icon(Icons.copy),
-                          onPressed: () {
-                            ClipboardManager.copyToClipboard(accounts[index]["password"]);
-                          },
-                        ),
-                      ],
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                AccountDetailPage(account: accounts[index])),
-                      );
-                    });
+                          SizedBox(width: 8), // Espacement entre le cercle et l'icône
+                          IconButton(
+                            icon: Icon(Icons.copy),
+                            onPressed: () {
+                              ClipboardManager.copyToClipboard(accounts[index]["password"]);
+                            },
+                          ),
+                        ],
+                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  AccountDetailPage(account: accounts[index])),
+                        );
+                      });
+                } else {
+                  return SizedBox.shrink();
+                }
               },
             ),
           ),

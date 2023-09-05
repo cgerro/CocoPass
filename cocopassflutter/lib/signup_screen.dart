@@ -181,7 +181,7 @@ class SignupScreenState extends State<SignupScreen> {
                 numericCharCount: 1,
                 specialCharCount: 1,
                 width: 400,
-                height: 150,
+                height: 170,
                 onSuccess: () {
                   setState(() {
                     isPasswordStrong = true;
