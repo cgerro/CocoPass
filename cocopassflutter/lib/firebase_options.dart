@@ -67,7 +67,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '203433159701',
     projectId: 'thermal-micron-396807',
     storageBucket: 'thermal-micron-396807.appspot.com',
-    iosClientId: '203433159701-96a9da95uokf0l33ge1ak1of9s3sc1is.apps.googleusercontent.com',
+    iosClientId:
+        '203433159701-96a9da95uokf0l33ge1ak1of9s3sc1is.apps.googleusercontent.com',
     iosBundleId: 'com.example.cocopass',
   );
 
@@ -77,7 +78,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '203433159701',
     projectId: 'thermal-micron-396807',
     storageBucket: 'thermal-micron-396807.appspot.com',
-    iosClientId: '203433159701-d4m79476h8r7r8lhcsgv823i12ardptp.apps.googleusercontent.com',
+    iosClientId:
+        '203433159701-d4m79476h8r7r8lhcsgv823i12ardptp.apps.googleusercontent.com',
     iosBundleId: 'com.example.cocopass.RunnerTests',
   );
 }
