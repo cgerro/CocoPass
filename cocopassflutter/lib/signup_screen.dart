@@ -189,7 +189,7 @@ class SignupScreenState extends State<SignupScreen> {
                           );
                         },
                         child: Text(
-                          "Le compte existe déjà. Cliquez ici pour vous connecter.",
+                          "Le compte existe déjà. Cliquez ici pour vous connecter. ",
                           style: TextStyle(
                             color: Colors.blue,
                             decoration: TextDecoration.underline,
