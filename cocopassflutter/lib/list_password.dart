@@ -7,9 +7,11 @@ import 'bottom_navigation_bar.dart';
 import 'create_account.dart';
 import 'home_screen.dart';
 import 'settings_screen.dart';
+import 'clipboard.dart';
 import 'package:zxcvbn/zxcvbn.dart';
 import 'package:steel_crypt/steel_crypt.dart';
 import 'globals.dart' as globals;
+
 
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
@@ -137,6 +139,13 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
                     ),
                     title: Text(accounts[index]["serviceName"]),
                     subtitle: Text(accounts[index]["login"]),
+                    trailing: IconButton(
+                      icon: Icon(Icons.copy),
+                      onPressed: () {
+                        ClipboardManager.copyToClipboard(
+                            accounts[index]["password"]);
+                        //_copyToClipboard(accounts[index]["password"]);
+                      },
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -201,13 +210,4 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
           }),
     );
   }
-}
-
-void _copyToClipboard(password) {
-  Clipboard.setData(ClipboardData(text: password));
-
-  // TODO fichier de paramètre
-  Future.delayed(Duration(seconds: 10), () {
-    Clipboard.setData(ClipboardData(text: ""));
-  });
 }
