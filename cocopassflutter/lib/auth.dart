@@ -10,6 +10,7 @@ class Auth {
       email: email,
       password: password,
     );
+
     final user = userCredential.user;
     if (user != null) {
       await FirebaseFirestore.instance.collection('users').doc(user.uid).set({
