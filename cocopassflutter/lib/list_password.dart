@@ -137,15 +137,3 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
     );
   }
 }
-
-/*
-void _copyToClipboard(password) {
-  Clipboard.setData(ClipboardData(text: password));
-
-  // TODO fichier de paramètre
-  Future.delayed(Duration(seconds: 30), () {
-    Clipboard.setData(ClipboardData(text: ""));
-  });
-  
-}
-*/

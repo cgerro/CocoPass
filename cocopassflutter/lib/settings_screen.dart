@@ -86,7 +86,7 @@ class SettingScreen extends StatelessWidget {
                     onPressed: () {
                       // Naviguer vers l'écran de modification du profil
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        return MasterPasswordEditScreen();
+                        return ChangeMasterPasswordScreen();
                       }));
                     },
                   ),
