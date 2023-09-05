@@ -57,7 +57,13 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
           .collection('comptes')
           .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData) return LinearProgressIndicator();
+        if (!snapshot.hasData) {
+          return Center(
+          child: CircularProgressIndicator(
+            color: Colors.transparent,
+          ),
+        );
+        }
         return _buildList(context, snapshot.data!.docs);
       },
     );
@@ -146,23 +152,25 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
         child: Icon(Icons.add),
       ),
       bottomNavigationBar: MyBottomNavigationBar(
-        currentIndex: 1,
-        onTap: (index) {
-          if (index == 0) {
-            // Navigate to the HomeScreen
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => HomeScreen()),
-            );
-          } else if (index == 2) {
-            // Navigate to the 'SettingsScreen'
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => SettingScreen()),
-            );
-          }
-        },
-      ),
+          currentIndex: 1,
+          onTap: (index) {
+            if (index == 0) {
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        HomeScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ));
+            } else if (index == 2) {
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) => SettingScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ));
+            }
+          }),
     );
   }
 }
