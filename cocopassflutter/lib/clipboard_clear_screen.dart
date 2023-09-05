@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:clipboard/clipboard.dart';
 import 'dart:async';
 import 'clipboard.dart';
 
