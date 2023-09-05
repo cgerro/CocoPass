@@ -40,6 +40,8 @@ dependencies:
   random_name_generator: ^1.2.0
   firebase_auth: ^4.8.0
   zxcvbn: ^1.0.0
+  flutter_pw_validator: ^1.6.0
+
 dev_dependencies:
   flutter_launcher_icons: "^0.13.1"
   flutter_test:
