@@ -3,10 +3,11 @@ import 'package:cocopass/password_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'bottom_navigation_bar.dart';
 import 'create_account.dart';
 import 'home_screen.dart';
+import 'settings_screen.dart';
+import 'package:zxcvbn/zxcvbn.dart';
 
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
@@ -16,9 +17,10 @@ class PasswordListScreen extends StatefulWidget {
 }
 
 class _PasswordListScreenState extends State<PasswordListScreen> {
-
   User? currentUser;
-  String? userID;  // initialisez userID comme une chaîne nullable
+  String? userID; // initialisez userID comme une chaîne nullable
+
+  final Zxcvbn zxcvbn = Zxcvbn();
 
   @override
   void initState() {
@@ -30,10 +32,30 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
     }
   }
 
+  Color getPasswordStrengthColor(String password) {
+    final result = zxcvbn.evaluate(password);
+    switch (result.score) {
+      case 0:
+      case 1:
+        return Colors.red;
+      case 2:
+      case 3:
+        return Colors.orange;
+      case 4:
+        return Colors.green;
+      default:
+        return Colors.red;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot> (
-      stream: FirebaseFirestore.instance.collection('users').doc(userID).collection('comptes').snapshots(),
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance
+          .collection('users')
+          .doc(userID)
+          .collection('comptes')
+          .snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) return LinearProgressIndicator();
         return _buildList(context, snapshot.data!.docs);
@@ -53,9 +75,10 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Text('Mots de passe'),
-      ),
+          automaticallyImplyLeading: false,
+          title: Text('Mots de passe'),
+          titleTextStyle:
+          const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       body: Column(
         children: [
           // Barre de recherche
@@ -75,24 +98,39 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
               itemCount: accounts.length,
               itemBuilder: (context, index) {
                 return ListTile(
-                  leading: CircleAvatar(
-                    child: Text(accounts[index]["serviceName"].substring(0, 1)),
-                  ),
-                  title: Text(accounts[index]["serviceName"]),
-                  subtitle: Text(accounts[index]["login"]),
-                  trailing: IconButton(
-                    icon: Icon(Icons.copy),
-                    onPressed: () {
-                      _copyToClipboard(accounts[index]["password"]);
-                    },
-                  ),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => AccountDetailPage(account: accounts[index])),
-                    );
-                  }
-                );
+                    leading: CircleAvatar(
+                      child: Text(accounts[index]["serviceName"].substring(0, 1).toUpperCase()),
+                    ),
+                    title: Text(accounts[index]["serviceName"]),
+                    subtitle: Text(accounts[index]["login"]),
+                    trailing: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          width: 8,
+                          height: 8,
+                          decoration: BoxDecoration(
+                            color: getPasswordStrengthColor(accounts[index]["password"]),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                        SizedBox(width: 8), // Espacement entre le cercle et l'icône
+                        IconButton(
+                          icon: Icon(Icons.copy),
+                          onPressed: () {
+                            _copyToClipboard(accounts[index]["password"]);
+                          },
+                        ),
+                      ],
+                    ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                AccountDetailPage(account: accounts[index])),
+                      );
+                    });
               },
             ),
           ),
@@ -116,13 +154,13 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
               context,
               MaterialPageRoute(builder: (context) => HomeScreen()),
             );
-          }/* else if (index == 2) {
+          } else if (index == 2) {
             // Navigate to the 'SettingsScreen'
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => ParametreScreen()),
+              MaterialPageRoute(builder: (context) => SettingScreen()),
             );
-          }*/
+          }
         },
       ),
     );
