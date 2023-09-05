@@ -87,8 +87,7 @@ class HomeScreen extends StatelessWidget {
                       Text(
                         'Complexité de vos mots de passe',
                         style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold
                         ),
                       ),
