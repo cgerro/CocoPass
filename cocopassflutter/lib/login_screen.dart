@@ -4,6 +4,7 @@ import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
+
   @override
   LoginScreenState createState() => LoginScreenState();
 }
@@ -11,6 +12,7 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _obscureCurrentPassword = true;
   bool _loading = false;
   String _message = '';
   Color _messageColor = Colors.red;
@@ -48,7 +50,6 @@ class LoginScreenState extends State<LoginScreen> {
             MaterialPageRoute(builder: (context) => HomeScreen()),
           );
         }
-
       } catch (e) {
         _showMessage('Erreur lors de la connexion : $e', false);
       } finally {
@@ -58,8 +59,6 @@ class LoginScreenState extends State<LoginScreen> {
       }
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -90,8 +89,19 @@ class LoginScreenState extends State<LoginScreen> {
             const SizedBox(height: 10),
             TextFormField(
               controller: _passwordController,
-              obscureText: true,
-              decoration: InputDecoration(labelText: 'Mot de passe'),
+              obscureText: _obscureCurrentPassword,
+              decoration: InputDecoration(
+                  labelText: 'Mot de passe',
+                  suffixIcon: IconButton(
+                    icon: Icon(_obscureCurrentPassword
+                        ? Icons.visibility
+                        : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        _obscureCurrentPassword = !_obscureCurrentPassword;
+                      });
+                    },
+                  )),
               validator: (value) {
                 if (value!.isEmpty) {
                   return 'Veuillez entrer votre mot de passe';
