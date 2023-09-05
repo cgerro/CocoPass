@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pw_validator/flutter_pw_validator.dart';
+
 import 'auth.dart';
 import 'home_screen.dart';
-import 'login_screen.dart'; // Importez votre écran de connexion
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -19,15 +20,36 @@ class SignupScreenState extends State<SignupScreen> {
   final TextEditingController _verifyPasswordController =
       TextEditingController();
 
+  final bool _isLogin = false;
   bool _loading = false;
   final _formKey = GlobalKey<FormState>();
+  String _message = '';
+  Color _messageColor = Colors.red;
+  bool isPasswordStrong = false;
 
-  // Variable pour vérifier si le compte existe déjà
-  bool _accountExists = false;
+  void _showMessage(String message, bool isSuccess) {
+    setState(() {
+      _message = message;
+      _messageColor = isSuccess ? Colors.green : Colors.red;
+    });
+  }
+
+  void _clearMessage() {
+    setState(() {
+      _message = '';
+    });
+  }
 
   // Fonction de validation du formulaire
   handleSubmit() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.validate() || !isPasswordStrong) {
+      // Affichez un message d'erreur si le mot de passe n'est pas assez fort
+      if (!isPasswordStrong) {
+        _showMessage('Le mot de passe n\'est pas assez fort.', false);
+      }
+      return;
+    }
+
     final email = _emailController.text;
     final password = _masterPasswordController.text;
     final firstName = _firstNameController.text;
@@ -36,53 +58,58 @@ class SignupScreenState extends State<SignupScreen> {
 
     // Vérification que les mots de passe correspondent
     if (password != verifyPassword) {
-      // Afficher un message d'erreur
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Les mots de passe ne correspondent pas"),
           backgroundColor: Colors.red,
         ),
       );
-      return;
+
+      try {
+        await Auth().signInWithEmailAndPassword(email, password);
+        _showMessage('Connexion réussie', true);
+
+        // Vérifiez si le contexte est toujours valide (c'est-à-dire que le widget est toujours dans l'arbre)
+        if (mounted) {
+          // Redirigez vers la page CreateAccountScreen après une connexion réussie
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        }
+      } catch (e) {
+        _showMessage('Erreur lors de la connexion : $e', false);
+      } finally {
+        if (mounted) {
+          setState(() => _loading = false);
+        }
+      }
     }
 
     setState(() => _loading = true);
 
     try {
-      // Essayez de créer le compte
-      await Auth()
-          .registerWithEmailAndPassword(email, password, firstName, lastName);
+      if (_isLogin) {
+        await Auth().signInWithEmailAndPassword(email, password);
+        // Rediriger vers un écran spécifique après la connexion réussie
+      } else {
+        await Auth()
+            .registerWithEmailAndPassword(email, password, firstName, lastName);
 
-      // Si la création du compte réussit, affichez un message de réussite
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Création du compte réussie"),
-          backgroundColor: Colors.green,
-        ),
-      );
-
-      // Redirigez l'utilisateur vers la page HomeScreen
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) =>
-              HomeScreen(), // Remplacez HomeScreen par votre écran d'accueil réel
-        ),
-      );
+        // Vérifier que le widget est toujours dans l'arbre des widgets
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        }
+      }
     } catch (e) {
-      // Si une erreur se produit (par exemple, le compte existe déjà), affichez un message d'erreur
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text("Le compte existe déjà $e"),
-          backgroundColor: Colors.red,
-        ),
-      );
-
-      // Définissez _accountExists sur true pour afficher le lien de connexion
-      setState(() {
-        _accountExists = true;
-      });
+      // TODO
     } finally {
-      setState(() => _loading = false);
+      if (mounted) {
+        setState(() => _loading = false);
+      }
     }
   }
 
@@ -97,7 +124,7 @@ class SignupScreenState extends State<SignupScreen> {
           color: Colors.white,
         ),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
@@ -145,6 +172,27 @@ class SignupScreenState extends State<SignupScreen> {
                   labelText: 'Mot de passe master',
                 ),
               ),
+              SizedBox(height: 10),
+              FlutterPwValidator(
+                controller: _masterPasswordController,
+                minLength: 12,
+                uppercaseCharCount: 1,
+                lowercaseCharCount: 1,
+                numericCharCount: 1,
+                specialCharCount: 1,
+                width: 400,
+                height: 170,
+                onSuccess: () {
+                  setState(() {
+                    isPasswordStrong = true;
+                  });
+                },
+                onFail: () {
+                  setState(() {
+                    isPasswordStrong = false;
+                  });
+                },
+              ),
               TextField(
                 controller: _verifyPasswordController,
                 obscureText: true,
@@ -154,23 +202,30 @@ class SignupScreenState extends State<SignupScreen> {
               ),
               SizedBox(height: 20),
               ElevatedButton(
-                onPressed: () => handleSubmit(),
+                onPressed: isPasswordStrong &&
+                    _firstNameController.text.isNotEmpty &&
+                    _lastNameController.text.isNotEmpty &&
+                    _emailController.text.isNotEmpty &&
+                    _masterPasswordController.text.isNotEmpty &&
+                    _verifyPasswordController.text.isNotEmpty
+                    ? () => handleSubmit()
+                    : null, // Griser le bouton si isPasswordStrong est false ou si certains champs sont vides
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0),
                   ),
-                  backgroundColor: Colors.deepPurple,
+                  backgroundColor: isPasswordStrong ? Colors.deepPurple : Colors.grey,
                 ),
                 child: _loading
                     ? const SizedBox(
-                        width: 20,
-                        height: 20,
-                        child: CircularProgressIndicator(
-                          color: Colors.white,
-                          strokeWidth: 2,
-                        ),
-                      )
-                    : Text("Créer un compte"),
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                    strokeWidth: 2,
+                  ),
+                )
+                    : Text(_isLogin ? 'Se connecter' : 'Créer un compte'),
               ),
 
               // Message de compte existant avec un lien vers la page de connexion

@@ -32,20 +32,24 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: Text('Détails du compte'),
-          titleTextStyle:
-              const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+        title: Text('Détails du compte'),
+        titleTextStyle: TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) =>
-                      EditAccountPage(account: widget.account)));
+            context,
+            MaterialPageRoute(
+              builder: (context) => EditAccountPage(account: widget.account),
+            ),
+          );
         },
         child: Icon(Icons.edit),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,17 +62,20 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                     child: Text(
                       widget.account["serviceName"][0],
                       style: TextStyle(fontSize: 30),
-                    ), // First letter of the service name
+                    ),
                   ),
                   SizedBox(width: 16),
                   Text(
                     widget.account["serviceName"],
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 24,
+                    ),
                   ),
                 ],
               ),
             ),
-            Padding(padding: const EdgeInsets.fromLTRB(0, 0, 0, 42)),
+            SizedBox(height: 42),
             _detailBox(
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -81,7 +88,9 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                       Text(
                         'Nom d\'utilisateur',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
                       ),
                       Text(widget.account["login"]),
                     ],
@@ -90,49 +99,65 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
               ),
             ),
             _detailBox(
-              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                Icon(Icons.lock),
-                SizedBox(width: 16),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Mot de passe',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-                    ),
-                    Text(obscureText
-                        ? '•' * widget.account["password"].length
-                        : widget.account["password"]),
-                  ],
-                ),
-                Spacer(),
-                IconButton(
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Icon(Icons.lock),
+                  SizedBox(width: 16),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Mot de passe',
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        obscureText
+                            ? '•' * widget.account["password"].length
+                            : widget.account["password"],
+                      ),
+                    ],
+                  ),
+                  Spacer(),
+                  IconButton(
                     icon: Icon(
                         obscureText ? Icons.visibility : Icons.visibility_off),
                     onPressed: () {
                       setState(() {
                         obscureText = !obscureText;
                       });
-                    }),
-              ]),
+                    },
+                  ),
+                ],
+              ),
             ),
-            if (widget.account["note"] !=
-                null) // Show this only if the note field is specified
+            if (widget.account["note"] != "")
               _detailBox(
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Icon(Icons.note),
                     SizedBox(width: 16),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Note',
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Note',
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 16)),
-                        Text(widget.account["note"]),
-                      ],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            widget.account["note"],
+                            softWrap: true,
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
