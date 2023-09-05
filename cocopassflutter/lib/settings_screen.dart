@@ -1,11 +1,11 @@
 import 'package:cocopass/welcome_screen.dart';
 import 'package:flutter/material.dart';
-import 'master_password_edit_screen.dart';
 import 'profil_edit_screen.dart';
 import 'bottom_navigation_bar.dart';
 import 'clipboard_clear_screen.dart';
 import 'home_screen.dart';
 import 'list_password.dart';
+import 'change_master_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -62,7 +62,7 @@ class SettingScreen extends StatelessWidget {
                     onPressed: () {
                       // Naviguer vers l'écran de modification du profil
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        return ProfilEditScreen();
+                        return ProfileEditScreen();
                       }));
                     },
                   ),
