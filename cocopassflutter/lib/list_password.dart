@@ -8,6 +8,8 @@ import 'create_account.dart';
 import 'home_screen.dart';
 import 'settings_screen.dart';
 import 'package:zxcvbn/zxcvbn.dart';
+import 'package:steel_crypt/steel_crypt.dart';
+import 'globals.dart' as globals;
 
 class PasswordListScreen extends StatefulWidget {
   const PasswordListScreen({Key? key}) : super(key: key);
@@ -18,7 +20,7 @@ class PasswordListScreen extends StatefulWidget {
 
 class _PasswordListScreenState extends State<PasswordListScreen> {
   User? currentUser;
-  String? userID; // initialisez userID comme une chaîne nullable
+  late String userID; // initialisez userID comme une chaîne nullable
 
   final Zxcvbn zxcvbn = Zxcvbn();
 
@@ -59,24 +61,50 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Center(
-          child: CircularProgressIndicator(
-            color: Colors.transparent,
-          ),
-        );
+            child: CircularProgressIndicator(
+              color: Colors.transparent,
+            ),
+          );
         }
-        return _buildList(context, snapshot.data!.docs);
+        return FutureBuilder<Widget>(
+        future: _buildList(context, snapshot.data!.docs),
+        builder: (context, AsyncSnapshot<Widget> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}');
+          }
+          return snapshot.data!;
+        },
+        );
       },
     );
   }
 
-  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshots) {
+  Future<Widget> _buildList(BuildContext context, List<DocumentSnapshot> snapshots) async {
+
+    final secretKey = globals.secretKey;
+    var aes = AesCrypt(key: secretKey, padding: PaddingAES.pkcs7);
+
     var accounts = [];
     for (var e in snapshots) {
       var data = e.data() as Map<String, dynamic>;
       data["accountID"] = e.id;
       if (data["serviceName"] != null &&
-          data["login"] != null &&
-          data["password"] != null) accounts.add(data);
+        data["login"] != null &&
+        data["password"] != null) {
+
+        data["login"] = aes.gcm.decrypt(enc: data["login"], iv: userID);
+        data["serviceName"] = aes.gcm.decrypt(enc: data["serviceName"], iv: userID);
+        data["password"] = aes.gcm.decrypt(enc: data["password"], iv: userID);
+
+        if (data["note"] != "") {
+          data["note"] = aes.gcm.decrypt(enc: data["note"], iv: userID);
+        }
+
+        accounts.add(data);
+      }
     }
 
     return Scaffold(

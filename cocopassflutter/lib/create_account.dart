@@ -1,10 +1,11 @@
 import 'password_config.dart';
 import 'list_password.dart';
-
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:steel_crypt/steel_crypt.dart';
+import 'globals.dart' as globals;
 
 class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);
@@ -73,15 +74,24 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
 
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+      var secretKey = globals.secretKey;
+      var aes = AesCrypt(key: secretKey, padding: PaddingAES.pkcs7);
+
+      var cipherLogin = aes.gcm.encrypt(inp: _loginController.text, iv: userID);
+      var cipherPassword = aes.gcm.encrypt(inp: _passwordController.text, iv: userID);
+      var cipherServiceName = aes.gcm.encrypt(inp: _serviceNameController.text, iv: userID);
+      var cipherNote = _noteController.text.isNotEmpty ? aes.gcm.encrypt(inp: _noteController.text, iv: userID) : "";
+
       await firestore
           .collection('users')
           .doc(userID)
           .collection('comptes')
           .add({
-        'login': _loginController.text,
-        'password': _passwordController.text,
-        'serviceName': _serviceNameController.text,
-        'note': _noteController.text,
+        'login': cipherLogin,
+        'password': cipherPassword,
+        'serviceName': cipherServiceName,
+        'note': cipherNote,
+
       });
 
       // Check if the context is still valid (i.e., the widget is still in the tree)
