@@ -1,33 +1,129 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:cocopass/user_profile.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:steel_crypt/steel_crypt.dart';
 import 'bottom_navigation_bar.dart';
 import 'list_password.dart';
 import 'settings_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:zxcvbn/zxcvbn.dart';
 import 'create_account.dart';
+import 'globals.dart' as globals;
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-  final String username = "Alex";
+class HomeScreen extends StatefulWidget {
+
+  HomeScreen({Key? key}) : super(key: key);
+
+  final db = FirebaseFirestore.instance;
+
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  User? currentUser;
+  late String userID;
+
+  String username = "";
+  late int weakPasswords;
+  late int mediumPasswords;
+  late int strongPasswords;
+
+  @override
+  void initState() {
+    super.initState();
+    currentUser = FirebaseAuth.instance.currentUser;
+
+    if (currentUser != null) {
+      userID = currentUser!.uid;
+    }
+  }
+
+  Future<Map<String, dynamic>> fetchUserData() async {
+    final docRef = FirebaseFirestore.instance.collection('users').doc(userID);
+    final doc = await docRef.get();
+    return doc.data() as Map<String, dynamic>;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final userProfile = Provider.of<UserProfile>(context);
+    return FutureBuilder<Map<String, dynamic>>(
+        future: fetchUserData(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator();
+          }
+          if (snapshot.hasError) {
+            return Text("Erreur: ${snapshot.error}");
+          }
 
-    // Supposons que vous ayez ces variables disponibles
-    int weakPasswords =
-        5; // Remplacez par le nombre réel de mots de passe faibles
-    int mediumPasswords =
-        3; // Remplacez par le nombre réel de mots de passe moyens
-    int strongPasswords =
-        2; // Remplacez par le nombre réel de mots de passe forts
+          // Mettre à jour le username
+          username = snapshot.data?["firstName"] ?? "Inconnu";
+
+          return StreamBuilder<QuerySnapshot>(
+            stream: FirebaseFirestore.instance
+                .collection('users')
+                .doc(userID)
+                .collection('comptes')
+                .snapshots(),
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: Colors.transparent,
+                  ),
+                );
+              }
+              return _build(context, snapshot.data!.docs);
+            },
+          );
+        }
+    );
+  }
+
+  Widget _build(BuildContext context, List<DocumentSnapshot> snapshots) {
+    final userProfile = Provider.of<UserProfile>(context);
+    final Zxcvbn zxcvbn = Zxcvbn();
+
+    final secretKey = globals.secretKey;
+    var aes = AesCrypt(key: secretKey, padding: PaddingAES.pkcs7);
+
+    userProfile.fetchProfileImage();
+
+    weakPasswords = 0;
+    mediumPasswords = 0;
+    strongPasswords = 0;
+
+    for (var e in snapshots) {
+      var data = e.data() as Map<String, dynamic>;
+      if (data["password"] != null) {
+        data["password"] = aes.gcm.decrypt(enc: data["password"], iv: userID);
+        final result = zxcvbn.evaluate(data["password"]);
+        switch (result.score) {
+          case 0:
+          case 1:
+            ++weakPasswords;
+            break;
+          case 2:
+          case 3:
+            ++mediumPasswords;
+            break;
+          case 4:
+            ++strongPasswords;
+            break;
+          default:
+            break;
+        }
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
           title: Text('Bonjour, $username'),
           titleTextStyle:
-              const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+          const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       body: SingleChildScrollView(
         // Ajout de SingleChildScrollView ici
         child: Center(
@@ -43,7 +139,7 @@ class HomeScreen extends StatelessWidget {
               Text(
                 username,
                 style:
-                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 40),
               Container(
@@ -58,7 +154,7 @@ class HomeScreen extends StatelessWidget {
                     const Text(
                       'Nouveau mot de passe',
                       style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     const Text(
@@ -139,6 +235,7 @@ class HomeScreen extends StatelessWidget {
           }),
     );
   }
+}
 
   Widget _buildCircle(String label, Color color, int count) {
     return Column(
@@ -162,4 +259,4 @@ class HomeScreen extends StatelessWidget {
       ],
     );
   }
-}
+

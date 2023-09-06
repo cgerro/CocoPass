@@ -21,6 +21,7 @@ class Auth {
         'email': email,
         'firstName': firstName,
         'lastName': lastName,
+        'profileImageUrl': 'assets/user_icons/default_user_icon.png',
       });
     }
   }
