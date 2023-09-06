@@ -73,7 +73,7 @@ Scrum Master : Florian Conti sera le Scrum Master. Il veillera à ce que l'équi
 
 Avant le début du Sprint 1, nous allons rassembler les exigences clés et les fonctionnalités prioritaires pour le projet. Cela constituera notre Backlog du Produit initial.
 
-**Sprint (3 jours)** :
+**Sprint** :
 
 Le Sprint 1 débutera le mardi 22.08 avec une réunion de planification du Sprint, où l'équipe choisira les éléments du Backlog à inclure dans le Sprint.
 Chaque jour, une réunion de 15 minutes sera tenue pour mettre à jour l'équipe sur les progrès et les obstacles.
