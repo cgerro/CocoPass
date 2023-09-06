@@ -23,13 +23,13 @@ Les données personnelles sont de l'or, il est donc important d'y accorder une i
 
 Notre solution mobile est un gestionnaire de mots de passe. Celle-ci aura les fonctionnalités suivantes :
 
-- Création et accès à son compte : Les utilisateurs pourront créer un compte gratuitement et y accéder avec une authentification à double facteurs pour une sécurité accrue à l'accès de leurs mots de passes.
+- Création et accès à son compte : Les utilisateurs pourront créer un compte gratuitement.
 - Stockage sécurisé : L'utilisateur pourra stocker des mots de passes prédéfinis liés à des comptes de services en ligne de manière sécurisée.
 
 - Génération automatique de mots de passes : L'utilisateur pourra générer automatiquement des mots de passes forts et unique pour
   chaque compte avec la possibilité d'inclure ou d'exclure certains types de caractères et de spécifier un nombre de caractères.
 
-- Authentification sécurisée : L'utilisateur pourra utiliser une authentification à doubles facteurs afin de sécuriser son compte.
+- Authentification sécurisée : L'utilisateur pourra se connecter via Firebase Authentication afin que l'authentification à son compte soit sécuritsée.
 
 - Synchronisation : Grâce à notre synchronisation, l'utilisateur pourra accéder à ses mots de passes depuis n'importe quel appareil android disposant de notre application.
 
@@ -143,8 +143,12 @@ Dans la partie database, on stockera toutes les données après chiffrement que 
 
 ![Alt text](images/Architecture2.png)
 
-La partie application va communiquer avec Firebase Authentication afin de gérer les comptes utilisateurs. Une fois connecté, une collection va être créé sur Firestore afin de pouvoir stocker les données des utilisateurs. Ces données vont passer par deux packages flutter (hashlib et steel_crypt) qui vont permettre le chiffrement et le déchiffrement entre la database et l'application. Ceci permet que les données utilisateurs soit accessible que part ce dernier et non par un administrateur de la database ou une autre personne mal intentionnée. De plus on utilise diverse package pour les différents fonctionnalités de notre application. On retrouve : 
+La partie application va communiquer avec Firebase Authentication afin de gérer les comptes utilisateurs. Une fois connecté, une collection va être créé sur Firestore afin de pouvoir stocker les données des utilisateurs. Ces données vont passer par deux packages flutter (hashlib et steel_crypt) qui vont permettre le chiffrement et le déchiffrement entre la database et l'application. Ceci permet que les données utilisateurs soit accessible que part ce dernier et non par un administrateur de la database ou une autre personne mal intentionnée. De plus on utilise diverse package pour les différents fonctionnalités de notre application. 
+
+On retrouve les packages suivant : 
 - zxcvbn : permet l'analyse des mots de passe afin de déterminer leur complexité
 - clipboard : permet de copier des informations dans notre presse papier et de les effacer automatiquement après un certain temps
-- flutter_pw_validator : permet la vérification de la complexité du mot de passe lors de la création d'un compte (minium 1 caractère spécial, 1 lettre majuscule, 1 chiffre et 1 lettre minuscule) 
+- flutter_pw_validator : permet la vérification de la complexité du mot de passe lors de la création d'un compte (minium 1 caractère spécial, 1 lettre majuscule, 1 chiffre et 1 lettre minuscule)
+- hashlib : permet la dérivation de clé afin d'obtenir une clé via le mot de passe master. L'alogrithme utilisé est pbkdf2.
+- steel_crypt : permet le chiffrement des données utilisateurs. L'algorithme utilisé est AES-GCM.
 
