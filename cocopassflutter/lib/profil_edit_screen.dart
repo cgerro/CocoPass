@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'user_profile.dart';
 
 class ProfileEditScreen extends StatefulWidget {
   @override
@@ -6,10 +8,11 @@ class ProfileEditScreen extends StatefulWidget {
 }
 
 class _ProfileEditScreenState extends State<ProfileEditScreen> {
-  String selectedIcon =
-      'assets/user_icons/user_icon1.png'; // L'icône par défaut
+  int selectedIconIndex = 0; // l'index de l'icône par défaut
+  String selectedIconUrl = '';
 
   final List<String> userIcons = [
+    'assets/user_icons/default_user_icon.png',
     'assets/user_icons/user_icon1.png',
     'assets/user_icons/user_icon2.png',
     'assets/user_icons/user_icon3.png',
@@ -26,6 +29,17 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     'assets/user_icons/user_icon14.png',
     // Ajoutez ici plus d'icônes utilisateur si nécessaire
   ];
+
+  void updateSelectedIconIndex(int index) {
+    setState(() {
+      selectedIconIndex = index;
+    });
+  }
+
+  void updateProfileImage(newImageUrl) {
+    final userProfile = Provider.of<UserProfile>(context, listen: false);
+    userProfile.setProfileImage(newImageUrl);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +60,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
-                  image: AssetImage(selectedIcon),
+                  image: AssetImage(userIcons[selectedIconIndex]),
                   fit: BoxFit.cover,
                 ),
               ),
@@ -64,9 +78,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
-                      setState(() {
-                        selectedIcon = userIcons[index];
-                      });
+                      updateSelectedIconIndex(index);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -80,7 +92,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                             image: AssetImage(userIcons[index]),
                             fit: BoxFit.cover,
                           ),
-                          border: selectedIcon == userIcons[index]
+                          border: selectedIconIndex == index
                               ? Border.all(
                                   color: Colors.deepPurple,
                                   width: 2.0,
@@ -97,6 +109,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             ElevatedButton(
               onPressed: () {
                 // Ajoutez ici la logique pour sauvegarder la nouvelle icône utilisateur
+                selectedIconUrl = userIcons[selectedIconIndex];
+                updateProfileImage(selectedIconUrl);
+
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('Paramètres enregistrés avec succès.'),
