@@ -17,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
   final db = FirebaseFirestore.instance;
 
+  @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
@@ -29,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late int weakPasswords;
   late int mediumPasswords;
   late int strongPasswords;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -49,44 +51,46 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
-        future: fetchUserData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Scaffold(
-              backgroundColor: Colors.grey[900],
-              body: Center(
-                child: CircularProgressIndicator(
-                  color: Colors.white,
-                ),
-              ),
-            );
-          }
-
-          // Mettre à jour le username
-          username = snapshot.data?["firstName"] ?? "Inconnu";
-
-          return StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('users')
-                .doc(userID)
-                .collection('comptes')
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Scaffold(
-                  backgroundColor: Colors.grey[900],
-                  body: Center(
-                    child: CircularProgressIndicator(
-                      color: Colors.white,
-                    ),
-                  ),
-                );
-              }
-              return _build(context, snapshot.data!.docs);
-            },
-          );
+      future: fetchUserData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return loadingScreen();
         }
+
+        username = snapshot.data?["firstName"] ?? "Inconnu";
+
+        return StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(userID)
+              .collection('comptes')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return loadingScreen();
+            }
+            isLoading = false;  // Mettez à jour isLoading
+            return _build(context, snapshot.data!.docs);
+          },
+        );
+      },
     );
+  }
+
+  Widget loadingScreen() {
+    if (isLoading) {
+      return Scaffold(
+        backgroundColor: Colors.grey[900],
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else {
+      // Retournez un widget par défaut ou rien si vous le souhaitez
+      return Container();
+    }
   }
 
   Widget _build(BuildContext context, List<DocumentSnapshot> snapshots) {
