@@ -73,25 +73,13 @@ Scrum Master : Florian Conti sera le Scrum Master. Il veillera à ce que l'équi
 
 Avant le début du Sprint 1, nous allons rassembler les exigences clés et les fonctionnalités prioritaires pour le projet. Cela constituera notre Backlog du Produit initial.
 
-**Sprint 1 (3 jours)** :
+**Sprint** :
 
-Le Sprint 1 débutera le mardi 22.08 avec une réunion de planification du Sprint, où l'équipe choisira les éléments du Backlog du Produit à inclure dans le Sprint.
-Chaque jour, une réunion de mêlée de 15 minutes sera tenue pour mettre à jour l'équipe sur les progrès et les obstacles.
+Le Sprint 1 débutera le mardi 22.08 avec une réunion de planification du Sprint, où l'équipe choisira les éléments du Backlog à inclure dans le Sprint.
+Chaque jour, une réunion de 15 minutes sera tenue pour mettre à jour l'équipe sur les progrès et les obstacles.
 Le vendredi, nous tiendrons une réunion de revue de Sprint pour examiner les fonctionnalités développées pendant la semaine et définir les prochaines étapes.
-Livrables de la Semaine 1 :
 
-Description du projet
-Requirements fonctionnels
-Requirements non-fonctionnels
-Description de la méthodologie de développement
-Mockups
-Landing page
-Description Préliminaire de l’Architecture
-Description des Choix Techniques
-Description du processus de travail
-Mise en place des outils de développement (VCM, Issue tracker)​
-Mise en place d’un environnement de déploiement​
-Mise en place d’un pipeline de livraison et de déploiement (CI/CD)​
+Le sprint 2 et 3 commenceront respectivement le 28.08 et 04.09 et dureront jusqu'au vendredi. Les mêmes modalités que pour le sprint 1 seront appliquées. 
 
 ### Conventions mises en place :
 
