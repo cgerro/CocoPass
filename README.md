@@ -133,7 +133,7 @@ Pour ce qui est de la sécurité, nous allons chiffrer les données à l'aide du
 
 ## Description préliminaire de l'architecture
 
-![Alt text](images/Architecture.png)
+![Alt text](images/Architecture1.png)
 
 Dans la partie application, nous allons également nous occuper du chiffrement des données avant de les envoyer sur notre database. Ceci sera réaliser grâce au packages Flutter Secure Storage. 
 
