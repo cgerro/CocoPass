@@ -139,4 +139,12 @@ Dans la partie application, nous allons également nous occuper du chiffrement d
 
 Dans la partie database, on stockera toutes les données après chiffrement que l'utilisateur souhaite garder (mot de passe, nom utilisateur, site internet, ...). Ceci permettra que seul l'utilisateur ait accés à ses données.
 
+## Mise à jour de l'architecture 
+
+![Alt text](images/Architecture2.png)
+
+La partie application va communiquer avec Firebase Authentication afin de gérer les comptes utilisateurs. Une fois connecté, une collection va être créé sur Firestore afin de pouvoir stocker les données des utilisateurs. Ces données vont passer par deux packages flutter (hashlib et steel_crypt) qui vont permettre le chiffrement et le déchiffrement entre la database et l'application. Ceci permet que les données utilisateurs soit accessible que part ce dernier et non par un administrateur de la database ou une autre personne mal intentionnée. De plus on utilise diverse package pour les différents fonctionnalités de notre application. On retrouve : 
+- zxcvbn : permet l'analyse des mots de passe afin de déterminer leur complexité
+- clipboard : permet de copier des informations dans notre presse papier et de les effacer automatiquement après un certain temps
+- flutter_pw_validator : permet la vérification de la complexité du mot de passe lors de la création d'un compte (minium 1 caractère spécial, 1 lettre majuscule, 1 chiffre et 1 lettre minuscule) 
 
