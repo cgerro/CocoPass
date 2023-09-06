@@ -28,6 +28,7 @@ class MyBottomNavigationBar extends StatelessWidget {
           icon: Icon(Icons.settings),
           label: 'Paramètres',
         ),
+        BottomNavigationBarItem(icon: Icon(Icons.help), label: 'Aide'),
       ],
       selectedItemColor: Colors.deepPurple[200],
     );

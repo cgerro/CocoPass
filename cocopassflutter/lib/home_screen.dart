@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cocopass/help_screen.dart';
 import 'package:cocopass/user_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ import 'create_account.dart';
 import 'globals.dart' as globals;
 
 class HomeScreen extends StatefulWidget {
-
   HomeScreen({Key? key}) : super(key: key);
 
   final db = FirebaseFirestore.instance;
@@ -22,7 +22,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   User? currentUser;
   late String userID;
 
@@ -69,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
             if (!snapshot.hasData) {
               return loadingScreen();
             }
-            isLoading = false;  // Mettez à jour isLoading
+            isLoading = false; // Mettez à jour isLoading
             return _build(context, snapshot.data!.docs);
           },
         );
@@ -134,7 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
           automaticallyImplyLeading: false,
           title: Text('Bonjour, $username'),
           titleTextStyle:
-          const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       body: SingleChildScrollView(
         // Ajout de SingleChildScrollView ici
         child: Center(
@@ -150,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Text(
                 username,
                 style:
-                const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 40),
               Container(
@@ -165,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     const Text(
                       'Nouveau mot de passe',
                       style:
-                      TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 5),
                     const Text(
@@ -242,32 +241,39 @@ class _HomeScreenState extends State<HomeScreen> {
                         SettingScreen(),
                     transitionDuration: Duration(seconds: 0),
                   ));
+            } else if (index == 3) {
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        HelpScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ));
             }
           }),
     );
   }
 }
 
-  Widget _buildCircle(String label, Color color, int count) {
-    return Column(
-      children: [
-        Container(
-          width: 30,
-          height: 30,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: color,
-          ),
-          child: Center(
-              child: Text('$count',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ))),
+Widget _buildCircle(String label, Color color, int count) {
+  return Column(
+    children: [
+      Container(
+        width: 30,
+        height: 30,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: color,
         ),
-        SizedBox(height: 6),
-        Text(label),
-      ],
-    );
-  }
-
+        child: Center(
+            child: Text('$count',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ))),
+      ),
+      SizedBox(height: 6),
+      Text(label),
+    ],
+  );
+}

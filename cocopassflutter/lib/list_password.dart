@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cocopass/help_screen.dart';
 import 'package:cocopass/password_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -73,7 +74,6 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
   }
 
   Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshots) {
-
     final secretKey = globals.secretKey;
     var aes = AesCrypt(key: secretKey, padding: PaddingAES.pkcs7);
 
@@ -82,11 +82,11 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
       var data = e.data() as Map<String, dynamic>;
       data["accountID"] = e.id;
       if (data["serviceName"] != null &&
-        data["login"] != null &&
-        data["password"] != null) {
-
+          data["login"] != null &&
+          data["password"] != null) {
         data["login"] = aes.gcm.decrypt(enc: data["login"], iv: userID);
-        data["serviceName"] = aes.gcm.decrypt(enc: data["serviceName"], iv: userID);
+        data["serviceName"] =
+            aes.gcm.decrypt(enc: data["serviceName"], iv: userID);
         data["password"] = aes.gcm.decrypt(enc: data["password"], iv: userID);
 
         if (data["note"] != "") {
@@ -102,7 +102,7 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
           automaticallyImplyLeading: false,
           title: Text('Mots de passe'),
           titleTextStyle:
-          const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+              const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       body: Column(
         children: [
           // Barre de recherche
@@ -126,10 +126,14 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
             child: ListView.builder(
               itemCount: accounts.length,
               itemBuilder: (context, index) {
-                if (accounts[index]["serviceName"].toLowerCase().contains(searchString)) {
+                if (accounts[index]["serviceName"]
+                    .toLowerCase()
+                    .contains(searchString)) {
                   return ListTile(
                       leading: CircleAvatar(
-                        child: Text(accounts[index]["serviceName"].substring(0, 1).toUpperCase()),
+                        child: Text(accounts[index]["serviceName"]
+                            .substring(0, 1)
+                            .toUpperCase()),
                       ),
                       title: Text(accounts[index]["serviceName"]),
                       subtitle: Text(accounts[index]["login"]),
@@ -140,15 +144,19 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
                             width: 8,
                             height: 8,
                             decoration: BoxDecoration(
-                              color: getPasswordStrengthColor(accounts[index]["password"]),
+                              color: getPasswordStrengthColor(
+                                  accounts[index]["password"]),
                               shape: BoxShape.circle,
                             ),
                           ),
-                          SizedBox(width: 8), // Espacement entre le cercle et l'icône
+                          SizedBox(
+                              width:
+                                  8), // Espacement entre le cercle et l'icône
                           IconButton(
                             icon: Icon(Icons.copy),
                             onPressed: () {
-                              ClipboardManager.copyToClipboard(accounts[index]["password"]);
+                              ClipboardManager.copyToClipboard(
+                                  accounts[index]["password"]);
                             },
                           ),
                         ],
@@ -193,7 +201,16 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
               Navigator.pushReplacement(
                   context,
                   PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) => SettingScreen(),
+                    pageBuilder: (context, animation1, animation2) =>
+                        SettingScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ));
+            } else if (index == 3) {
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        HelpScreen(),
                     transitionDuration: Duration(seconds: 0),
                   ));
             }
