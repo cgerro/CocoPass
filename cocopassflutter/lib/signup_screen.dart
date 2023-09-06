@@ -26,12 +26,8 @@ class SignupScreenState extends State<SignupScreen> {
 
   bool isPasswordStrong = false;
 
-  // Variable pour vérifier si le compte existe déjà
   bool _accountExists = false;
 
-
-
-  // Fonction de validation du formulaire
   // Fonction de validation du formulaire
   handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
@@ -56,11 +52,9 @@ class SignupScreenState extends State<SignupScreen> {
     setState(() => _loading = true);
 
     try {
-      // Essayez de créer le compte
       await Auth()
           .registerWithEmailAndPassword(email, password, firstName, lastName);
 
-      // Si la création du compte réussit, affichez un message de réussite
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Création du compte réussie"),
@@ -72,18 +66,16 @@ class SignupScreenState extends State<SignupScreen> {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) =>
-              HomeScreen(), // Remplacez HomeScreen par votre écran d'accueil réel
+              HomeScreen(),
         ),
       );
     } catch (e) {
-      // Si une erreur se produit (par exemple, le compte existe déjà), affichez un message d'erreur
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Le compte existe déjà $e"),
           backgroundColor: Colors.red,
         ),
       );
-      // Définissez _accountExists sur true pour afficher le lien de connexion
       setState(() {
         _accountExists = true;
       });
@@ -213,7 +205,7 @@ class SignupScreenState extends State<SignupScreen> {
                     isPasswordStrong &&
                     _verifyPasswordController.text.isNotEmpty
                     ? () => handleSubmit()
-                    : null, // Griser le bouton si isPasswordStrong est false ou si certains champs sont vides
+                    : null,
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0),
@@ -242,7 +234,7 @@ class SignupScreenState extends State<SignupScreen> {
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
                               builder: (context) =>
-                                  LoginScreen(), // Remplacez par votre écran de connexion
+                                  LoginScreen(),
                             ),
                           );
                         },
