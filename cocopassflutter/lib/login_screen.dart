@@ -40,9 +40,7 @@ class LoginScreenState extends State<LoginScreen> {
 
       try {
         await Auth().signInWithEmailAndPassword(email, password);
-        _showMessage('Connexion réussie', true);
 
-        // Vérifiez si le contexte est toujours valide (c'est-à-dire que le widget est toujours dans l'arbre)
         if (mounted) {
           // Redirigez vers la page CreateAccountScreen après une connexion réussie
           Navigator.pushReplacement(

@@ -52,10 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
         future: fetchUserData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          }
-          if (snapshot.hasError) {
-            return Text("Erreur: ${snapshot.error}");
+            return Scaffold(
+              backgroundColor: Colors.grey[900],
+              body: Center(
+                child: CircularProgressIndicator(
+                  color: Colors.white,
+                ),
+              ),
+            );
           }
 
           // Mettre à jour le username
@@ -69,9 +73,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.transparent,
+                return Scaffold(
+                  backgroundColor: Colors.grey[900],
+                  body: Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.white,
+                    ),
                   ),
                 );
               }
