@@ -15,6 +15,7 @@ class SettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: const Text('Paramètres'),
           titleTextStyle:
               const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
