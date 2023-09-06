@@ -107,6 +107,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                       onPressed: () {
                         // delete database
                         deleteFirestoreAccount();
+
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -129,14 +130,24 @@ class _EditAccountPageState extends State<EditAccountPage> {
                           _serviceNameController.text,
                           _noteController.text,
                         ).then((_) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text("Mise à jour du compte réussie"),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
                           // Si la mise à jour est réussie, revenir à PasswordListScreen
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => PasswordListScreen()));
                         }).catchError((error) {
-                          print("Failed to update account: $error");
-                          // Optionnel : Afficher un message d'erreur à l'utilisateur
+                          //print("Failed to update account: $error");
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                "Échec de la mise à jour du compte : $error"),
+                            backgroundColor: Colors.red,
+                          ));
                         });
                       },
                       style: ElevatedButton.styleFrom(
@@ -144,7 +155,8 @@ class _EditAccountPageState extends State<EditAccountPage> {
                             borderRadius: BorderRadius.circular(0)),
                         backgroundColor: Colors.deepPurple,
                       ),
-                      child: Text('EDITER', style: TextStyle(color: Colors.white)),
+                      child:
+                          Text('EDITER', style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -156,8 +168,8 @@ class _EditAccountPageState extends State<EditAccountPage> {
     );
   }
 
-  Future<void> updateFirestoreAccount(login, password, serviceName, note) async {
-
+  Future<void> updateFirestoreAccount(
+      login, password, serviceName, note) async {
     // Obtenez la référence au document que vous souhaitez mettre à jour
     DocumentReference accountRef = FirebaseFirestore.instance
         .collection('users')
@@ -169,10 +181,13 @@ class _EditAccountPageState extends State<EditAccountPage> {
     var aes = AesCrypt(key: secretKey, padding: PaddingAES.pkcs7);
 
     var cipherLogin = aes.gcm.encrypt(inp: _loginController.text, iv: userID);
-    var cipherPassword = aes.gcm.encrypt(inp: _passwordController.text, iv: userID);
-    var cipherServiceName = aes.gcm.encrypt(inp: _serviceNameController.text, iv: userID);
-    var cipherNote = _noteController.text.isNotEmpty ? aes.gcm.encrypt(inp: _noteController.text, iv: userID) : "";
-
+    var cipherPassword =
+        aes.gcm.encrypt(inp: _passwordController.text, iv: userID);
+    var cipherServiceName =
+        aes.gcm.encrypt(inp: _serviceNameController.text, iv: userID);
+    var cipherNote = _noteController.text.isNotEmpty
+        ? aes.gcm.encrypt(inp: _noteController.text, iv: userID)
+        : "";
 
     return await accountRef.update({
       'login': cipherLogin,
