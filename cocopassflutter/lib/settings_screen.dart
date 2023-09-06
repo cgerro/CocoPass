@@ -1,3 +1,4 @@
+import 'package:cocopass/help_screen.dart';
 import 'package:cocopass/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'profil_edit_screen.dart';
@@ -78,13 +79,14 @@ class SettingScreen extends StatelessWidget {
                   await FirebaseAuth.instance.signOut();
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => WelcomeScreen()),
-                        (Route<dynamic> route) => false,
+                    (Route<dynamic> route) => false,
                   );
                 } catch (e) {
                   // Gestion des erreurs
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text("Une erreur s'est produite lors de la déconnexion."),
+                      content: Text(
+                          "Une erreur s'est produite lors de la déconnexion."),
                     ),
                   );
                 }
@@ -115,6 +117,14 @@ class SettingScreen extends StatelessWidget {
                   PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
                         PasswordListScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ));
+            } else if (index == 3) {
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        HelpScreen(),
                     transitionDuration: Duration(seconds: 0),
                   ));
             }

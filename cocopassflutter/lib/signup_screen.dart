@@ -65,8 +65,7 @@ class SignupScreenState extends State<SignupScreen> {
       // Redirigez l'utilisateur vers la page HomeScreen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) =>
-              HomeScreen(),
+          builder: (context) => HomeScreen(),
         ),
       );
     } catch (e) {
@@ -107,7 +106,6 @@ class SignupScreenState extends State<SignupScreen> {
     _verifyPasswordController.removeListener(_updateState);
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -189,6 +187,45 @@ class SignupScreenState extends State<SignupScreen> {
                   });
                 },
               ),
+              // Ajouter un message d'explication sur l'importance d'un mot de passe fort
+              ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Conseils pour un mot de passe fort'),
+                        content: RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                            children: const [
+                              TextSpan(
+                                text:
+                                    '- Notre algorithme donne une idée de la force de votre mot de passe. Cependant, '
+                                    'nous vous recommandons de suivre les conseils suivants pour créer votre mot de passe cocopass :\n'
+                                    '- Évitez d\'utiliser des informations personnelles comme votre nom ou votre date de naissance.\n'
+                                    '- Utiliser si possible, un mot de passe unique jamais utilisé ailleurs.\n',
+                              ),
+                              TextSpan(
+                                text:
+                                    '- Assurez-vous de choisir un mot de passe que vous pouvez retenir. Vous pouvez trouver un moyen mémotechnique pour vous aider. '
+                                    'Par exemple avec les paroles d\'une chanson, une phrase, une citation, etc.\n',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Text('Afficher les conseils'),
+              ),
               TextField(
                 controller: _verifyPasswordController,
                 obscureText: true,
@@ -199,28 +236,29 @@ class SignupScreenState extends State<SignupScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _firstNameController.text.isNotEmpty &&
-                    _lastNameController.text.isNotEmpty &&
-                    _emailController.text.isNotEmpty &&
-                    _masterPasswordController.text.isNotEmpty &&
-                    isPasswordStrong &&
-                    _verifyPasswordController.text.isNotEmpty
+                        _lastNameController.text.isNotEmpty &&
+                        _emailController.text.isNotEmpty &&
+                        _masterPasswordController.text.isNotEmpty &&
+                        isPasswordStrong &&
+                        _verifyPasswordController.text.isNotEmpty
                     ? () => handleSubmit()
                     : null,
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0),
                   ),
-                  backgroundColor: isPasswordStrong ? Colors.deepPurple : Colors.grey,
+                  backgroundColor:
+                      isPasswordStrong ? Colors.deepPurple : Colors.grey,
                 ),
                 child: _loading
                     ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                    strokeWidth: 2,
-                  ),
-                )
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
                     : Text("Créer un compte"),
               ),
               // Message de compte existant avec un lien vers la page de connexion
@@ -233,8 +271,7 @@ class SignupScreenState extends State<SignupScreen> {
                         onTap: () {
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  LoginScreen(),
+                              builder: (context) => LoginScreen(),
                             ),
                           );
                         },
