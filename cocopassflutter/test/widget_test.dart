@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:cocopass/main.dart'; // Importez le fichier main.dart
+import 'package:cocopass/main.dart';
 import 'package:cocopass/home_screen.dart';
 import 'package:cocopass/signup_screen.dart';
 import 'package:cocopass/login_screen.dart';
@@ -20,20 +20,14 @@ void main() {
 
     expect(find.text('Créer un compte'), findsOneWidget);
 
-    // Ajout de tests pour les champs de formulaire, par exemple :
-    // Saisie dans le champ de texte "Email"
     await tester.enterText(find.byType(TextFormField), 'example@email.com');
     expect(find.text('example@email.com'), findsOneWidget);
-
-    // Ajoutez d'autres tests au besoin
   });
 
   testWidgets('Test du widget HomeScreen', (WidgetTester tester) async {
     await tester.pumpWidget(const MaterialApp(home: HomeScreen()));
 
     expect(find.text('Bonjour, Alex'), findsOneWidget);
-
-    // Ajoutez des tests pour d'autres éléments de la page HomeScreen au besoin
   });
 
   testWidgets('Test du widget LoginScreen', (WidgetTester tester) async {
@@ -41,10 +35,8 @@ void main() {
 
     expect(find.text('Se connecter à CocoPass'), findsOneWidget);
 
-    // Testez la saisie dans le champ de texte "Email"
+    // Saisie e-mail"
     await tester.enterText(find.byType(TextFormField), 'example@email.com');
-
-    // Ajoutez des tests pour d'autres interactions utilisateur au besoin
   });
 
   testWidgets('Test du widget MyApp (main.dart)', (WidgetTester tester) async {
@@ -78,18 +70,14 @@ void main() {
     expect(find.text('Effacer le presse-papiers'), findsOneWidget);
     expect(find.text('Sélectionnez le délai pour effacer le presse-papiers :'),
         findsOneWidget);
-
-    // Ajoutez des tests pour d'autres interactions utilisateur au besoin
   });
 
   testWidgets('Test du widget CreateAccount', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(home: CreateAccountScreen()));
 
-    // Ajoutez des tests pour les champs de formulaire, par exemple :
+    // Tests pour les champs des formulaires
     await tester.enterText(find.byType(TextField).at(0), 'John'); // Prénom
     await tester.enterText(find.byType(TextField).at(1), 'Doe'); // Nom
-
-    // Ajoutez d'autres tests au besoin
   });
 
   testWidgets('Test du widget PasswordListScreen', (WidgetTester tester) async {
@@ -99,18 +87,15 @@ void main() {
       ),
     );
 
-    // Testez les interactions utilisateur, par exemple, la recherche, le clic sur un élément de liste, etc.
-    // Par exemple, pour tester la recherche :
     await tester.enterText(find.byType(TextField), 'example');
     await tester.pumpAndSettle();
 
     expect(find.text('Example Service'), findsOneWidget);
-
-    // Ajoutez d'autres tests au besoin
   });
 
   testWidgets('Test du widget PasswordConfigScreen',
       (WidgetTester tester) async {
+    // ignore: unused_local_variable
     bool passwordConfigUpdated = false;
 
     await tester.pumpWidget(
@@ -123,13 +108,10 @@ void main() {
       ),
     );
 
-    // Testez les interactions utilisateur, par exemple, déplacer le curseur de longueur, cocher/décocher les cases, etc.
-    // Par exemple, tester le curseur de longueur :
+    // Interactions utilisateurs
     await tester.drag(find.byType(Slider), Offset(300, 0));
     await tester.pumpAndSettle();
     expect(find.text('Longueur du mot de passe: 16'), findsOneWidget);
-
-    // Ajoutez d'autres tests au besoin
   });
 
   testWidgets('Test du widget AccountDetailPage', (WidgetTester tester) async {
@@ -146,13 +128,10 @@ void main() {
       ),
     );
 
-    // Testez les éléments de la page, par exemple, l'affichage du nom de service, du nom d'utilisateur, du mot de passe, etc.
     expect(find.text('Example Service'), findsOneWidget);
     expect(find.text('exampleuser'), findsOneWidget);
     expect(find.text('•••••••••••••••••'), findsOneWidget);
     expect(find.text('This is an example note.'), findsOneWidget);
-
-    // Ajoutez d'autres tests au besoin
   });
 
   testWidgets('Test du widget ProfileEditScreen', (WidgetTester tester) async {
@@ -162,7 +141,6 @@ void main() {
       ),
     );
 
-    // Testez les interactions utilisateur, par exemple, la sélection d'une icône utilisateur, le clic sur le bouton "ENREGISTRER", etc.
     await tester.tap(find
         .byType(GestureDetector)
         .at(1)); // Sélectionnez la deuxième icône utilisateur
@@ -172,8 +150,6 @@ void main() {
     await tester.tap(find.text('ENREGISTRER'));
     await tester.pumpAndSettle();
     expect(find.text('Paramètres enregistrés avec succès.'), findsOneWidget);
-
-    // Ajoutez d'autres tests au besoin
   });
 
   testWidgets('Test du widget SettingScreen', (WidgetTester tester) async {
@@ -183,7 +159,7 @@ void main() {
       ),
     );
 
-    // Testez les interactions utilisateur, par exemple, le clic sur les éléments du menu, le clic sur le bouton de déconnexion, etc.
+    // Interactions utilisateurs
     await tester.tap(find.text('Effacer presse-papier'));
     await tester.pumpAndSettle();
     expect(find.byType(ClipboardClearScreen), findsOneWidget);
@@ -207,7 +183,7 @@ void main() {
       ),
     );
 
-    // Testez les interactions utilisateur, par exemple, le clic sur les boutons "CONNEXION" et "CRÉER UN COMPTE".
+    // Interactions utilisateurs (bouton connexion, bouton création de compte)
     await tester.tap(find.text('CONNEXION'));
     await tester.pumpAndSettle();
     expect(find.byType(LoginScreen), findsOneWidget);
