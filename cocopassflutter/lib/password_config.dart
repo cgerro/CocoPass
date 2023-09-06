@@ -12,9 +12,6 @@ class PasswordConfigScreen extends StatefulWidget {
 
 class _PasswordConfigScreenState extends State<PasswordConfigScreen> {
   double _length = 16.0;
-  bool _useLowercase = true;
-  bool _useUppercase = true;
-  bool _useNumber = true;
   bool _useSpecialChars = true;
 
   @override
@@ -45,36 +42,6 @@ class _PasswordConfigScreenState extends State<PasswordConfigScreen> {
               ),
               SizedBox(height: 16.0), // Espace ajouté
               CheckboxListTile(
-                title: Text("Utiliser des minuscules"),
-                value: _useLowercase,
-                onChanged: (newValue) {
-                  setState(() {
-                    _useLowercase = newValue!;
-                  });
-                },
-              ),
-              SizedBox(height: 16.0), // Espace ajouté
-              CheckboxListTile(
-                title: Text("Utiliser des majuscules"),
-                value: _useUppercase,
-                onChanged: (newValue) {
-                  setState(() {
-                    _useUppercase = newValue!;
-                  });
-                },
-              ),
-              SizedBox(height: 16.0), // Espace ajouté
-              CheckboxListTile(
-                title: Text("Utiliser des chiffres"),
-                value: _useNumber,
-                onChanged: (newValue) {
-                  setState(() {
-                    _useNumber = newValue!;
-                  });
-                },
-              ),
-              SizedBox(height: 16.0), // Espace ajouté
-              CheckboxListTile(
                 title: Text("Utiliser des caractères spéciaux"),
                 value: _useSpecialChars,
                 onChanged: (newValue) {
@@ -94,9 +61,6 @@ class _PasswordConfigScreenState extends State<PasswordConfigScreen> {
                     onPressed: () {
                       widget.updatePasswordConfig(
                         _length.toInt(),
-                        _useLowercase,
-                        _useUppercase,
-                        _useNumber,
                         _useSpecialChars,
                       );
                       Navigator.pop(context);

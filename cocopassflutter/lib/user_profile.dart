@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserProfile with ChangeNotifier {
-  late String _userProfileImageUrl;
+  late String _userProfileImageUrl = "assets/user_icons/default_user_icon.png";
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
