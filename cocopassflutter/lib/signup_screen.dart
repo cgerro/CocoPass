@@ -203,7 +203,7 @@ class _SignupScreenState extends State<SignupScreen> {
                           text: TextSpan(
                             style: TextStyle(
                               fontSize: 16,
-                              color: Colors.black,
+                              color: Colors.grey[100],
                             ),
                             children: const [
                               TextSpan(
