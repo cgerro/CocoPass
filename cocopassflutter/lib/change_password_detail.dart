@@ -222,7 +222,6 @@ class _EditAccountPageState extends State<EditAccountPage> {
                   if (!context.mounted) return;
 
                   // Fermer la boîte de dialogue
-                  if (!context.mounted) return;
                   Navigator.of(context).pop();
 
                   // Naviguer vers la page de liste des mots de passe
