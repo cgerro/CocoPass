@@ -79,7 +79,7 @@ Le Sprint 1 débutera le mardi 22.08 avec une réunion de planification du Sprin
 Chaque jour, une réunion de 15 minutes sera tenue pour mettre à jour l'équipe sur les progrès et les obstacles.
 Le vendredi, nous tiendrons une réunion de revue de Sprint pour examiner les fonctionnalités développées pendant la semaine et définir les prochaines étapes.
 
-Le sprint 2 et 3 commenceront respectivement le 28.08 et 04.09 et dureront jusqu'au vendredi. Les mêmes modalités que pour le sprint 1 seront appliquées. 
+Les sprints 2 et 3 commenceront respectivement le 28.08 et 04.09 et dureront jusqu'au vendredi. Les mêmes modalités que pour le sprint 1 seront appliquées. 
 
 ### Conventions mises en place :
 
@@ -123,7 +123,7 @@ Pour ce qui est de la sécurité, nous allons chiffrer les données à l'aide du
 
 ![Alt text](images/Architecture1.png)
 
-Dans la partie application, nous allons également nous occuper du chiffrement des données avant de les envoyer sur notre database. Ceci sera réaliser grâce au packages Flutter Secure Storage. 
+Dans la partie application, nous allons également nous occuper du chiffrement des données avant de les envoyer sur notre database.
 
 Dans la partie database, on stockera toutes les données après chiffrement que l'utilisateur souhaite garder (mot de passe, nom utilisateur, site internet, ...). Ceci permettra que seul l'utilisateur ait accés à ses données.
 
