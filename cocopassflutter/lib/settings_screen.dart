@@ -22,8 +22,6 @@ class SettingScreen extends StatelessWidget {
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-
-          // padding: const EdgeInsets.all(16.0),
           children: [
             Container(
               color: Colors.grey[850],

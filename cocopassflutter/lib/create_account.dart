@@ -11,10 +11,10 @@ class CreateAccountScreen extends StatefulWidget {
   const CreateAccountScreen({Key? key}) : super(key: key);
 
   @override
-  CreateAccountScreenState createState() => CreateAccountScreenState();
+  State<CreateAccountScreen> createState() => _CreateAccountScreenState();
 }
 
-class CreateAccountScreenState extends State<CreateAccountScreen> {
+class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final TextEditingController _loginController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _serviceNameController = TextEditingController();
@@ -78,9 +78,13 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
       var aes = AesCrypt(key: secretKey, padding: PaddingAES.pkcs7);
 
       var cipherLogin = aes.gcm.encrypt(inp: _loginController.text, iv: userID);
-      var cipherPassword = aes.gcm.encrypt(inp: _passwordController.text, iv: userID);
-      var cipherServiceName = aes.gcm.encrypt(inp: _serviceNameController.text, iv: userID);
-      var cipherNote = _noteController.text.isNotEmpty ? aes.gcm.encrypt(inp: _noteController.text, iv: userID) : "";
+      var cipherPassword =
+          aes.gcm.encrypt(inp: _passwordController.text, iv: userID);
+      var cipherServiceName =
+          aes.gcm.encrypt(inp: _serviceNameController.text, iv: userID);
+      var cipherNote = _noteController.text.isNotEmpty
+          ? aes.gcm.encrypt(inp: _noteController.text, iv: userID)
+          : "";
 
       await firestore
           .collection('users')
@@ -91,12 +95,11 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
         'password': cipherPassword,
         'serviceName': cipherServiceName,
         'note': cipherNote,
-
       });
 
-      // Check if the context is still valid (i.e., the widget is still in the tree)
+      // Vérifie si le contexte est toujours valide
       if (mounted) {
-        // Redirect to the PasswordListScreen after successful addition
+        // redirige vers l'écran PasswordListScreen
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => PasswordListScreen()),
@@ -119,7 +122,8 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
             child: Center(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
-                  minHeight: MediaQuery.of(context).size.height - AppBar().preferredSize.height,
+                  minHeight: MediaQuery.of(context).size.height -
+                      AppBar().preferredSize.height,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -149,7 +153,9 @@ class CreateAccountScreenState extends State<CreateAccountScreen> {
                           ),
                         ),
                         IconButton(
-                          icon: Icon(_obscureText ? Icons.visibility : Icons.visibility_off),
+                          icon: Icon(_obscureText
+                              ? Icons.visibility
+                              : Icons.visibility_off),
                           onPressed: () {
                             setState(() {
                               _obscureText = !_obscureText;

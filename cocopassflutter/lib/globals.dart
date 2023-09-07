@@ -1,3 +1,3 @@
 library cocopassflutter.globals;
 
-late var secretKey;
+late String secretKey;

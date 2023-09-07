@@ -58,6 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
         username = snapshot.data?["firstName"] ?? "Inconnu";
 
+
         return StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('users')

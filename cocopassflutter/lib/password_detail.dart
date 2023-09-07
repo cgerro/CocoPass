@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'change_password_detail.dart';
 
 class AccountDetailPage extends StatefulWidget {

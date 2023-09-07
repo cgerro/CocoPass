@@ -6,10 +6,10 @@ class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
-  LoginScreenState createState() => LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscureCurrentPassword = true;
@@ -40,7 +40,8 @@ class LoginScreenState extends State<LoginScreen> {
 
       try {
         await Auth().signInWithEmailAndPassword(email, password);
-
+        
+        // Vérifiez si le contexte est toujours valide
         if (mounted) {
           // Redirigez vers la page CreateAccountScreen après une connexion réussie
           Navigator.pushReplacement(

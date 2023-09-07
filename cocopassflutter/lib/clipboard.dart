@@ -15,7 +15,6 @@ abstract class ClipboardManager {
     Future.delayed(duration, () async {
       // Attendez 30 secondes, puis effacez le presse-papiers
       await FlutterClipboard.copy('');
-      print('Presse-papiers effacé après 30 secondes');
     });
   }
 }
