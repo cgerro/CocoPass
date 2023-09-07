@@ -28,31 +28,18 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   bool _useSpecialChars = true;
   bool _useNumber = true;
 
-  void updatePasswordConfig(int length, bool useLowercase, bool useUppercase,
-      bool useNumber, bool useSpecialChars) {
+  void updatePasswordConfig(int length, bool useSpecialChars) {
     setState(() {
       _passwordLength = length;
-      _useLowercase = useLowercase;
-      _useUppercase = useUppercase;
-      _useNumber = useNumber;
       _useSpecialChars = useSpecialChars;
     });
   }
 
   String generatePassword() {
-    String chars = "";
+    String chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-    if (_useLowercase) {
-      chars += "abcdefghijklmnopqrstuvwxyz";
-    }
-    if (_useUppercase) {
-      chars += "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    }
     if (_useSpecialChars) {
       chars += "!@#\$%^&*()[]{}:;<>,.?~";
-    }
-    if (_useNumber) {
-      chars += "0123456789";
     }
 
     final random = Random.secure();
