@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer';
 import 'package:steel_crypt/steel_crypt.dart';
 import 'list_password.dart';
 import 'globals.dart' as globals;
@@ -150,7 +149,8 @@ class _EditAccountPageState extends State<EditAccountPage> {
                             borderRadius: BorderRadius.circular(0)),
                         backgroundColor: Colors.deepPurple,
                       ),
-                      child: Text('EDITER', style: TextStyle(color: Colors.white)),
+                      child:
+                          Text('EDITER', style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -162,8 +162,8 @@ class _EditAccountPageState extends State<EditAccountPage> {
     );
   }
 
-  Future<void> updateFirestoreAccount(login, password, serviceName, note) async {
-
+  Future<void> updateFirestoreAccount(
+      login, password, serviceName, note) async {
     // Obtenez la référence au document que vous souhaitez mettre à jour
     DocumentReference accountRef = FirebaseFirestore.instance
         .collection('users')
@@ -191,7 +191,8 @@ class _EditAccountPageState extends State<EditAccountPage> {
     });
   }
 
-  void deleteFirestoreAccount() async {  // Notez le mot-clé async
+  void deleteFirestoreAccount() async {
+    // Notez le mot-clé async
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -207,7 +208,8 @@ class _EditAccountPageState extends State<EditAccountPage> {
               child: Text('Annuler'),
             ),
             ElevatedButton(
-              onPressed: () async {  // Notez le mot-clé async
+              onPressed: () async {
+                // Notez le mot-clé async
                 DocumentReference accountRef = FirebaseFirestore.instance
                     .collection('users')
                     .doc(userID)
@@ -215,15 +217,17 @@ class _EditAccountPageState extends State<EditAccountPage> {
                     .doc(widget.account["accountID"]);
 
                 try {
-                  await accountRef.delete();  // Notez le mot-clé await
+                  await accountRef.delete(); // Notez le mot-clé await
 
                   // Fermer la boîte de dialogue
+                  if (!context.mounted) return;
                   Navigator.of(context).pop();
 
                   // Naviguer vers la page de liste des mots de passe
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => PasswordListScreen()),
+                    MaterialPageRoute(
+                        builder: (context) => PasswordListScreen()),
                   );
                 } catch (error) {
                   // Fermer la boîte de dialogue

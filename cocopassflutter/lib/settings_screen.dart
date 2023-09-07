@@ -75,6 +75,7 @@ class SettingScreen extends StatelessWidget {
               onPressed: () async {
                 try {
                   await FirebaseAuth.instance.signOut();
+                  if (!context.mounted) return;
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => WelcomeScreen()),
                     (Route<dynamic> route) => false,
