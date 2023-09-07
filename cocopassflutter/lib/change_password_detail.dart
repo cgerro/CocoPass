@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'dart:developer';
 import 'package:steel_crypt/steel_crypt.dart';
 import 'list_password.dart';
 import 'globals.dart' as globals;
@@ -142,7 +143,6 @@ class _EditAccountPageState extends State<EditAccountPage> {
                               MaterialPageRoute(
                                   builder: (context) => PasswordListScreen()));
                         }).catchError((error) {
-                          //print("Failed to update account: $error");
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text(
                                 "Échec de la mise à jour du compte : $error"),
@@ -205,10 +205,10 @@ class _EditAccountPageState extends State<EditAccountPage> {
         .doc(widget.account["accountID"]);
 
     accountRef.delete().then((_) {
-      print("Document successfully deleted!");
+      log("Document successfully deleted!");
       // Vous pouvez également naviguer vers une autre page ici, si vous le souhaitez
     }).catchError((error) {
-      print("Failed to delete document: $error");
+      log("Failed to delete document: $error");
     });
   }
 }

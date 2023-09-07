@@ -9,10 +9,10 @@ class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
   @override
-  SignupScreenState createState() => SignupScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class SignupScreenState extends State<SignupScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -29,9 +29,6 @@ class SignupScreenState extends State<SignupScreen> {
   // Variable pour vérifier si le compte existe déjà
   bool _accountExists = false;
 
-
-
-  // Fonction de validation du formulaire
   // Fonction de validation du formulaire
   handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
@@ -61,6 +58,9 @@ class SignupScreenState extends State<SignupScreen> {
           .registerWithEmailAndPassword(email, password, firstName, lastName);
 
       // Si la création du compte réussit, affichez un message de réussite
+
+      if (!context.mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Création du compte réussie"),
@@ -71,8 +71,7 @@ class SignupScreenState extends State<SignupScreen> {
       // Redirigez l'utilisateur vers la page HomeScreen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) =>
-              HomeScreen(), // Remplacez HomeScreen par votre écran d'accueil réel
+          builder: (context) => HomeScreen(),
         ),
       );
     } catch (e) {
@@ -115,7 +114,6 @@ class SignupScreenState extends State<SignupScreen> {
     _verifyPasswordController.removeListener(_updateState);
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -170,7 +168,7 @@ class SignupScreenState extends State<SignupScreen> {
                   if (value!.isEmpty) {
                     return 'Veuillez entrer votre mot de passe maître';
                   }
-                  return null; // You can return your custom error message here
+                  return null;
                 },
                 decoration: InputDecoration(
                   labelText: 'Mot de passe master',
@@ -207,28 +205,29 @@ class SignupScreenState extends State<SignupScreen> {
               SizedBox(height: 20),
               ElevatedButton(
                 onPressed: _firstNameController.text.isNotEmpty &&
-                    _lastNameController.text.isNotEmpty &&
-                    _emailController.text.isNotEmpty &&
-                    _masterPasswordController.text.isNotEmpty &&
-                    isPasswordStrong &&
-                    _verifyPasswordController.text.isNotEmpty
+                        _lastNameController.text.isNotEmpty &&
+                        _emailController.text.isNotEmpty &&
+                        _masterPasswordController.text.isNotEmpty &&
+                        isPasswordStrong &&
+                        _verifyPasswordController.text.isNotEmpty
                     ? () => handleSubmit()
                     : null, // Griser le bouton si isPasswordStrong est false ou si certains champs sont vides
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0),
                   ),
-                  backgroundColor: isPasswordStrong ? Colors.deepPurple : Colors.grey,
+                  backgroundColor:
+                      isPasswordStrong ? Colors.deepPurple : Colors.grey,
                 ),
                 child: _loading
                     ? const SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: CircularProgressIndicator(
-                    color: Colors.white,
-                    strokeWidth: 2,
-                  ),
-                )
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          color: Colors.white,
+                          strokeWidth: 2,
+                        ),
+                      )
                     : Text("Créer un compte"),
               ),
               // Message de compte existant avec un lien vers la page de connexion
@@ -241,8 +240,7 @@ class SignupScreenState extends State<SignupScreen> {
                         onTap: () {
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  LoginScreen(), // Remplacez par votre écran de connexion
+                              builder: (context) => LoginScreen(),
                             ),
                           );
                         },

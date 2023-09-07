@@ -3,8 +3,10 @@ import 'dart:async';
 import 'clipboard.dart';
 
 class ClipboardClearScreen extends StatefulWidget {
+  const ClipboardClearScreen({Key? key}) : super(key: key);
+
   @override
-  _ClipboardClearScreenState createState() => _ClipboardClearScreenState();
+  State<ClipboardClearScreen> createState() => _ClipboardClearScreenState();
 }
 
 class _ClipboardClearScreenState extends State<ClipboardClearScreen> {
