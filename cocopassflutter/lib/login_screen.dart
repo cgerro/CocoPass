@@ -40,8 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
       try {
         await Auth().signInWithEmailAndPassword(email, password);
-        _showMessage('Connexion réussie', true);
-
+        
         // Vérifiez si le contexte est toujours valide
         if (mounted) {
           // Redirigez vers la page CreateAccountScreen après une connexion réussie

@@ -26,7 +26,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
   bool isPasswordStrong = false;
 
-  // Variable pour vérifier si le compte existe déjà
   bool _accountExists = false;
 
   // Fonction de validation du formulaire
@@ -53,14 +52,13 @@ class _SignupScreenState extends State<SignupScreen> {
     setState(() => _loading = true);
 
     try {
-      // Essayez de créer le compte
       await Auth()
           .registerWithEmailAndPassword(email, password, firstName, lastName);
+
 
       // Si la création du compte réussit, affichez un message de réussite
 
       if (!context.mounted) return;
-
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Création du compte réussie"),
@@ -75,14 +73,12 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       );
     } catch (e) {
-      // Si une erreur se produit (par exemple, le compte existe déjà), affichez un message d'erreur
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Le compte existe déjà $e"),
           backgroundColor: Colors.red,
         ),
       );
-      // Définissez _accountExists sur true pour afficher le lien de connexion
       setState(() {
         _accountExists = true;
       });
@@ -195,6 +191,45 @@ class _SignupScreenState extends State<SignupScreen> {
                   });
                 },
               ),
+              // Ajouter un message d'explication sur l'importance d'un mot de passe fort
+              ElevatedButton(
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Conseils pour un mot de passe fort'),
+                        content: RichText(
+                          text: TextSpan(
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                            ),
+                            children: const [
+                              TextSpan(
+                                text:
+                                    '- Notre algorithme donne une idée de la force de votre mot de passe. Cependant, '
+                                    'nous vous recommandons de suivre les conseils suivants pour créer votre mot de passe cocopass :\n'
+                                    '- Évitez d\'utiliser des informations personnelles comme votre nom ou votre date de naissance.\n'
+                                    '- Utiliser si possible, un mot de passe unique jamais utilisé ailleurs.\n',
+                              ),
+                              TextSpan(
+                                text:
+                                    '- Assurez-vous de choisir un mot de passe que vous pouvez retenir. Vous pouvez trouver un moyen mémotechnique pour vous aider. '
+                                    'Par exemple avec les paroles d\'une chanson, une phrase, une citation, etc.\n',
+                                style: TextStyle(
+                                  color: Colors.red,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
+                child: Text('Afficher les conseils'),
+              ),
               TextField(
                 controller: _verifyPasswordController,
                 obscureText: true,
@@ -211,7 +246,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         isPasswordStrong &&
                         _verifyPasswordController.text.isNotEmpty
                     ? () => handleSubmit()
-                    : null, // Griser le bouton si isPasswordStrong est false ou si certains champs sont vides
+                    : null,
                 style: ElevatedButton.styleFrom(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(0),

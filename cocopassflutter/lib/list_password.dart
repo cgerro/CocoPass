@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cocopass/help_screen.dart';
 import 'package:cocopass/password_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -202,6 +203,14 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
                   PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
                         SettingScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ));
+            } else if (index == 3) {
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        HelpScreen(),
                     transitionDuration: Duration(seconds: 0),
                   ));
             }

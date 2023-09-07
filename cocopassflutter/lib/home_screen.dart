@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cocopass/help_screen.dart';
 import 'package:cocopass/user_profile.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   late int weakPasswords;
   late int mediumPasswords;
   late int strongPasswords;
+  bool isLoading = true;
 
   @override
   void initState() {
@@ -48,36 +50,47 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<Map<String, dynamic>>(
-        future: fetchUserData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          }
-          if (snapshot.hasError) {
-            return Text("Erreur: ${snapshot.error}");
-          }
+      future: fetchUserData(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return loadingScreen();
+        }
 
-          // Mettre à jour le username
-          username = snapshot.data?["firstName"] ?? "Inconnu";
+        username = snapshot.data?["firstName"] ?? "Inconnu";
 
-          return StreamBuilder<QuerySnapshot>(
-            stream: FirebaseFirestore.instance
-                .collection('users')
-                .doc(userID)
-                .collection('comptes')
-                .snapshots(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.transparent,
-                  ),
-                );
-              }
-              return _build(context, snapshot.data!.docs);
-            },
-          );
-        });
+
+        return StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .doc(userID)
+              .collection('comptes')
+              .snapshots(),
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return loadingScreen();
+            }
+            isLoading = false; // Mettez à jour isLoading
+            return _build(context, snapshot.data!.docs);
+          },
+        );
+      },
+    );
+  }
+
+  Widget loadingScreen() {
+    if (isLoading) {
+      return Scaffold(
+        backgroundColor: Colors.grey[900],
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Colors.white,
+          ),
+        ),
+      );
+    } else {
+      // Retournez un widget par défaut ou rien si vous le souhaitez
+      return Container();
+    }
   }
 
   Widget _build(BuildContext context, List<DocumentSnapshot> snapshots) {
@@ -227,6 +240,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   PageRouteBuilder(
                     pageBuilder: (context, animation1, animation2) =>
                         SettingScreen(),
+                    transitionDuration: Duration(seconds: 0),
+                  ));
+            } else if (index == 3) {
+              Navigator.pushReplacement(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        HelpScreen(),
                     transitionDuration: Duration(seconds: 0),
                   ));
             }

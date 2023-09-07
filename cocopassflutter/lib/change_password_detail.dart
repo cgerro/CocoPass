@@ -108,11 +108,6 @@ class _EditAccountPageState extends State<EditAccountPage> {
                       onPressed: () {
                         // delete database
                         deleteFirestoreAccount();
-
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => PasswordListScreen()));
                       },
                       style: ElevatedButton.styleFrom(
                         shape: RoundedRectangleBorder(
@@ -155,8 +150,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                             borderRadius: BorderRadius.circular(0)),
                         backgroundColor: Colors.deepPurple,
                       ),
-                      child:
-                          Text('EDITER', style: TextStyle(color: Colors.white)),
+                      child: Text('EDITER', style: TextStyle(color: Colors.white)),
                     ),
                   ],
                 ),
@@ -168,8 +162,8 @@ class _EditAccountPageState extends State<EditAccountPage> {
     );
   }
 
-  Future<void> updateFirestoreAccount(
-      login, password, serviceName, note) async {
+  Future<void> updateFirestoreAccount(login, password, serviceName, note) async {
+
     // Obtenez la référence au document que vous souhaitez mettre à jour
     DocumentReference accountRef = FirebaseFirestore.instance
         .collection('users')
@@ -197,18 +191,50 @@ class _EditAccountPageState extends State<EditAccountPage> {
     });
   }
 
-  void deleteFirestoreAccount() {
-    DocumentReference accountRef = FirebaseFirestore.instance
-        .collection('users')
-        .doc(userID)
-        .collection('comptes')
-        .doc(widget.account["accountID"]);
+  void deleteFirestoreAccount() async {  // Notez le mot-clé async
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Supprimer le compte'),
+          content: Text('Êtes-vous sûr de vouloir supprimer ce compte ?'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                // Fermer la boîte de dialogue
+                Navigator.of(context).pop();
+              },
+              child: Text('Annuler'),
+            ),
+            ElevatedButton(
+              onPressed: () async {  // Notez le mot-clé async
+                DocumentReference accountRef = FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(userID)
+                    .collection('comptes')
+                    .doc(widget.account["accountID"]);
 
-    accountRef.delete().then((_) {
-      log("Document successfully deleted!");
-      // Vous pouvez également naviguer vers une autre page ici, si vous le souhaitez
-    }).catchError((error) {
-      log("Failed to delete document: $error");
-    });
+                try {
+                  await accountRef.delete();  // Notez le mot-clé await
+
+                  // Fermer la boîte de dialogue
+                  Navigator.of(context).pop();
+
+                  // Naviguer vers la page de liste des mots de passe
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => PasswordListScreen()),
+                  );
+                } catch (error) {
+                  // Fermer la boîte de dialogue
+                  Navigator.of(context).pop();
+                }
+              },
+              child: Text('Supprimer'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

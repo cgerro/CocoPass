@@ -57,7 +57,7 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
               Row(
                 children: [
                   CircleAvatar(
-                    radius: 42,
+                    radius: 30,
                     child: Text(
                       widget.account["serviceName"][0],
                       style: TextStyle(fontSize: 30),
@@ -68,7 +68,7 @@ class _AccountDetailPageState extends State<AccountDetailPage> {
                     widget.account["serviceName"],
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 24,
+                      fontSize: 20,
                     ),
                   ),
                 ],
