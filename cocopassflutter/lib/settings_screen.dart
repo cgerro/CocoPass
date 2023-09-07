@@ -22,8 +22,6 @@ class SettingScreen extends StatelessWidget {
       body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
-
-          // padding: const EdgeInsets.all(16.0),
           children: [
             Container(
               color: Colors.grey[850],
@@ -77,6 +75,7 @@ class SettingScreen extends StatelessWidget {
               onPressed: () async {
                 try {
                   await FirebaseAuth.instance.signOut();
+                  if (!context.mounted) return;
                   Navigator.of(context).pushAndRemoveUntil(
                     MaterialPageRoute(builder: (context) => WelcomeScreen()),
                     (Route<dynamic> route) => false,

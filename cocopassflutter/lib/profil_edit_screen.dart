@@ -4,7 +4,9 @@ import 'user_profile.dart';
 
 class ProfileEditScreen extends StatefulWidget {
   @override
-  _ProfileEditScreenState createState() => _ProfileEditScreenState();
+  State<ProfileEditScreen> createState() => _ProfileEditScreenState();
+
+  const ProfileEditScreen({Key? key}) : super(key: key);
 }
 
 class _ProfileEditScreenState extends State<ProfileEditScreen> {
@@ -27,7 +29,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     'assets/user_icons/user_icon12.png',
     'assets/user_icons/user_icon13.png',
     'assets/user_icons/user_icon14.png',
-    // Ajoutez ici plus d'icônes utilisateur si nécessaire
   ];
 
   void updateSelectedIconIndex(int index) {
@@ -54,8 +55,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width:
-                  100, // Ajustez la taille de l'icône utilisateur selon vos besoins
+              width: 100, // Taille de l'icône utilisateur
               height: 100,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -68,10 +68,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             SizedBox(height: 20),
             Text('Choisissez une icône utilisateur :'),
             SizedBox(height: 10),
-            Container(
+            SizedBox(
               width: MediaQuery.of(context).size.width, // Largeur de l'écran
-              height:
-                  100, // Ajustez la hauteur de la liste horizontale selon vos besoins
+              height: 100, // Hauteur de la liste horizontale
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: userIcons.length,
@@ -83,8 +82,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        width:
-                            60, // Ajustez la taille des icônes utilisateur selon vos besoins
+                        width: 60, //  Taille des icônes utilisateur
                         height: 60,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
@@ -108,7 +106,6 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Ajoutez ici la logique pour sauvegarder la nouvelle icône utilisateur
                 selectedIconUrl = userIcons[selectedIconIndex];
                 updateProfileImage(selectedIconUrl);
 

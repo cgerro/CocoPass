@@ -7,7 +7,7 @@ class PasswordConfigScreen extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PasswordConfigScreenState createState() => _PasswordConfigScreenState();
+  State<PasswordConfigScreen> createState() => _PasswordConfigScreenState();
 }
 
 class _PasswordConfigScreenState extends State<PasswordConfigScreen> {

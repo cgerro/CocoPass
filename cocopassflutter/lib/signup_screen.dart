@@ -9,10 +9,10 @@ class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
   @override
-  SignupScreenState createState() => SignupScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class SignupScreenState extends State<SignupScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -55,6 +55,10 @@ class SignupScreenState extends State<SignupScreen> {
       await Auth()
           .registerWithEmailAndPassword(email, password, firstName, lastName);
 
+
+      // Si la création du compte réussit, affichez un message de réussite
+
+      if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Création du compte réussie"),
@@ -160,7 +164,7 @@ class SignupScreenState extends State<SignupScreen> {
                   if (value!.isEmpty) {
                     return 'Veuillez entrer votre mot de passe maître';
                   }
-                  return null; // You can return your custom error message here
+                  return null;
                 },
                 decoration: InputDecoration(
                   labelText: 'Mot de passe master',

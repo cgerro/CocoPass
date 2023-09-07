@@ -10,7 +10,6 @@ class WelcomeScreen extends StatelessWidget {
     return Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        // crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           Center(
             child: Image.asset(
@@ -28,7 +27,7 @@ class WelcomeScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) =>  LoginScreen()),
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
                 );
               },
               style: ElevatedButton.styleFrom(
