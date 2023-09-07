@@ -13,6 +13,7 @@ class HelpScreen extends StatelessWidget {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text('Aide et Conseils'),
+        titleTextStyle: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.all(16.0),

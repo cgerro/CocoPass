@@ -217,6 +217,8 @@ class _EditAccountPageState extends State<EditAccountPage> {
                 try {
                   await accountRef.delete();  // Notez le mot-clé await
 
+                  if (!context.mounted) return;
+
                   // Fermer la boîte de dialogue
                   Navigator.of(context).pop();
 

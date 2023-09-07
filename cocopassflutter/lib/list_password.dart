@@ -187,34 +187,35 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
         child: Icon(Icons.add),
       ),
       bottomNavigationBar: MyBottomNavigationBar(
-          currentIndex: 1,
-          onTap: (index) {
-            if (index == 0) {
-              Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        HomeScreen(),
-                    transitionDuration: Duration(seconds: 0),
-                  ));
-            } else if (index == 2) {
-              Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        SettingScreen(),
-                    transitionDuration: Duration(seconds: 0),
-                  ));
-            } else if (index == 3) {
-              Navigator.pushReplacement(
-                  context,
-                  PageRouteBuilder(
-                    pageBuilder: (context, animation1, animation2) =>
-                        HelpScreen(),
-                    transitionDuration: Duration(seconds: 0),
-                  ));
-            }
-          }),
+        currentIndex: 1,
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      HomeScreen(),
+                  transitionDuration: Duration(seconds: 0),
+                ));
+          } else if (index == 2) {
+            Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      SettingScreen(),
+                  transitionDuration: Duration(seconds: 0),
+                ));
+          } else if (index == 3) {
+            Navigator.pushReplacement(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation1, animation2) =>
+                      HelpScreen(),
+                  transitionDuration: Duration(seconds: 0),
+                ));
+          }
+        }
+      ),
     );
   }
 }

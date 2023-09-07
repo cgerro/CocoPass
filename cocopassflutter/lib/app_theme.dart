@@ -9,8 +9,8 @@ class AppTheme {
     return ThemeData(
         brightness: Brightness.dark,
         useMaterial3: true,
-        bottomNavigationBarTheme:
-            BottomNavigationBarThemeData(backgroundColor: Colors.grey[850])
+        navigationBarTheme:
+            NavigationBarThemeData()
         // colorScheme: ColorScheme.fromSeed(seedColor: primarySeedColor)
         );
   }

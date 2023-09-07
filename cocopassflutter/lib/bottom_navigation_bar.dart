@@ -13,6 +13,8 @@ class MyBottomNavigationBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      type: BottomNavigationBarType.fixed,
+      backgroundColor: Colors.grey[850],
       currentIndex: currentIndex,
       onTap: onTap,
       items: const [
@@ -28,7 +30,10 @@ class MyBottomNavigationBar extends StatelessWidget {
           icon: Icon(Icons.settings),
           label: 'Paramètres',
         ),
-        BottomNavigationBarItem(icon: Icon(Icons.help), label: 'Aide'),
+        BottomNavigationBarItem(
+            icon: Icon(Icons.help),
+            label: 'Aide'
+        ),
       ],
       selectedItemColor: Colors.deepPurple[200],
     );
