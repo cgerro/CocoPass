@@ -21,58 +21,65 @@ class _PasswordConfigScreenState extends State<PasswordConfigScreen> {
         title: Text("Paramétrer le mot de passe"),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(top: 100.0, bottom: 16.0),
-                child: Text("Longueur du mot de passe: ${_length.toInt()}"),
-              ),
-              Slider(
-                value: _length,
-                min: 12,
-                max: 32,
-                onChanged: (value) {
-                  setState(() {
-                    _length = value;
-                  });
-                },
-              ),
-              SizedBox(height: 16.0), // Espace ajouté
-              CheckboxListTile(
-                title: Text("Utiliser des caractères spéciaux"),
-                value: _useSpecialChars,
-                onChanged: (newValue) {
-                  setState(() {
-                    _useSpecialChars = newValue!;
-                  });
-                },
-              ),
-              SizedBox(height: 60.0), // Espace ajouté
-              Row(
-                children: [
-                  Expanded(
-                    child:
-                    SizedBox(), // Cette partie pousse le bouton vers la droite
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      widget.updatePasswordConfig(
-                        _length.toInt(),
-                        _useSpecialChars,
-                      );
-                      Navigator.pop(context);
-                    },
-                    child: Text("Mettre à jour"),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        )
-      ),
+          padding: EdgeInsets.all(16.0),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(top: 100.0, bottom: 16.0),
+                  child: Text("Longueur du mot de passe: ${_length.toInt()}"),
+                ),
+                Slider(
+                  value: _length,
+                  min: 12,
+                  max: 32,
+                  onChanged: (value) {
+                    setState(() {
+                      _length = value;
+                    });
+                  },
+                ),
+                SizedBox(height: 16.0), // Espace ajouté
+                CheckboxListTile(
+                  title: Text("Utiliser des caractères spéciaux"),
+                  value: _useSpecialChars,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _useSpecialChars = newValue!;
+                    });
+                  },
+                ),
+                SizedBox(height: 60.0), // Espace ajouté
+                Row(
+                  children: [
+                    Expanded(
+                      child:
+                          SizedBox(), // Cette partie pousse le bouton vers la droite
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        widget.updatePasswordConfig(
+                          _length.toInt(),
+                          _useSpecialChars,
+                        );
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                                "Paramètres du mot de passe mis à jour avec succès"),
+                            backgroundColor: Colors.green,
+                          ),
+                        );
+
+                        Navigator.pop(context);
+                      },
+                      child: Text("Mettre à jour"),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )),
     );
   }
 }
