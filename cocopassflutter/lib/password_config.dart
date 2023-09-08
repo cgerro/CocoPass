@@ -40,7 +40,7 @@ class _PasswordConfigScreenState extends State<PasswordConfigScreen> {
                     });
                   },
                 ),
-                SizedBox(height: 16.0), // Espace ajouté
+                SizedBox(height: 16.0),
                 CheckboxListTile(
                   title: Text("Utiliser des caractères spéciaux"),
                   value: _useSpecialChars,
@@ -50,12 +50,12 @@ class _PasswordConfigScreenState extends State<PasswordConfigScreen> {
                     });
                   },
                 ),
-                SizedBox(height: 60.0), // Espace ajouté
+                SizedBox(height: 60.0),
                 Row(
                   children: [
                     Expanded(
                       child:
-                          SizedBox(), // Cette partie pousse le bouton vers la droite
+                          SizedBox(),
                     ),
                     ElevatedButton(
                       onPressed: () {

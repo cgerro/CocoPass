@@ -37,7 +37,6 @@ class SettingScreen extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.arrow_forward),
                     onPressed: () {
-                      // Naviguer vers l'écran de modification du profil
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
                         return ClipboardClearScreen();
                       }));
@@ -61,7 +60,6 @@ class SettingScreen extends StatelessWidget {
                   IconButton(
                     icon: const Icon(Icons.arrow_forward),
                     onPressed: () {
-                      // Naviguer vers l'écran de modification du profil
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
                         return ProfileEditScreen();
                       }));
@@ -81,7 +79,6 @@ class SettingScreen extends StatelessWidget {
                     (Route<dynamic> route) => false,
                   );
                 } catch (e) {
-                  // Gestion des erreurs
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(

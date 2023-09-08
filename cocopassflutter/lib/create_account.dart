@@ -54,11 +54,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   void _addAccountToFirestore() async {
     User? currentUser = FirebaseAuth.instance.currentUser;
 
-    // Check if a user is logged in
     if (currentUser != null) {
-      // Use this user's ID
       String userID = currentUser.uid;
-
       FirebaseFirestore firestore = FirebaseFirestore.instance;
 
       var secretKey = globals.secretKey;
@@ -84,9 +81,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
         'note': cipherNote,
       });
 
-      // Vérifie si le contexte est toujours valide
       if (mounted) {
-        // redirige vers l'écran PasswordListScreen
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(builder: (context) => PasswordListScreen()),

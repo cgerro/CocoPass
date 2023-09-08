@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:cocopass/main.dart';
-import 'package:cocopass/home_screen.dart';
 import 'package:cocopass/signup_screen.dart';
 import 'package:cocopass/login_screen.dart';
 import 'package:cocopass/clipboard_clear_screen.dart';
@@ -24,18 +23,11 @@ void main() {
     expect(find.text('example@email.com'), findsOneWidget);
   });
 
-  // testWidgets('Test du widget HomeScreen', (WidgetTester tester) async {
-  //   await tester.pumpWidget(const MaterialApp(home: HomeScreen()));
-
-  //   expect(find.text('Bonjour, Alex'), findsOneWidget);
-//});
-
   testWidgets('Test du widget LoginScreen', (WidgetTester tester) async {
     await tester.pumpWidget(const MaterialApp(home: LoginScreen()));
 
     expect(find.text('Se connecter à CocoPass'), findsOneWidget);
 
-    // Saisie e-mail"
     await tester.enterText(find.byType(TextFormField), 'example@email.com');
   });
 
@@ -75,9 +67,8 @@ void main() {
   testWidgets('Test du widget CreateAccount', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(home: CreateAccountScreen()));
 
-    // Tests pour les champs des formulaires
-    await tester.enterText(find.byType(TextField).at(0), 'John'); // Prénom
-    await tester.enterText(find.byType(TextField).at(1), 'Doe'); // Nom
+    await tester.enterText(find.byType(TextField).at(0), 'John');
+    await tester.enterText(find.byType(TextField).at(1), 'Doe');
   });
 
   testWidgets('Test du widget PasswordListScreen', (WidgetTester tester) async {
@@ -95,7 +86,7 @@ void main() {
 
   testWidgets('Test du widget PasswordConfigScreen',
       (WidgetTester tester) async {
-    // ignore: unused_local_variable
+
     bool passwordConfigUpdated = false;
 
     await tester.pumpWidget(
@@ -108,7 +99,6 @@ void main() {
       ),
     );
 
-    // Interactions utilisateurs
     await tester.drag(find.byType(Slider), Offset(300, 0));
     await tester.pumpAndSettle();
     expect(find.text('Longueur du mot de passe: 16'), findsOneWidget);
@@ -143,7 +133,7 @@ void main() {
 
     await tester.tap(find
         .byType(GestureDetector)
-        .at(1)); // Sélectionnez la deuxième icône utilisateur
+        .at(1));
     await tester.pumpAndSettle();
     expect(find.byType(Container).first, findsOneWidget);
 
@@ -159,7 +149,6 @@ void main() {
       ),
     );
 
-    // Interactions utilisateurs
     await tester.tap(find.text('Effacer presse-papier'));
     await tester.pumpAndSettle();
     expect(find.byType(ClipboardClearScreen), findsOneWidget);
@@ -183,7 +172,6 @@ void main() {
       ),
     );
 
-    // Interactions utilisateurs (bouton connexion, bouton création de compte)
     await tester.tap(find.text('CONNEXION'));
     await tester.pumpAndSettle();
     expect(find.byType(LoginScreen), findsOneWidget);

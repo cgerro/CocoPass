@@ -88,7 +88,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       );
     } else {
-      // Retournez un widget par défaut ou rien si vous le souhaitez
       return Container();
     }
   }
@@ -136,7 +135,6 @@ class _HomeScreenState extends State<HomeScreen> {
           titleTextStyle:
               const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       body: SingleChildScrollView(
-        // Ajout de SingleChildScrollView ici
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

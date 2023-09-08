@@ -15,14 +15,13 @@ class _ClipboardClearScreenState extends State<ClipboardClearScreen> {
     '30 secondes',
     '1 minute',
     '2 minutes'
-  ]; // Par défaut, 30 secondes
+  ];
 
   String selectedTime = '30 secondes';
 
   Timer? clipboardClearTimer;
 
   void setClipboardClearTimer() {
-    // Anulez le minuter précédent s'il existe
     clipboardClearTimer?.cancel();
 
     if (selectedTime == '20 secondes') {
@@ -88,7 +87,7 @@ class _ClipboardClearScreenState extends State<ClipboardClearScreen> {
             ElevatedButton(
               onPressed: () {
                 setClipboardClearTimer();
-                // Affichez le message de confirmation
+                // Message de confirmation
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text('Paramètres enregistrés avec succès.'),

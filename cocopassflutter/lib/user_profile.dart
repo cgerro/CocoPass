@@ -18,7 +18,6 @@ class UserProfile with ChangeNotifier {
       final doc = await _firestore.collection('users').doc(userID).get();
       final data = doc.data() as Map<String, dynamic>;
 
-      // Mettre à jour l'URL de l'image de profil
       _userProfileImageUrl = data['profileImageUrl'] ?? 'assets/user_icons/default_user_icon.png';
       notifyListeners();
     }
@@ -27,7 +26,6 @@ class UserProfile with ChangeNotifier {
   void setProfileImage(String imageUrl) async {
     _userProfileImageUrl = imageUrl;
 
-    // Mise à jour de Firestore
     User? currentUser = _auth.currentUser;
     if (currentUser != null) {
       String userID = currentUser.uid;

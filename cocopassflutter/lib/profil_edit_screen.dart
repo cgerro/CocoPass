@@ -10,7 +10,7 @@ class ProfileEditScreen extends StatefulWidget {
 }
 
 class _ProfileEditScreenState extends State<ProfileEditScreen> {
-  int selectedIconIndex = 0; // l'index de l'icône par défaut
+  int selectedIconIndex = 0;
   String selectedIconUrl = '';
 
   final List<String> userIcons = [
@@ -55,7 +55,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: 100, // Taille de l'icône utilisateur
+              width: 100,
               height: 100,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -69,8 +69,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
             Text('Choisissez une icône utilisateur :'),
             SizedBox(height: 10),
             SizedBox(
-              width: MediaQuery.of(context).size.width, // Largeur de l'écran
-              height: 100, // Hauteur de la liste horizontale
+              width: MediaQuery.of(context).size.width,
+              height: 100,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: userIcons.length,
@@ -82,7 +82,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Container(
-                        width: 60, //  Taille des icônes utilisateur
+                        width: 60,
                         height: 60,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,

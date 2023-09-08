@@ -40,10 +40,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
       try {
         await Auth().signInWithEmailAndPassword(email, password);
-        
-        // Vérifiez si le contexte est toujours valide
+
         if (mounted) {
-          // Redirigez vers la page CreateAccountScreen après une connexion réussie
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => HomeScreen()),

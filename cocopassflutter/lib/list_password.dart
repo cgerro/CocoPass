@@ -22,7 +22,7 @@ class PasswordListScreen extends StatefulWidget {
 class _PasswordListScreenState extends State<PasswordListScreen> {
   User? currentUser;
   String searchString = "";
-  late String userID; // initialisez userID comme une chaîne nullable
+  late String userID;
 
   final Zxcvbn zxcvbn = Zxcvbn();
 
@@ -105,7 +105,6 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
               const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
       body: Column(
         children: [
-          // Barre de recherche
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -151,7 +150,7 @@ class _PasswordListScreenState extends State<PasswordListScreen> {
                           ),
                           SizedBox(
                               width:
-                                  8), // Espacement entre le cercle et l'icône
+                                  8),
                           IconButton(
                             icon: Icon(Icons.copy),
                             onPressed: () {

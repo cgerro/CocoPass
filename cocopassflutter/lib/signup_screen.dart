@@ -29,7 +29,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
   bool _accountExists = false;
 
-  // Fonction de validation du formulaire
   handleSubmit() async {
     if (!_formKey.currentState!.validate()) return;
     final email = _emailController.text;
@@ -40,7 +39,6 @@ class _SignupScreenState extends State<SignupScreen> {
 
     // Vérification que les mots de passe correspondent
     if (password != verifyPassword) {
-      // Afficher un message d'erreur
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text("Les mots de passe ne correspondent pas"),
@@ -56,8 +54,6 @@ class _SignupScreenState extends State<SignupScreen> {
       await Auth()
           .registerWithEmailAndPassword(email, password, firstName, lastName);
 
-      // Si la création du compte réussit, affichez un message de réussite
-
       if (!context.mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -66,7 +62,7 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       );
 
-      // Redirigez l'utilisateur vers la page HomeScreen
+      // Redirection vers homescreen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           builder: (context) => HomeScreen(),
@@ -98,7 +94,7 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void _updateState() {
-    setState(() {}); // Force le re-build du widget
+    setState(() {});
   }
 
   @override
@@ -201,7 +197,6 @@ class _SignupScreenState extends State<SignupScreen> {
                   });
                 },
               ),
-              // Ajouter un message d'explication sur l'importance d'un mot de passe fort
               ElevatedButton(
                 onPressed: () {
                   showDialog(
@@ -285,7 +280,6 @@ class _SignupScreenState extends State<SignupScreen> {
                       )
                     : Text("Créer un compte"),
               ),
-              // Message de compte existant avec un lien vers la page de connexion
               if (_accountExists)
                 Column(
                   children: [

@@ -118,7 +118,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        // Mettre à jour le compte dans Firestore
+                        // Mise à jour sur firestore
                         updateFirestoreAccount(
                           _loginController.text,
                           _passwordController.text,
@@ -131,7 +131,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
                               backgroundColor: Colors.green,
                             ),
                           );
-                          // Si la mise à jour est réussie, revenir à PasswordListScreen
+                          // Si la mise à jour est réussie, on revient sur PasswordListScreen
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -164,7 +164,7 @@ class _EditAccountPageState extends State<EditAccountPage> {
 
   Future<void> updateFirestoreAccount(
       login, password, serviceName, note) async {
-    // Obtenez la référence au document que vous souhaitez mettre à jour
+
     DocumentReference accountRef = FirebaseFirestore.instance
         .collection('users')
         .doc(userID)
@@ -202,14 +202,12 @@ class _EditAccountPageState extends State<EditAccountPage> {
           actions: [
             TextButton(
               onPressed: () {
-                // Fermer la boîte de dialogue
                 Navigator.of(context).pop();
               },
               child: Text('Annuler'),
             ),
             ElevatedButton(
               onPressed: () async {
-                // Notez le mot-clé async
                 DocumentReference accountRef = FirebaseFirestore.instance
                     .collection('users')
                     .doc(userID)
@@ -217,21 +215,18 @@ class _EditAccountPageState extends State<EditAccountPage> {
                     .doc(widget.account["accountID"]);
 
                 try {
-                  await accountRef.delete(); // Notez le mot-clé await
+                  await accountRef.delete();
 
                   if (!context.mounted) return;
 
-                  // Fermer la boîte de dialogue
                   Navigator.of(context).pop();
 
-                  // Naviguer vers la page de liste des mots de passe
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                         builder: (context) => PasswordListScreen()),
                   );
                 } catch (error) {
-                  // Fermer la boîte de dialogue
                   Navigator.of(context).pop();
                 }
               },
