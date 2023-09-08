@@ -1,6 +1,11 @@
+cocopassflutter/pubspec.lock
 .idea/*
 .images/*
 .mockup/*
 .README.md
 .docs/*
 .github/*
+cocopassflutter/windows/flutter/*
+cocopassflutter/linux/flutter/*
+cocopassflutter/macos/Flutter/*
+
