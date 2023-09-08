@@ -13,12 +13,12 @@ class WelcomeScreen extends StatelessWidget {
         children: <Widget>[
           Center(
             child: Image.asset(
-              'assets/cocopass_logo.png', // Chemin vers l'image
+              'assets/cocopass_logo.png',
               width: 308,
               height: 133,
             ),
           ),
-          SizedBox(height: 60.0), // Espacement entre le logo et les boutons
+          SizedBox(height: 60.0),
 
           SizedBox(
             width: 300,
