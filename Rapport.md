@@ -1,5 +1,5 @@
 # CocoPass - Rapport
-Ce projet est réalisé dans le cadre du module PDG de la HEIG-VD.
+Ce projet est réalisé par Céline Roger, Florian Conti, Grégoire Guyot et Nicolas Philipp dans le cadre du module PDG de la HEIG-VD.
 
 ## Description du projet
 
