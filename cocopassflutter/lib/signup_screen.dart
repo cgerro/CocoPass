@@ -23,7 +23,8 @@ class _SignupScreenState extends State<SignupScreen> {
 
   bool _loading = false;
   final _formKey = GlobalKey<FormState>();
-
+  bool _obscureCurrentPassword = true;
+  bool _obscureVerifyPassword = true;
   bool isPasswordStrong = false;
 
   bool _accountExists = false;
@@ -54,7 +55,6 @@ class _SignupScreenState extends State<SignupScreen> {
     try {
       await Auth()
           .registerWithEmailAndPassword(email, password, firstName, lastName);
-
 
       // Si la création du compte réussit, affichez un message de réussite
 
@@ -159,7 +159,7 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               TextFormField(
                 controller: _masterPasswordController,
-                obscureText: true,
+                obscureText: _obscureCurrentPassword,
                 validator: (value) {
                   if (value!.isEmpty) {
                     return 'Veuillez entrer votre mot de passe maître';
@@ -168,6 +168,16 @@ class _SignupScreenState extends State<SignupScreen> {
                 },
                 decoration: InputDecoration(
                   labelText: 'Mot de passe master',
+                  suffixIcon: IconButton(
+                    icon: Icon(_obscureCurrentPassword
+                        ? Icons.visibility
+                        : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        _obscureCurrentPassword = !_obscureCurrentPassword;
+                      });
+                    },
+                  ),
                 ),
               ),
               SizedBox(height: 10),
@@ -232,9 +242,19 @@ class _SignupScreenState extends State<SignupScreen> {
               ),
               TextField(
                 controller: _verifyPasswordController,
-                obscureText: true,
+                obscureText: _obscureVerifyPassword,
                 decoration: InputDecoration(
                   labelText: 'Vérification de mot de passe',
+                  suffixIcon: IconButton(
+                    icon: Icon(_obscureVerifyPassword
+                        ? Icons.visibility
+                        : Icons.visibility_off),
+                    onPressed: () {
+                      setState(() {
+                        _obscureVerifyPassword = !_obscureVerifyPassword;
+                      });
+                    },
+                  ),
                 ),
               ),
               SizedBox(height: 20),
