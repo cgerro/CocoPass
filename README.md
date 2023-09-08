@@ -6,7 +6,7 @@ La marche à suivre pour installer notre application est relativement simple pui
 
 Pour ce faire, il suffit de télécharger l'apk présente dans le repository github. https://github.com/cgerro/CocoPass/tree/main/APK
 
-Après cela, décompressé le dossier.
+Après cela, décompressez le dossier.
 
 ## Transfert
 
